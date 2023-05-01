@@ -12,4 +12,10 @@ public class MessengerContext : DbContext
     public virtual DbSet<UserToken> UserTokens { get; set; }
 
     public virtual DbSet<Image> Images { get; set; }
+
+    public virtual DbSet<SeenMessage> SeenMessages { get; set; }
+
+    public virtual DbSet<Room> Rooms { get; set; }
+
+    public virtual DbSet<Message> Messages { get; set; }
 }

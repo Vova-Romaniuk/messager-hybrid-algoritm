@@ -1,7 +1,7 @@
 using MediatR;
 using Messenger.Core.Models;
 
-namespace Messenger.Core.Commands;
+namespace Messenger.Application.Commands;
 
 public class RegistrationCommand : IRequest<AuthenticateResponseModel>
 {
@@ -9,5 +9,5 @@ public class RegistrationCommand : IRequest<AuthenticateResponseModel>
 
     public string Password { get; set; }
 
-    public string UserName { get; set; }
+    public string? UserName { get; set; }
 }

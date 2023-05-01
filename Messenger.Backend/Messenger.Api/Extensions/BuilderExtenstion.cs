@@ -17,6 +17,10 @@ public static class BuilderExtenstion
         builder.Services.AddSingleton(jwtConfiguration);
 
         builder.Services.AddScoped<ITokenService, TokenService>();
+        builder.Services.AddScoped<IPasswordService, PasswordHasherService>();
+        builder.Services.AddScoped<ISecurityContext, SecurityContextService>();
+        builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        builder.Services.AddSignalR();
 
         builder.Services
             .AddMemoryCache()

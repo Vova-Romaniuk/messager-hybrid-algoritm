@@ -13,6 +13,11 @@
 
     <ItemGroup>
       <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="CommandHandlers\Messages" />
     </ItemGroup>
 
 </Project>

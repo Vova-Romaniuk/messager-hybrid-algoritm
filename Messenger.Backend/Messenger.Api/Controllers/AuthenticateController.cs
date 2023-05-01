@@ -1,4 +1,5 @@
 using MediatR;
+using Messenger.Application.Commands;
 using Messenger.Application.Exceptions;
 using Messenger.Backend.Extensions;
 using Messenger.Backend.ViewModels;
@@ -40,7 +41,20 @@ public class AuthenticateController : ControllerBase
     [HttpPost("registration")]
     public async Task<IActionResult> RegistrationAsync()
     {
-        return Ok();
+        try
+        {
+            var model = await _mediator.Send(new RegistrationCommand());
+            HttpContext.SetTokenCookie(model);
+            return Ok();
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new ErrorResponseModel(e.Message));
+        }
     }
 
     [HttpGet("logout")]
