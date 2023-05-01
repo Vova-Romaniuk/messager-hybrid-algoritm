@@ -1,0 +1,10 @@
+{
+	"jsxSingleQuote": true,
+	"tabWidth": 4,
+	"printWidth": 100,
+	"singleQuote": true,
+	"jsxBracketSameLine": false,
+	"useTabs": true,
+	"importOrder": ["^react(.*)", "antd/(.*)", "<THIRD_PARTY_MODULES>", "@/(.*)", "^[./]"],
+	"importOrderSeparation": true
+}
