@@ -1,3 +1,4 @@
+using System.Reflection;
 using Messenger.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +7,12 @@ namespace Messenger.Database.Context;
 public class MessengerContext : DbContext
 {
     public MessengerContext(DbContextOptions<MessengerContext> contextOptions) : base(contextOptions) { }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
 
     public virtual DbSet<User> Users { get; set; }
 

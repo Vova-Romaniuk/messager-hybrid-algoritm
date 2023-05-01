@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 // Configure db context
 builder.Services.AddDbContextFactory<MessengerContext>(
     options => options.UseSqlServer(
-        builder.Configuration.GetConnectionString("ApplicationDbConnectionString"),
+        builder.Configuration.GetConnectionString("AppConnectionString"),
         b => b.MigrationsAssembly("Messenger.Database")),
     ServiceLifetime.Scoped);
 

@@ -6,6 +6,7 @@ export default function PasswordTextField({
 	required,
 	value = '',
 	onChange,
+	...custom
 }) {
 	const [hidden, setHidden] = useState(false);
 	const primaryGray = '#506466';
@@ -45,7 +46,8 @@ export default function PasswordTextField({
 				placeholder={placeholder}
 				required={required}
 				value={value}
-				onChange={(e) => onChange(e.target.value)}
+				onChange={onChange}
+				{...custom}
 			/>
 		</div>
 	);

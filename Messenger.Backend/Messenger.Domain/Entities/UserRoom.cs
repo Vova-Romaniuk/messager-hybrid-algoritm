@@ -1,6 +1,6 @@
 namespace Messenger.Core.Entities;
 
-public class UserRoom
+public class UserRoom : Entity
 {
     public Room Room { get; set; }
 
