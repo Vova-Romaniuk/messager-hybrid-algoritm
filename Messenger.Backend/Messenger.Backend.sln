@@ -2,9 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Api", "Messenger.Api\Messenger.Api.csproj", "{17750414-E4F6-4C05-8369-04C6CA6A58D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Core", "Messenger.Core\Messenger.Core.csproj", "{D950D5B2-DA5E-4EF1-BFA8-3ED573409C07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Domain", "Messenger.Domain\Messenger.Domain.csproj", "{D950D5B2-DA5E-4EF1-BFA8-3ED573409C07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Database", "Messenger.Database\Messenger.Database.csproj", "{731D1A15-FDA5-4D5D-BCAB-4EA36E35AB3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Application", "Messenger.Application\Messenger.Application.csproj", "{C47DE04C-5470-4E53-BF65-48D60B3C2358}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +26,9 @@ Global
 		{731D1A15-FDA5-4D5D-BCAB-4EA36E35AB3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{731D1A15-FDA5-4D5D-BCAB-4EA36E35AB3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{731D1A15-FDA5-4D5D-BCAB-4EA36E35AB3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C47DE04C-5470-4E53-BF65-48D60B3C2358}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C47DE04C-5470-4E53-BF65-48D60B3C2358}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C47DE04C-5470-4E53-BF65-48D60B3C2358}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C47DE04C-5470-4E53-BF65-48D60B3C2358}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

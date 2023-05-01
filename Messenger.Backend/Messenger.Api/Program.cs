@@ -1,9 +1,25 @@
+using Messenger.Backend.Extensions;
+using Messenger.Database.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Configure db context
+builder.Services.AddDbContextFactory<MessengerContext>(
+    options => options.UseSqlServer(
+        builder.Configuration.GetConnectionString("ApplicationDbConnectionString"),
+        b => b.MigrationsAssembly("Messenger.Database")),
+    ServiceLifetime.Scoped);
+
+// Configure services
+builder.ConfigureServices();
+builder.ConfigureSwagger();
+
 
 var app = builder.Build();
 
