@@ -20,11 +20,11 @@ public class AuthenticateController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AuthenticateAsync()
+    public async Task<IActionResult> AuthenticateAsync(AuthenticateViewModel viewModel)
     {
         try
         {
-            var model = await _mediator.Send(new AuthenticateCommand());
+            var model = await _mediator.Send(new AuthenticateCommand(viewModel.Email, viewModel.Password));
             HttpContext.SetTokenCookie(model);
             return Ok();
         }
@@ -39,11 +39,15 @@ public class AuthenticateController : ControllerBase
     }
 
     [HttpPost("registration")]
-    public async Task<IActionResult> RegistrationAsync()
+    public async Task<IActionResult> RegistrationAsync(RegistrationViewModel viewModel)
     {
         try
         {
-            var model = await _mediator.Send(new RegistrationCommand());
+            var model = await _mediator.Send(new RegistrationCommand(
+                viewModel.Email,
+                viewModel.Password,
+                viewModel.UserName));
+
             HttpContext.SetTokenCookie(model);
             return Ok();
         }

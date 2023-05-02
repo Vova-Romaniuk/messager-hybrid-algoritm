@@ -10,4 +10,15 @@ public class RegistrationCommand : IRequest<AuthenticateResponseModel>
     public string Password { get; set; }
 
     public string? UserName { get; set; }
+
+    public RegistrationCommand(string email, string password, string? userName)
+    {
+        Email = email;
+        Password = password;
+
+        if (userName is not null)
+        {
+            UserName = userName;
+        }
+    }
 }

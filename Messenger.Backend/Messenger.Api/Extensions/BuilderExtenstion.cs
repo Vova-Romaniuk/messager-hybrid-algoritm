@@ -1,4 +1,6 @@
 using System.Text;
+using MediatR;
+using Messenger.Application.CommandHandlers.Authenticate;
 using Messenger.Application.Services;
 using Messenger.Core.Configurations;
 using Messenger.Core.Interfaces;
@@ -21,7 +23,8 @@ public static class BuilderExtenstion
         builder.Services.AddScoped<ISecurityContext, SecurityContextService>();
         builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         builder.Services.AddSignalR();
-
+        builder.Services.AddMediatR(cfg =>
+            cfg.RegisterServicesFromAssemblyContaining<AuthenticateCommandHandler>());
         builder.Services
             .AddMemoryCache()
             .AddAuthorization()
