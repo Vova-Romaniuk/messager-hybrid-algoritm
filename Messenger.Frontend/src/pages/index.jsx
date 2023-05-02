@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Authenticate from './Authenticate';
 import Main from './Main';
 import Registration from './Registration';
 
@@ -11,6 +12,10 @@ const routes = [
 	{
 		path: '/registration',
 		element: <Registration />,
+	},
+	{
+		path: '/authenticate',
+		element: <Authenticate />,
 	},
 ];
 
