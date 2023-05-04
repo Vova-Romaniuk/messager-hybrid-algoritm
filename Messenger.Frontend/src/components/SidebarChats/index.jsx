@@ -1,16 +1,14 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import Avatar from '../../UI/Avatar';
 import TextField from '../../UI/fields/TextField';
-import { changeActiveUser, selectChatsUserState } from '../../features/chats/chats.slice';
 import { TEST_USER_CHATS } from '../../utils/constants';
 import Scroller from '../Scroller';
 
 export default function SidebarChats() {
-	const activeUserChat = useSelector(selectChatsUserState);
-	const dispatch = useDispatch();
 	const container = 'w-11/12 mx-auto';
+	const [hiddenPinnedMessage, setHiddenPinnedMessage] = useState(false);
 	const styleUserChat =
 		'w-11/12 h-20 border-b-[1px] my-1 flex border-gray last:border-b-0 mx-auto px-2 cursor-pointer';
 	return (
@@ -27,38 +25,53 @@ export default function SidebarChats() {
 			</div>
 			<div className='w-full h-5/6 pb-3'>
 				<Scroller>
-					<div className={`${container}`}>
+					<div
+						className={`${container} cursor-pointer border-b pb-2 flex`}
+						onClick={() => setHiddenPinnedMessage(!hiddenPinnedMessage)}
+					>
 						<p className='text-base text-[#8D8B91] mt-3'>
 							<i className='fa-solid fa-bookmark'></i> Закріплені
 						</p>
+						<span className='text-base text-[#8D8B91] mt-3 mr-2 ml-auto'>
+							{hiddenPinnedMessage ? (
+								<i className='fa-sharp fa-light fa-angle-up'></i>
+							) : (
+								<i className='fa-sharp fa-light fa-angle-down'></i>
+							)}
+						</span>
 					</div>
-					{TEST_USER_CHATS.map((element) => (
-						<div
-							className={
-								activeUserChat === element.id
-									? `${styleUserChat} bg-primary/30 rounded-xl`
-									: `${styleUserChat} hover:bg-primary/30 hover:rounded-xl`
-							}
-							key={element.userName}
-							onClick={() => dispatch(changeActiveUser(element.id))}
-						>
-							<div className='w-fit h-fit ml-3 my-auto'>
-								<Avatar className='w-12 h-12 shadow-none' />
-							</div>
-							<div className='w-10/12 flex flex-col ml-3'>
-								<div className='mt-3 flex justify-between'>
-									<span className='font-bold'>{element.userName}</span>
-									<span className='text-sm text-[#8D8B91]'>03.05.2023</span>
-								</div>
-								<div className='mt-2 flex justify-between'>
-									<span className=''>{element.lastMessage}</span>
-									<div className='w-5 h-5 bg-[#ED4A4D] flex text-white rounded-full'>
-										<span className='m-auto text-sm'>1</span>
+					{hiddenPinnedMessage &&
+						TEST_USER_CHATS.map((element) => (
+							<NavLink
+								to={`/${element.id}`}
+								className={({ isActive }) => {
+									return isActive
+										? `${styleUserChat} bg-primary/30 rounded-xl flex`
+										: `${styleUserChat} hover:bg-primary/30 hover:rounded-xl flex`;
+								}}
+								key={element.id}
+							>
+								<div className='w-full h-full flex' key={element.userName}>
+									<div className='w-fit h-fit ml-3 my-auto'>
+										<Avatar className='w-12 h-12 shadow-none' />
+									</div>
+									<div className='w-10/12 flex flex-col ml-3'>
+										<div className='mt-3 flex justify-between'>
+											<span className='font-bold'>{element.userName}</span>
+											<span className='text-sm text-[#8D8B91]'>
+												03.05.2023
+											</span>
+										</div>
+										<div className='mt-2 flex justify-between'>
+											<span className=''>{element.lastMessage}</span>
+											<div className='w-5 h-5 bg-[#ED4A4D] flex text-white rounded-full'>
+												<span className='m-auto text-sm'>1</span>
+											</div>
+										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-					))}
+							</NavLink>
+						))}
 					<div className={`${container}`}>
 						<p className='text-base text-[#8D8B91] mt-3'>
 							<i className='fa-solid fa-messages'></i> Всі чати
@@ -67,7 +80,7 @@ export default function SidebarChats() {
 					{TEST_USER_CHATS.map((element) => (
 						<div
 							className='w-11/12 h-20 border-b-[1px] my-1 flex border-gray last:border-b-0 mx-auto hover:cursor-pointer hover:bg-primary/30 hover:rounded-xl px-2'
-							key={element.userName}
+							key={element.id}
 						>
 							<div className='w-fit h-fit ml-3 my-auto'>
 								<Avatar className='w-12 h-12 shadow-none' />
