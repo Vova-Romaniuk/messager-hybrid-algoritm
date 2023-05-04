@@ -40,8 +40,8 @@ export const registration = createAsyncThunk(
 	'user/registration',
 	async ({ email, password, userName }, { fulfillWithValue, rejectWithValue, dispatch }) => {
 		try {
-			const { data } = await AuthenticateService.registration({ email, password, userName });
-			Token.set(data.token);
+			const { token } = await AuthenticateService.registration({ email, password, userName });
+			Token.set(token);
 
 			showSuccessAlert('Ласкаво просимо!');
 			dispatch(fetchCurrentUser());

@@ -17,5 +17,5 @@ public class Message : Entity
 
     public List<SeenMessage> SeenMessages { get; set; }
 
-    public bool AllSeen { get; set; }
+    public bool AllSeen { get; set; } = false;
 }

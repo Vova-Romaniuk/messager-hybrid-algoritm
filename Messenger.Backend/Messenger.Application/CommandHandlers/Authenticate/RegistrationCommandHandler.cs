@@ -53,6 +53,7 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, A
         var jwtToken = _tokenService.GenerateAccessToken(user);
         var refreshToken = _tokenService.GenerateRefreshToken();
 
+        refreshToken.UserId = user.Id;
         _db.UserTokens.Add(refreshToken);
 
         return new AuthenticateResponseModel(jwtToken, refreshToken.Token);

@@ -18,13 +18,13 @@ export const AuthenticateService = {
 
 	registration: async ({ email, password, userName }) => {
 		try {
-			const { data } = await axiosInstanse.post(`${url}/registration`, {
+			const { data, status } = await axiosInstanse.post(`${url}/registration`, {
 				email,
 				password,
 				userName,
 			});
 
-			return data;
+			return { data, status };
 		} catch (error) {
 			console.log(error);
 			throw error;

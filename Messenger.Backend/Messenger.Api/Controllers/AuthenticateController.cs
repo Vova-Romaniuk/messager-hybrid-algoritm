@@ -24,9 +24,9 @@ public class AuthenticateController : ControllerBase
     {
         try
         {
-            var model = await _mediator.Send(new AuthenticateCommand(viewModel.Email, viewModel.Password));
-            HttpContext.SetTokenCookie(model);
-            return Ok();
+            var result = await _mediator.Send(new AuthenticateCommand(viewModel.Email, viewModel.Password));
+            HttpContext.SetTokenCookie(result);
+            return Ok(new { Token = result.JwtToken });
         }
         catch (NotFoundException e)
         {
@@ -43,13 +43,13 @@ public class AuthenticateController : ControllerBase
     {
         try
         {
-            var model = await _mediator.Send(new RegistrationCommand(
+            var result = await _mediator.Send(new RegistrationCommand(
                 viewModel.Email,
                 viewModel.Password,
                 viewModel.UserName));
 
-            HttpContext.SetTokenCookie(model);
-            return Ok();
+            HttpContext.SetTokenCookie(result);
+            return StatusCode( StatusCodes.Status201Created ,new { Token = result.JwtToken });
         }
         catch (NotFoundException e)
         {

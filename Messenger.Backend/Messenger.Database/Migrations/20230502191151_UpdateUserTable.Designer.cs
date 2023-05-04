@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Messenger.Database.Migrations
 {
     [DbContext(typeof(MessengerContext))]
-    [Migration("20230501183318_Initial")]
-    partial class Initial
+    [Migration("20230502191151_UpdateUserTable")]
+    partial class UpdateUserTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -118,7 +118,6 @@ namespace Messenger.Database.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -126,7 +125,6 @@ namespace Messenger.Database.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ImageId")
