@@ -1,7 +1,7 @@
 using MediatR;
 using Messenger.Core.Models;
 
-namespace Messenger.Core.Commands;
+namespace Messenger.Application.Commands;
 
 public class AuthenticateCommand : IRequest<AuthenticateResponseModel>
 {

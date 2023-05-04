@@ -15,7 +15,7 @@ public class Message : Entity
 
     public Guid RoomId { get; set; }
 
-    public List<SeenMessage> SeenMessages { get; set; }
-
     public bool AllSeen { get; set; } = false;
+
+    // TODO Add seen messages!
 }

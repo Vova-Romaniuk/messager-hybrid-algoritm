@@ -1,7 +1,9 @@
+using System.Reflection;
 using System.Text;
 using MediatR;
 using Messenger.Application.CommandHandlers.Authenticate;
 using Messenger.Application.Services;
+using Messenger.Backend.Mapping;
 using Messenger.Core.Configurations;
 using Messenger.Core.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,7 +19,7 @@ public static class BuilderExtenstion
         var jwtConfiguration = new JwtConfiguration();
         builder.Configuration.GetSection("Jwt").Bind(jwtConfiguration);
         builder.Services.AddSingleton(jwtConfiguration);
-
+        builder.Services.AddAutoMapper(typeof(UserMapper).GetTypeInfo().Assembly);
         builder.Services.AddScoped<ITokenService, TokenService>();
         builder.Services.AddScoped<IPasswordService, PasswordHasherService>();
         builder.Services.AddScoped<ISecurityContext, SecurityContextService>();

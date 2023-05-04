@@ -3,7 +3,7 @@ import { HttpStatusCode } from 'axios';
 
 import { AuthenticateService } from '../../services/AuthenticateService';
 import { UserService } from '../../services/UserService';
-import { showErrorAlert, showSuccessAlert } from '../../services/alert';
+import { showApiEndpointErrorAlert, showSuccessAlert } from '../../services/alert';
 import { Token } from '../../services/domain/token';
 
 export const googleAuthenticate = createAsyncThunk(
@@ -30,7 +30,7 @@ export const googleAuthenticate = createAsyncThunk(
 			// dispatch(fetchCurrentUser());
 			return fulfillWithValue();
 		} catch (error) {
-			showErrorAlert('Щось пішло не так');
+			showApiEndpointErrorAlert(error);
 			return rejectWithValue();
 		}
 	}
@@ -40,15 +40,40 @@ export const registration = createAsyncThunk(
 	'user/registration',
 	async ({ email, password, userName }, { fulfillWithValue, rejectWithValue, dispatch }) => {
 		try {
-			const { token } = await AuthenticateService.registration({ email, password, userName });
-			Token.set(token);
+			const { data, status } = await AuthenticateService.registration({
+				email,
+				password,
+				userName,
+			});
+			Token.set(data.token);
 
-			showSuccessAlert('Ласкаво просимо!');
+			if (status === HttpStatusCode.Created) {
+				showSuccessAlert('Ласкаво просимо!');
+			}
+
 			dispatch(fetchCurrentUser());
 
 			return fulfillWithValue();
 		} catch (error) {
-			showErrorAlert('Щось пішло не так');
+			showApiEndpointErrorAlert(error);
+			return rejectWithValue();
+		}
+	}
+);
+
+export const authenticate = createAsyncThunk(
+	'user/authenticate',
+	async ({ email, password }, { fulfillWithValue, rejectWithValue }) => {
+		try {
+			const data = await AuthenticateService.authenticate({ email, password });
+
+			Token.set(data.token);
+			showSuccessAlert('З поверненням!');
+
+			return fulfillWithValue();
+		} catch (error) {
+			showApiEndpointErrorAlert(error);
+
 			return rejectWithValue();
 		}
 	}
@@ -62,7 +87,7 @@ export const fetchCurrentUser = createAsyncThunk(
 
 			return fulfillWithValue(data);
 		} catch (error) {
-			showErrorAlert('Щось пішло не так!');
+			showApiEndpointErrorAlert(error);
 
 			return rejectWithValue();
 		}

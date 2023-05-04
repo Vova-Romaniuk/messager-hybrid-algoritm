@@ -1,30 +1,18 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 
 import Button from '../../UI/Button';
 import GoogleButton from '../../UI/GoogleButton';
 import PasswordTextField from '../../UI/fields/PasswordField';
 import TextField from '../../UI/fields/TextField';
 import { registration } from '../../features/user/user.api';
-
-const registrationSchema = Yup.object({
-	email: Yup.string()
-		.email('Неправильний формат email')
-		.required("Поле обов'язкове для заповнення"),
-	userName: Yup.string(),
-	password: Yup.string()
-		.required("Поле обов'язкове для заповнення")
-		.min(8, 'Пароль повинен містити мінімум 8 символів'),
-	confirmPassword: Yup.string()
-		.required("Поле обов'язкове для заповнення")
-		.oneOf([Yup.ref('password')], 'Паролі не співпадають'),
-});
+import { registrationSchema } from '../../schemas/registrationSchema';
 
 export default function Registration() {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const initialState = {
 		email: '',
@@ -33,8 +21,11 @@ export default function Registration() {
 		userName: '',
 	};
 
-	const handleSubmit = ({ email, password, userName }) => {
-		dispatch(registration({ email, password, userName }));
+	const handleSubmit = async ({ email, password, userName }) => {
+		const res = await dispatch(registration({ email, password, userName }));
+		if (registration.fulfilled.match(res)) {
+			navigate('/');
+		}
 	};
 
 	return (
@@ -103,7 +94,7 @@ export default function Registration() {
 							</Button>
 							<GoogleButton>Ввійти через Google</GoogleButton>
 							<Link
-								to='/login'
+								to='/authenticate'
 								className='text-blue-500 text-center decoration-solid decoration-black'
 							>
 								В мене вже є аккаунт

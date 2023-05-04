@@ -11,7 +11,6 @@ export const AuthenticateService = {
 
 			return data;
 		} catch (error) {
-			console.log(error);
 			throw error;
 		}
 	},
@@ -26,7 +25,6 @@ export const AuthenticateService = {
 
 			return { data, status };
 		} catch (error) {
-			console.log(error);
 			throw error;
 		}
 	},
@@ -41,7 +39,6 @@ export const AuthenticateService = {
 
 			return data;
 		} catch (error) {
-			console.log(error);
 			throw error;
 		}
 	},
@@ -52,8 +49,8 @@ export const AuthenticateService = {
 				`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token}`
 			);
 			return data;
-		} catch (err) {
-			throw err;
+		} catch (error) {
+			throw error;
 		}
 	},
 };

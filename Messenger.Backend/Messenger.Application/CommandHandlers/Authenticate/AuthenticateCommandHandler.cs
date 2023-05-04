@@ -1,6 +1,6 @@
 using MediatR;
+using Messenger.Application.Commands;
 using Messenger.Application.Exceptions;
-using Messenger.Core.Commands;
 using Messenger.Core.Entities;
 using Messenger.Core.Interfaces;
 using Messenger.Core.Models;
