@@ -10,6 +10,6 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.scroll-none::-webkit-scrollbar{
+.scroll-none::-webkit-scrollbar {
 	display: none;
 }
