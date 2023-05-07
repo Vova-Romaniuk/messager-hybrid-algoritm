@@ -19,7 +19,12 @@ export default function Sidebar() {
 
 	const handleClick = (name) => {
 		dispatch(changeMenuState(name));
-		if (name === 'profile') navigate('/profile');
+		if (name === 'profile') {
+			navigate('/profile');
+			return;
+		}
+
+		navigate('/');
 	};
 
 	const handleLogout = () => {

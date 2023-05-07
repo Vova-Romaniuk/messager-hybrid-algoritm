@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { TEST_USER_CHATS } from '../../utils/constants';
-import { pinChat } from './chats.api';
+import { fetchChat, pinChat } from './chats.api';
 
 export const chatsSlice = createSlice({
 	name: 'chats',
@@ -16,6 +16,7 @@ export const chatsSlice = createSlice({
 			isPinned: null,
 			messages: [],
 		},
+		loading: false,
 	},
 	reducers: {
 		changeActiveUser: (state, action) => {
@@ -33,6 +34,16 @@ export const chatsSlice = createSlice({
 				chats.splice(index, 1, { ...chats[index], isPinned: !chats[index].isPinned });
 			}
 			state.usersChat = chats;
+		});
+		builder.addCase(fetchChat.pending, (state) => {
+			state.loading = true;
+		});
+		builder.addCase(fetchChat.fulfilled, (state, { payload }) => {
+			state.chat = payload;
+			state.loading = false;
+		});
+		builder.addCase(fetchChat.rejected, (state) => {
+			state.loading = false;
 		});
 	},
 });
