@@ -20,11 +20,10 @@ export default function Authenticate() {
 		password: '',
 	};
 
-	const handleSubmit = async (values) => {
-		const res = await dispatch(authenticate(values));
-		if (authenticate.fulfilled.match(res)) {
+	const handleSubmit = (values) => {
+		dispatch(authenticate(values)).then(() => {
 			navigate('/');
-		}
+		});
 	};
 
 	return (

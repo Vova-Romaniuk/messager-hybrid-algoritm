@@ -12,7 +12,7 @@ public class User : Entity
 
     public Image? Image { get; set; }
 
-    public string Password { get; set; }
+    public string? Password { get; set; }
 
     public ICollection<UserToken> UserTokens { get; set; }
 }

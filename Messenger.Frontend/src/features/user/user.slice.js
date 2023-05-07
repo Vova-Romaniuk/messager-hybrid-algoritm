@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchCurrentUser } from './user.api';
+import { fetchCurrentUser, updateUserInfo, uploadUserImage } from './user.api';
 
 const initialState = {
 	data: null,
@@ -11,19 +11,44 @@ const initialState = {
 const userSlice = createSlice({
 	name: 'user',
 	initialState: initialState,
-	extraReducers: {
-		[fetchCurrentUser.pending]: (state) => {
+	reducers: {},
+	extraReducers: (builder) => {
+		builder.addCase(fetchCurrentUser.pending, (state) => {
 			state.loading = true;
-		},
-		[fetchCurrentUser.fulfilled]: (state, { payload }) => {
+		});
+		builder.addCase(fetchCurrentUser.fulfilled, (state, { payload }) => {
 			state.data = payload;
 			state.loading = false;
-		},
-		[fetchCurrentUser.rejected]: (state) => {
+		});
+		builder.addCase(fetchCurrentUser.rejected, (state) => {
 			state.loading = false;
 			// TODO add error to Errors array
-		},
+		});
+		builder.addCase(updateUserInfo.fulfilled, (state, { payload }) => {
+			state.data = payload;
+			state.loading = false;
+		});
+		builder.addCase(updateUserInfo.pending, (state) => {
+			state.loading = true;
+		});
+		builder.addCase(updateUserInfo.rejected, (state) => {
+			state.loading = false;
+		});
+		builder.addCase(uploadUserImage.fulfilled, (state, { payload }) => {
+			state.data = { ...state.data, image: payload };
+			state.loading = false;
+		});
+		builder.addCase(uploadUserImage.pending, (state) => {
+			state.loading = true;
+		});
+		builder.addCase(uploadUserImage.rejected, (state) => {
+			state.loading = false;
+		});
 	},
 });
+
+export const selectUserLoading = (state) => state.user.loading;
+
+export const selectUserData = (state) => state.user.data;
 
 export default userSlice.reducer;

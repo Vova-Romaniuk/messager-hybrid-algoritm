@@ -29,15 +29,23 @@ export const AuthenticateService = {
 		}
 	},
 
-	googleAuthenticate: async ({ email, password, userName }) => {
+	googleAuthenticate: async ({ email, picture, fullName }) => {
 		try {
-			const { data } = await axiosInstanse.post(`${url}/google`, {
+			const { data, status } = await axiosInstanse.post(`${url}/google`, {
 				email,
-				password,
-				userName,
+				picture,
+				fullName,
 			});
 
-			return data;
+			return { data, status };
+		} catch (error) {
+			throw error;
+		}
+	},
+
+	logout: async () => {
+		try {
+			await axiosInstanse.get(`${url}/logout`);
 		} catch (error) {
 			throw error;
 		}

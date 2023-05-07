@@ -1,13 +1,15 @@
 import React from 'react';
 
+import AuthenticatedRoute from '../components/AuthenticatedRoute';
 import Authenticate from './Authenticate';
 import Main from './Main';
+import Profile from './Profile';
 import Registration from './Registration';
 
 const routes = [
 	{
 		path: '/',
-		element: <Main />,
+		element: <AuthenticatedRoute element={<Main />} />,
 	},
 	{
 		path: '/registration',
@@ -16,6 +18,10 @@ const routes = [
 	{
 		path: '/authenticate',
 		element: <Authenticate />,
+	},
+	{
+		path: '/profile',
+		element: <AuthenticatedRoute element={<Profile />} />,
 	},
 ];
 

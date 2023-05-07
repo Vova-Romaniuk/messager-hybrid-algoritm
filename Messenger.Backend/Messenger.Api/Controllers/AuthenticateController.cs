@@ -61,6 +61,29 @@ public class AuthenticateController : ControllerBase
         }
     }
 
+    [HttpPost("google")]
+    public async Task<IActionResult> GoogleLoginAsync(GoogleAuthViewModel viewModel)
+    {
+        try
+        {
+            var result = await _mediator.Send(new GoogleAuthCommand(
+                viewModel.Email,
+                viewModel.Picture,
+                viewModel.FullName));
+
+            HttpContext.SetTokenCookie(result);
+            return StatusCode( StatusCodes.Status200OK ,new { Token = result.JwtToken });
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new ErrorResponseModel(e.Message));
+        }
+    }
+
     [HttpGet("logout")]
     public IActionResult Logout()
     {

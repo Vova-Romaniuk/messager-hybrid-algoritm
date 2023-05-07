@@ -9,6 +9,7 @@ public class UserMapper : Profile
     public UserMapper()
     {
         CreateMap<UserDto, User>();
-        CreateMap<User, UserDto>();
+        CreateMap<User, UserDto>()
+            .ForMember(x => x.Image, opts => opts.MapFrom(x => x.Image!.ImageUrl ?? ""));
     }
 }

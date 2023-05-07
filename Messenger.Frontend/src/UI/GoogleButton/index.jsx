@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { useGoogleLogin } from '@react-oauth/google';
 
@@ -7,10 +8,15 @@ import { googleAuthenticate } from '../../features/user/user.api';
 
 export default function GoogleButton({ children }) {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const handleLogin = useGoogleLogin({
 		// eslint-disable-next-line camelcase
-		onSuccess: ({ access_token }) => dispatch(googleAuthenticate(access_token)),
+		onSuccess: ({ access_token }) =>
+			// eslint-disable-next-line implicit-arrow-linebreak
+			dispatch(googleAuthenticate(access_token)).then(() => {
+				navigate('/');
+			}),
 		onError: () => {
 			console.log('Login Failed');
 		},

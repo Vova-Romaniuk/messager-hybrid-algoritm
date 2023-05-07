@@ -14,6 +14,7 @@ import { registrationSchema } from '../../schemas/registrationSchema';
 export default function Registration() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+
 	const initialState = {
 		email: '',
 		password: '',
@@ -21,11 +22,10 @@ export default function Registration() {
 		userName: '',
 	};
 
-	const handleSubmit = async ({ email, password, userName }) => {
-		const res = await dispatch(registration({ email, password, userName }));
-		if (registration.fulfilled.match(res)) {
+	const handleSubmit = ({ email, password, userName }) => {
+		dispatch(registration({ email, password, userName })).then(() => {
 			navigate('/');
-		}
+		});
 	};
 
 	return (

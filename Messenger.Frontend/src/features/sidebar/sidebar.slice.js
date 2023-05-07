@@ -16,6 +16,6 @@ export const sidebarSlice = createSlice({
 
 export const { changeMenuState } = sidebarSlice.actions;
 
-export const selectSidebarState = (state) => state.sidebar?.activeName;
+export const selectSidebarState = (state) => state.sidebar.activeName;
 
 export default sidebarSlice.reducer;
