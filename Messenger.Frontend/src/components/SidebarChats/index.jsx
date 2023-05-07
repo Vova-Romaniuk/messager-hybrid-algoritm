@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 
-import Avatar from '../../UI/Avatar';
 import SearchField from '../../UI/fields/SearchField';
 import { selectUserChats } from '../../features/chats/chats.slice';
 import Scroller from '../Scroller';
+import UserChat from '../UserChat';
 
 export default function SidebarChats() {
 	const container = 'w-11/12 mx-auto';
 	const [hiddenPinnedMessage, setHiddenPinnedMessage] = useState(true);
 	const userChats = useSelector(selectUserChats);
 	const [chatsState, setChatsState] = useState(userChats);
-	const styleUserChat =
-		'w-11/12 h-20 border-b-[1px] my-1 flex border-gray last:border-b-0 mx-auto px-2 cursor-pointer';
-
 	useEffect(() => {
 		setChatsState(userChats);
 	}, [userChats]);
@@ -59,39 +55,7 @@ export default function SidebarChats() {
 					{hiddenPinnedMessage &&
 						chatsState
 							.filter((item) => item.isPinned)
-							.map((element) => (
-								<NavLink
-									to={`/${element.id}`}
-									className={({ isActive }) => {
-										return isActive
-											? `${styleUserChat} bg-primary/30 rounded-xl flex`
-											: `${styleUserChat} hover:bg-primary/30 hover:rounded-xl flex`;
-									}}
-									key={element.id}
-								>
-									<div className='w-full h-full flex' key={element.userName}>
-										<div className='w-fit h-fit ml-3 my-auto'>
-											<Avatar className='w-12 h-12 shadow-none' />
-										</div>
-										<div className='w-10/12 flex flex-col ml-3'>
-											<div className='mt-3 flex justify-between'>
-												<span className='font-bold'>
-													{element.userName}
-												</span>
-												<span className='text-sm text-[#8D8B91]'>
-													03.05.2023
-												</span>
-											</div>
-											<div className='mt-2 flex justify-between'>
-												<span className=''>{element.lastMessage}</span>
-												<div className='w-5 h-5 bg-[#ED4A4D] flex text-white rounded-full'>
-													<span className='m-auto text-sm'>1</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</NavLink>
-							))}
+							.map((element) => <UserChat room={element} key={element.id} />)}
 					<div className={`${container}`}>
 						<p className='text-base text-[#8D8B91] mt-3'>
 							<i className='fa-solid fa-messages'></i> Всі чати
@@ -100,26 +64,7 @@ export default function SidebarChats() {
 					{chatsState
 						.filter((item) => !item.isPinned)
 						.map((element) => (
-							<div
-								className='w-11/12 h-20 border-b-[1px] my-1 flex border-gray last:border-b-0 mx-auto hover:cursor-pointer hover:bg-primary/30 hover:rounded-xl px-2'
-								key={element.id}
-							>
-								<div className='w-fit h-fit ml-3 my-auto'>
-									<Avatar className='w-12 h-12 shadow-none' />
-								</div>
-								<div className='w-10/12 flex flex-col ml-3'>
-									<div className='mt-3 flex justify-between'>
-										<span className='font-bold'>{element.userName}</span>
-										<span className='text-sm text-[#8D8B91]'>03.05.2023</span>
-									</div>
-									<div className='mt-2 flex justify-between'>
-										<span className=''>{element.lastMessage}</span>
-										<div className='w-5 h-5 bg-[#ED4A4D] flex text-white rounded-full'>
-											<span className='m-auto text-sm'>1</span>
-										</div>
-									</div>
-								</div>
-							</div>
+							<UserChat room={element} key={element.id} />
 						))}
 				</Scroller>
 			</div>

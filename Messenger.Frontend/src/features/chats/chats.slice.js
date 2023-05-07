@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { TEST_USER_CHATS } from '../../utils/constants';
+import { pinChat } from './chats.api';
 
 export const chatsSlice = createSlice({
 	name: 'chats',
@@ -23,6 +24,16 @@ export const chatsSlice = createSlice({
 		changeUserChat: (state, action) => {
 			state.usersChat = [...state.usersChat, action.payload];
 		},
+	},
+	extraReducers: (builder) => {
+		builder.addCase(pinChat.fulfilled, (state, { payload }) => {
+			const chats = [...state.usersChat];
+			const index = chats.findIndex((x) => x.id === payload);
+			if (index > -1) {
+				chats.splice(index, 1, { ...chats[index], isPinned: !chats[index].isPinned });
+			}
+			state.usersChat = chats;
+		});
 	},
 });
 
