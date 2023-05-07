@@ -22,7 +22,7 @@ const AuthenticatedRoute = ({ element }) => {
 		<div className='w-full h-screen flex'>
 			<Sidebar />
 			<SidebarChats />
-			{element}
+			<div className='w-[calc(100%-24rem)] h-full overflow-y-auto'>{element}</div>
 		</div>
 	);
 };
