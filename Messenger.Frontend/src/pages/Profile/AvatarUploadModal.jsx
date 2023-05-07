@@ -25,7 +25,6 @@ const AvatarUploadModal = ({ image, handleClose }) => {
 	};
 
 	const onDrop = async (acceptedFiles) => {
-		console.log(acceptedFiles);
 		const newImage = await ImageService.upload(acceptedFiles[0]);
 		setAvatar(newImage);
 	};

@@ -18,7 +18,7 @@ export default function GoogleButton({ children }) {
 				navigate('/');
 			}),
 		onError: () => {
-			console.log('Login Failed');
+			('Login Failed');
 		},
 	});
 

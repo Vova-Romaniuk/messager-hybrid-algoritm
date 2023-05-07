@@ -4,7 +4,6 @@ import { showErrorAlert } from './alert';
 
 export const ImageService = {
 	upload: async (image) => {
-		console.log(image);
 		const formData = new FormData();
 		formData.set('key', 'a8933f7b26cdb54c9c89f74cf99f7224');
 		formData.append('image', image);

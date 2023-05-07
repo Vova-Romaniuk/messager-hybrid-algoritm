@@ -20,8 +20,6 @@ export const googleAuthenticate = createAsyncThunk(
 				fullName: name,
 			});
 
-			console.log(data);
-
 			Token.set(data.token);
 
 			if (status === HttpStatusCode.Created) {
