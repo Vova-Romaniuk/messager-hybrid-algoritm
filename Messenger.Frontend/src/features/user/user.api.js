@@ -3,22 +3,24 @@ import { HttpStatusCode } from 'axios';
 
 import { AuthenticateService } from '../../services/AuthenticateService';
 import { UserService } from '../../services/UserService';
-import { showErrorAlert, showSuccessAlert } from '../../services/alert';
+import { showApiEndpointErrorAlert, showSuccessAlert } from '../../services/alert';
 import { Token } from '../../services/domain/token';
 
 export const googleAuthenticate = createAsyncThunk(
 	'user/googleAuthenticate',
-	async (googleToken, { fulfillWithValue, rejectWithValue }) => {
+	async (googleToken, { fulfillWithValue, rejectWithValue, dispatch }) => {
 		try {
 			const { name, picture, email } = await AuthenticateService.googleVerifyToken(
 				googleToken
 			);
 
-			const { status } = await AuthenticateService.googleAuthenticate({
+			const { data, status } = await AuthenticateService.googleAuthenticate({
 				email,
 				picture,
-				userName: name,
+				fullName: name,
 			});
+
+			Token.set(data.token);
 
 			if (status === HttpStatusCode.Created) {
 				showSuccessAlert('Ласкаво просимо!');
@@ -27,10 +29,11 @@ export const googleAuthenticate = createAsyncThunk(
 			if (status === HttpStatusCode.Ok) {
 				showSuccessAlert('З поверненням!');
 			}
-			// dispatch(fetchCurrentUser());
+			dispatch(fetchCurrentUser());
+
 			return fulfillWithValue();
 		} catch (error) {
-			showErrorAlert('Щось пішло не так');
+			showApiEndpointErrorAlert(error);
 			return rejectWithValue();
 		}
 	}
@@ -40,16 +43,42 @@ export const registration = createAsyncThunk(
 	'user/registration',
 	async ({ email, password, userName }, { fulfillWithValue, rejectWithValue, dispatch }) => {
 		try {
-			const { token } = await AuthenticateService.registration({ email, password, userName });
-			Token.set(token);
+			const { data, status } = await AuthenticateService.registration({
+				email,
+				password,
+				userName,
+			});
+			Token.set(data.token);
 
-			showSuccessAlert('Ласкаво просимо!');
+			if (status === HttpStatusCode.Created) {
+				showSuccessAlert('Ласкаво просимо!');
+			}
+
 			dispatch(fetchCurrentUser());
 
 			return fulfillWithValue();
 		} catch (error) {
-			showErrorAlert('Щось пішло не так');
+			showApiEndpointErrorAlert(error);
 			return rejectWithValue();
+		}
+	}
+);
+
+export const authenticate = createAsyncThunk(
+	'user/authenticate',
+	async ({ email, password }, { fulfillWithValue, rejectWithValue, dispatch }) => {
+		try {
+			const data = await AuthenticateService.authenticate({ email, password });
+
+			Token.set(data.token);
+			showSuccessAlert('З поверненням!');
+			dispatch(fetchCurrentUser());
+
+			return fulfillWithValue(null);
+		} catch (error) {
+			showApiEndpointErrorAlert(error);
+
+			return rejectWithValue(null);
 		}
 	}
 );
@@ -58,13 +87,63 @@ export const fetchCurrentUser = createAsyncThunk(
 	'user/fetchCurrentUser',
 	async (_, { fulfillWithValue, rejectWithValue }) => {
 		try {
-			const { data } = await UserService.get();
+			const user = await UserService.get();
 
-			return fulfillWithValue(data);
+			return fulfillWithValue(user);
 		} catch (error) {
-			showErrorAlert('Щось пішло не так!');
+			showApiEndpointErrorAlert(error);
 
 			return rejectWithValue();
+		}
+	}
+);
+
+export const logOut = createAsyncThunk(
+	'user/logout',
+	async (_, { fulfillWithValue, rejectWithValue }) => {
+		try {
+			await AuthenticateService.logout();
+			Token.delete();
+
+			return fulfillWithValue();
+		} catch (error) {
+			showApiEndpointErrorAlert(error);
+
+			return rejectWithValue();
+		}
+	}
+);
+
+export const updateUserInfo = createAsyncThunk(
+	'user/updateUserInfo',
+	async (user, { fulfillWithValue, rejectWithValue }) => {
+		try {
+			await UserService.update(user);
+
+			showSuccessAlert('Ваші данні успішно обновлено!');
+
+			return fulfillWithValue(user);
+		} catch (error) {
+			showApiEndpointErrorAlert(error);
+
+			return rejectWithValue(null);
+		}
+	}
+);
+
+export const uploadUserImage = createAsyncThunk(
+	'user/uploadUserImage',
+	async (image, { fulfillWithValue, rejectWithValue }) => {
+		try {
+			await UserService.uploadImage(image);
+
+			showSuccessAlert('Ваше фото успішно обновлено!');
+
+			return fulfillWithValue(image);
+		} catch (error) {
+			showApiEndpointErrorAlert(error);
+
+			return rejectWithValue(null);
 		}
 	}
 );

@@ -20,7 +20,8 @@ public class MessengerContext : DbContext
 
     public virtual DbSet<Image> Images { get; set; }
 
-    public virtual DbSet<SeenMessage> SeenMessages { get; set; }
+    // TODO uncomment this lines
+    //public virtual DbSet<SeenMessage> SeenMessages { get; set; }
 
     public virtual DbSet<Room> Rooms { get; set; }
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Messenger.Database.Migrations
 {
     [DbContext(typeof(MessengerContext))]
-    [Migration("20230502192413_UpdateImages")]
-    partial class UpdateImages
+    [Migration("20230504182540_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,27 +88,6 @@ namespace Messenger.Database.Migrations
                     b.HasIndex("ImageId");
 
                     b.ToTable("Rooms");
-                });
-
-            modelBuilder.Entity("Messenger.Core.Entities.SeenMessage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MessageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MessageId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("SeenMessages");
                 });
 
             modelBuilder.Entity("Messenger.Core.Entities.User", b =>
@@ -229,25 +208,6 @@ namespace Messenger.Database.Migrations
                     b.Navigation("Image");
                 });
 
-            modelBuilder.Entity("Messenger.Core.Entities.SeenMessage", b =>
-                {
-                    b.HasOne("Messenger.Core.Entities.Message", "Message")
-                        .WithMany("SeenMessages")
-                        .HasForeignKey("MessageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Messenger.Core.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Message");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Messenger.Core.Entities.User", b =>
                 {
                     b.HasOne("Messenger.Core.Entities.Image", "Image")
@@ -285,11 +245,6 @@ namespace Messenger.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Messenger.Core.Entities.Message", b =>
-                {
-                    b.Navigation("SeenMessages");
                 });
 
             modelBuilder.Entity("Messenger.Core.Entities.Room", b =>

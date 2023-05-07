@@ -11,7 +11,6 @@ export const AuthenticateService = {
 
 			return data;
 		} catch (error) {
-			console.log(error);
 			throw error;
 		}
 	},
@@ -26,22 +25,28 @@ export const AuthenticateService = {
 
 			return { data, status };
 		} catch (error) {
-			console.log(error);
 			throw error;
 		}
 	},
 
-	googleAuthenticate: async ({ email, password, userName }) => {
+	googleAuthenticate: async ({ email, picture, fullName }) => {
 		try {
-			const { data } = await axiosInstanse.post(`${url}/google`, {
+			const { data, status } = await axiosInstanse.post(`${url}/google`, {
 				email,
-				password,
-				userName,
+				picture,
+				fullName,
 			});
 
-			return data;
+			return { data, status };
 		} catch (error) {
-			console.log(error);
+			throw error;
+		}
+	},
+
+	logout: async () => {
+		try {
+			await axiosInstanse.get(`${url}/logout`);
+		} catch (error) {
 			throw error;
 		}
 	},
@@ -52,8 +57,8 @@ export const AuthenticateService = {
 				`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token}`
 			);
 			return data;
-		} catch (err) {
-			throw err;
+		} catch (error) {
+			throw error;
 		}
 	},
 };
