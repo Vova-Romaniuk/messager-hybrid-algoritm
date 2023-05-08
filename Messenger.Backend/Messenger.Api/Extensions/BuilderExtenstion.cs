@@ -1,6 +1,5 @@
 using System.Reflection;
 using System.Text;
-using MediatR;
 using Messenger.Application.CommandHandlers.Authenticate;
 using Messenger.Application.Services;
 using Messenger.Backend.Mapping;
@@ -23,6 +22,9 @@ public static class BuilderExtenstion
         builder.Services.AddScoped<ITokenService, TokenService>();
         builder.Services.AddScoped<IPasswordService, PasswordHasherService>();
         builder.Services.AddScoped<ISecurityContext, SecurityContextService>();
+        builder.Services.AddScoped<IAsymmetricEncryptionService, AsymmetricEncryptionService>();
+        builder.Services.AddScoped<ISymmetricEncryptionService, SymmetricEncryptionService>();
+        builder.Services.AddScoped<ICryptoService, HybridEncryptionService>();
         builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         builder.Services.AddSignalR();
         builder.Services.AddMediatR(cfg =>

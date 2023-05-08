@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Database", "Messe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Application", "Messenger.Application\Messenger.Application.csproj", "{C47DE04C-5470-4E53-BF65-48D60B3C2358}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HybridEncryptionTest", "HybridEncryptionTest\HybridEncryptionTest.csproj", "{8167C950-D06A-43E5-99E3-4BEFAA12220F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{C47DE04C-5470-4E53-BF65-48D60B3C2358}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C47DE04C-5470-4E53-BF65-48D60B3C2358}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C47DE04C-5470-4E53-BF65-48D60B3C2358}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8167C950-D06A-43E5-99E3-4BEFAA12220F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8167C950-D06A-43E5-99E3-4BEFAA12220F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8167C950-D06A-43E5-99E3-4BEFAA12220F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8167C950-D06A-43E5-99E3-4BEFAA12220F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
