@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { Formik, Form, Field } from 'formik';
 
@@ -68,6 +68,12 @@ export default function Authenticate() {
 								Ввійти
 							</Button>
 							<GoogleButton>Ввійти через Google</GoogleButton>
+							<Link
+								className='text-blue-500 text-center w-full decoration-solid decoration-black'
+								to='/registration'
+							>
+								В мене немає аккаунту.
+							</Link>
 						</Form>
 					)}
 				</Formik>
