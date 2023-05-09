@@ -50,3 +50,41 @@ export const TEST_USER_CHATS = [
 		isPinned: false,
 	},
 ];
+
+export const messages = [
+	{
+		userId: '976cfa58-7146-4a98-fa3e-08db4ffc83b3',
+		id: '1',
+		content:
+			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse totam voluptatibus beatae ea, fuga facere corrupti veritatis id nihil unde fugit quod suscipit explicabo, sunt ab temporibus quaerat assumenda quas.',
+		date: '22:31',
+	},
+	{
+		userId: '976cfa58-7146-4a98-fa3e-08db4ffc83b3',
+		id: '976cfa58-7146-4a98-fa3e-08db4ffc83b3',
+		content:
+			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse totam voluptatibus beatae ea, fuga facere corrupti veritatis id nihil unde fugit quod suscipit explicabo, sunt ab temporibus quaerat assumenda quas.',
+		date: '22:31',
+	},
+	{
+		userId: '976cfa58-7146-4a98-fa3e-08db4ffc83b3',
+		id: '976cfa58-7146-4a98-fa3e-08db4ffc83b3',
+		content:
+			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse totam voluptatibus beatae ea, fuga facere corrupti veritatis id nihil unde fugit quod suscipit explicabo, sunt ab temporibus quaerat assumenda quas.',
+		date: '22:31',
+	},
+	{
+		userId: '976cfa58-7146-4a98-fa3e-08db4ffc83b3',
+		id: '976cfa58-7146-4a98-fa3e-08db4ffc83b3',
+		content:
+			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse totam voluptatibus beatae ea, fuga facere corrupti veritatis id nihil unde fugit quod suscipit explicabo, sunt ab temporibus quaerat assumenda quas.',
+		date: '22:31',
+	},
+	{
+		userId: '976cfa58-7146-4a98-fa3e-08db4ffc83b3',
+		id: 'w',
+		content:
+			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse totam voluptatibus beatae ea, fuga facere corrupti veritatis id nihil unde fugit quod suscipit explicabo, sunt ab temporibus quaerat assumenda quas.',
+		date: '22:31',
+	},
+];

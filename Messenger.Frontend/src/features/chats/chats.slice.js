@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { TEST_USER_CHATS } from '../../utils/constants';
+import { TEST_USER_CHATS, messages } from '../../utils/constants';
 import { fetchChat, pinChat } from './chats.api';
 
 export const chatsSlice = createSlice({
@@ -14,7 +14,7 @@ export const chatsSlice = createSlice({
 			lastMessage: null,
 			userName: null,
 			isPinned: null,
-			messages: [],
+			messages: [...messages],
 		},
 		loading: false,
 	},
@@ -24,6 +24,9 @@ export const chatsSlice = createSlice({
 		},
 		changeUserChat: (state, action) => {
 			state.usersChat = [...state.usersChat, action.payload];
+		},
+		changeChatMessages: (state, action) => {
+			state.chat.messages = [...state.chat.messages, action.payload];
 		},
 	},
 	extraReducers: (builder) => {
@@ -48,10 +51,12 @@ export const chatsSlice = createSlice({
 	},
 });
 
-export const { changeActiveUser, changeUserChat } = chatsSlice.actions;
+export const { changeActiveUser, changeUserChat, changeChatMessages } = chatsSlice.actions;
 
 export const selectChatsUserState = (state) => state.chats.activeUserChat;
 
 export const selectUserChats = (state) => state.chats.usersChat;
+
+export const selectChat = (state) => state.chats.chat;
 
 export default chatsSlice.reducer;

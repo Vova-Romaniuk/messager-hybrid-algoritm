@@ -27,7 +27,7 @@ const Profile = () => {
 
 	return (
 		<Loader isLoading={loading}>
-			<div className='w-2/3 mx-auto p-4'>
+			<div className='w-10/12 mx-auto p-4'>
 				<div className='my-16'>
 					<h1 className='text-3xl font-bold'>Профіль користувача</h1>
 					<h5 className='font-light'>Тут ви можете змінити деякі данні про себе.</h5>
