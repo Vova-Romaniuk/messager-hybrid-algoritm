@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import Avatar from '../../UI/Avatar';
 import { pinChat } from '../../features/chats/chats.api';
+import { changeChat } from '../../features/chats/chats.slice';
 
 export default function UserChat({ room }) {
 	const [isHovering, setIsHovering] = useState(false);
@@ -20,7 +21,9 @@ export default function UserChat({ room }) {
 	const handleMouseOut = () => {
 		setIsHovering(false);
 	};
-
+	const clickContainer = () => {
+		dispatch(changeChat(room));
+	};
 	const handleClick = (event) => {
 		event.preventDefault();
 		dispatch(pinChat(room.id));
@@ -36,6 +39,7 @@ export default function UserChat({ room }) {
 			}}
 			onMouseOver={handleMouseOver}
 			onMouseOut={handleMouseOut}
+			onClick={clickContainer}
 		>
 			<div className='w-full h-full flex relative'>
 				<div className='w-fit h-fit my-auto'>

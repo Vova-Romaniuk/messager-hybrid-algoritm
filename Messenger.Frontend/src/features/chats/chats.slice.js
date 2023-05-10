@@ -10,7 +10,7 @@ export const chatsSlice = createSlice({
 		usersChat: TEST_USER_CHATS,
 		chat: {
 			id: null,
-			image: null,
+			icon: null,
 			lastMessage: null,
 			userName: null,
 			isPinned: null,
@@ -25,8 +25,23 @@ export const chatsSlice = createSlice({
 		changeUserChat: (state, action) => {
 			state.usersChat = [...state.usersChat, action.payload];
 		},
+		changeChat: (state, action) => {
+			state.chat = { ...state.chat, ...action.payload };
+		},
 		changeChatMessages: (state, action) => {
 			state.chat.messages = [...state.chat.messages, action.payload];
+		},
+		deleteAllMessages: (state, action) => {
+			if (action.payload === state.chat.id) {
+				return {
+					...state,
+					chat: {
+						...state.chat,
+						messages: [],
+					},
+				};
+			}
+			return state;
 		},
 	},
 	extraReducers: (builder) => {
@@ -51,7 +66,13 @@ export const chatsSlice = createSlice({
 	},
 });
 
-export const { changeActiveUser, changeUserChat, changeChatMessages } = chatsSlice.actions;
+export const {
+	changeActiveUser,
+	changeUserChat,
+	changeChatMessages,
+	deleteAllMessages,
+	changeChat,
+} = chatsSlice.actions;
 
 export const selectChatsUserState = (state) => state.chats.activeUserChat;
 
