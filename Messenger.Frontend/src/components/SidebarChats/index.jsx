@@ -55,7 +55,7 @@ export default function SidebarChats() {
 					{hiddenPinnedMessage &&
 						chatsState
 							.filter((item) => item.isPinned)
-							.map((element) => <UserChat room={element} key={element.id} />)}
+							.map((element, index) => <UserChat room={element} key={index} />)}
 					<div className={`${container}`}>
 						<p className='text-base text-[#8D8B91] mt-3'>
 							<i className='fa-solid fa-messages'></i> Всі чати
@@ -63,8 +63,8 @@ export default function SidebarChats() {
 					</div>
 					{chatsState
 						.filter((item) => !item.isPinned)
-						.map((element) => (
-							<UserChat room={element} key={element.id} />
+						.map((element, index) => (
+							<UserChat room={element} key={index} />
 						))}
 				</Scroller>
 			</div>

@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
+import { selectChat } from '../../features/chats/chats.slice';
 import ChatContainer from './ChatContainer';
 import ChatHeader from './ChatHeader';
 import ChatInfoSidebar from './ChatInfoSidebar';
 
 const Main = () => {
 	const [open, setOpen] = useState(false);
-	const { id } = useParams();
+	const [infoChat, setInfoChat] = useState({});
+	const chatData = useSelector(selectChat);
 
-	useEffect(() => {}, [id]);
-
+	useEffect(() => {
+		setInfoChat(chatData);
+	}, [chatData]);
 	const toggleSidebar = () => {
 		setOpen(!open);
 	};
@@ -18,7 +21,7 @@ const Main = () => {
 	return (
 		<div className='w-full flex'>
 			<div className='w-full'>
-				<ChatHeader infoOpen={toggleSidebar} />
+				<ChatHeader infoOpen={toggleSidebar} chatData={infoChat} />
 				<ChatContainer />
 			</div>
 			{open && <ChatInfoSidebar />}
