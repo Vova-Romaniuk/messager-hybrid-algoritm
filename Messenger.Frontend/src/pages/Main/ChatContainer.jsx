@@ -5,10 +5,10 @@ import Message from '../../components/Message';
 import Sender from '../../components/Sender';
 import { selectChat } from '../../features/chats/chats.slice';
 
-// Container with messages
 const ChatContainer = () => {
 	const userChat = useSelector(selectChat);
 	const scrollDown = useRef(null);
+
 	useEffect(() => {
 		handleScroll();
 	}, [userChat.messages]);
@@ -16,6 +16,7 @@ const ChatContainer = () => {
 	const handleScroll = () => {
 		scrollDown.current?.scrollIntoView({ behavior: 'smooth' });
 	};
+
 	return (
 		<div className='h-[calc(100vh-6rem)] bg-[#F8F8FA] flex flex-col'>
 			<div className='w-11/12 mx-auto h-full flex flex-col overflow-y-auto scroll-none'>
@@ -30,7 +31,7 @@ const ChatContainer = () => {
 				))}
 				<div ref={scrollDown}></div>
 			</div>
-			<div className='w-full h-32 bg-white flex border-t-2'>
+			<div className='w-full h-24 bg-white flex border-t-2'>
 				<Sender />
 			</div>
 		</div>

@@ -1,4 +1,5 @@
 using MediatR;
+using Messenger.Application.Commands;
 using Messenger.Core.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 
@@ -14,5 +15,46 @@ public class HubContext : Hub
     {
         _mediator = mediator;
         _securityContext = securityContext;
+    }
+
+    public async Task SendMessage(Guid chatId, string message)
+    {
+        if (message.Trim() != string.Empty)
+        {
+            var currentUserId = _securityContext.GetCurrentUserId();
+            var res = _mediator.Send(new SendMessageCommand(message,chatId, currentUserId));
+            await Clients.Group(chatId.ToString()).SendAsync("ReceiveMessage", res);
+        }
+    }
+
+    public async Task Typing(string chatId, string fullName)
+    {
+        await Clients.Group(chatId).SendAsync("UserTyping", new
+        {
+            userId = _securityContext.GetCurrentUserId(),
+            text = $"{fullName} is typing..."
+        });
+    }
+
+    public async Task JoinToUsersRooms(List<string> chatsIds)
+    {
+        foreach (var item in chatsIds)
+        {
+            await JoinRoom(item);
+        }
+    }
+
+    private Task SendUsersConnected(string chatId)
+    {
+        var users = _connections.Values.Where(x => x == chatId);
+        return Clients.Group(chatId).SendAsync("UsersInRoom", users);
+    }
+
+    private async Task JoinRoom(string chatId)
+    {
+        await Groups.AddToGroupAsync(Context.ConnectionId, chatId);
+        _connections[Context.ConnectionId] = chatId;
+        await Clients.Group(chatId).SendAsync("JoinToRoom", "Was connected to room");
+        await SendUsersConnected(chatId);
     }
 }

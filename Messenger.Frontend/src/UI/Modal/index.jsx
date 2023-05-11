@@ -3,7 +3,7 @@ import React from 'react';
 const Modal = ({ children, handleClose, className = '' }) => {
 	return (
 		<div
-			className='absolute z-40 w-full top-0 left-0 h-screen bg-black/10'
+			className='absolute z-40 w-full top-0 left-0 h-screen bg-black/20'
 			onClick={handleClose}
 		>
 			<div
