@@ -1,7 +1,6 @@
 using MediatR;
 using Messenger.Application.Commands;
 using Messenger.Application.Exceptions;
-using Messenger.Backend.Extensions;
 using Messenger.Backend.ViewModels;
 using Messenger.Core.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +28,23 @@ public class UserController : ControllerBase
             return Ok(await _mediator.Send(new GetCurrentUserCommand()));
         }
         catch (NotFoundException e)
+        {
+            return NotFound(new ErrorResponseModel("Користувача не знайдено!"));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new ErrorResponseModel(e.Message));
+        }
+    }
+
+    [HttpGet("search")]
+    public async Task<IActionResult> GetUsersAsync([FromQuery] string? keyWord)
+    {
+        try
+        {
+            return Ok(await _mediator.Send(new SearchUserCommand(keyWord)));
+        }
+        catch (NotFoundException)
         {
             return NotFound(new ErrorResponseModel("Користувача не знайдено!"));
         }

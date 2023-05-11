@@ -2,7 +2,9 @@ namespace Messenger.Core.Entities;
 
 public class Message : Entity
 {
-    public string Content { get; set; }
+    public string Text { get; set; }
+
+    public string Key { get; set; }
 
     public DateTime When { get; set; } = DateTime.Now;
 

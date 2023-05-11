@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import Button from '../../UI/Button';
+import Modal from '../../UI/Modal';
 import SearchField from '../../UI/fields/SearchField';
 import { selectUserChats } from '../../features/chats/chats.slice';
 import Scroller from '../Scroller';
 import UserChat from '../UserChat';
+import Users from '../Users';
 
 export default function SidebarChats() {
 	const container = 'w-11/12 mx-auto';
 	const [hiddenPinnedMessage, setHiddenPinnedMessage] = useState(true);
 	const userChats = useSelector(selectUserChats);
 	const [chatsState, setChatsState] = useState(userChats);
+	const [open, setOpen] = useState(false);
+
 	useEffect(() => {
 		setChatsState(userChats);
 	}, [userChats]);
@@ -22,6 +27,11 @@ export default function SidebarChats() {
 		}
 		setChatsState(chatsState.filter((element) => element.userName.includes(value)));
 	};
+
+	const handleOpen = () => {
+		setOpen(true);
+	};
+
 	return (
 		<div className='w-80 h-screen flex flex-col border-r-2 border-gray'>
 			<div className={`${container} h-1/6`}>
@@ -34,6 +44,9 @@ export default function SidebarChats() {
 						onChange={handleChange}
 					/>
 				</div>
+				<Button onClick={handleOpen} className='bg-primary text-white w-full mt-3'>
+					Почати листування
+				</Button>
 			</div>
 			<div className='w-full h-5/6 pb-3'>
 				<Scroller>
@@ -68,6 +81,11 @@ export default function SidebarChats() {
 						))}
 				</Scroller>
 			</div>
+			{open && (
+				<Modal handleClose={() => setOpen(false)} className='w-[600px] h-fit'>
+					<Users />
+				</Modal>
+			)}
 		</div>
 	);
 }
