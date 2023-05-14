@@ -82,7 +82,10 @@ export default function SidebarChats() {
 				</Scroller>
 			</div>
 			{open && (
-				<Modal handleClose={() => setOpen(false)} className='w-[600px] h-fit'>
+				<Modal
+					handleClose={() => setOpen(false)}
+					className='min-w-[600px] max-w-[800px] h-fit'
+				>
 					<Users />
 				</Modal>
 			)}

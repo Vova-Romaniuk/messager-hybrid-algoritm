@@ -147,3 +147,17 @@ export const uploadUserImage = createAsyncThunk(
 		}
 	}
 );
+
+export const fetchUsers = createAsyncThunk(
+	'user/fetchUsers',
+	async (searchWord, { fulfillWithValue, rejectWithValue }) => {
+		try {
+			const users = await UserService.getUsers(searchWord || '');
+
+			return fulfillWithValue(users);
+		} catch (error) {
+			showApiEndpointErrorAlert(error);
+			return rejectWithValue();
+		}
+	}
+);

@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchCurrentUser, updateUserInfo, uploadUserImage } from './user.api';
+import { fetchCurrentUser, fetchUsers, updateUserInfo, uploadUserImage } from './user.api';
 
 const initialState = {
 	data: null,
 	loading: false,
 	errors: [],
+	users: null,
 };
 
 const userSlice = createSlice({
@@ -44,6 +45,9 @@ const userSlice = createSlice({
 		builder.addCase(uploadUserImage.rejected, (state) => {
 			state.loading = false;
 		});
+		builder.addCase(fetchUsers.fulfilled, (state, { payload }) => {
+			state.users = payload;
+		});
 	},
 });
 
@@ -52,5 +56,7 @@ export const selectUserLoading = (state) => state.user.loading;
 export const selectUserData = (state) => state.user.data;
 
 export const selectUserId = (state) => state.user.data?.id;
+
+export const selectUsers = (state) => state.user.users;
 
 export default userSlice.reducer;

@@ -24,7 +24,8 @@ public class SearchUsersCommandHandler : IRequestHandler<SearchUserCommand, IEnu
 
         if (string.IsNullOrEmpty(keyWord))
         {
-            return _mapper.Map<IEnumerable<UserDto>>(await _db.Users.ToListAsync(cancellationToken));
+            var allUsers = await _db.Users.Include(x => x.Image).ToListAsync(cancellationToken);
+            return _mapper.Map<IEnumerable<UserDto>>(allUsers);
         }
 
         var users = await _db.Users
