@@ -1,20 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '../../UI/Button';
 import Modal from '../../UI/Modal';
 import SearchField from '../../UI/fields/SearchField';
-import { selectUserChats } from '../../features/chats/chats.slice';
+import { fetchUserChats } from '../../features/chats/chats.api';
+import { selectChatsLoading, selectUserChats } from '../../features/chats/chats.slice';
+import Loader from '../Loader';
 import Scroller from '../Scroller';
 import UserChat from '../UserChat';
 import Users from '../Users';
 
 export default function SidebarChats() {
+	const dispatch = useDispatch();
 	const container = 'w-11/12 mx-auto';
 	const [hiddenPinnedMessage, setHiddenPinnedMessage] = useState(true);
 	const userChats = useSelector(selectUserChats);
+	const loading = useSelector(selectChatsLoading);
 	const [chatsState, setChatsState] = useState(userChats);
 	const [open, setOpen] = useState(false);
+
+	useEffect(() => {
+		dispatch(fetchUserChats());
+	}, []);
 
 	useEffect(() => {
 		setChatsState(userChats);
@@ -50,35 +58,37 @@ export default function SidebarChats() {
 			</div>
 			<div className='w-full h-5/6 pb-3'>
 				<Scroller>
-					<div
-						className={`${container} cursor-pointer border-b pb-2 flex`}
-						onClick={() => setHiddenPinnedMessage(!hiddenPinnedMessage)}
-					>
-						<p className='text-base text-[#8D8B91] mt-3'>
-							<i className='fa-solid fa-bookmark'></i> Закріплені
-						</p>
-						<span className='text-base text-[#8D8B91] mt-3 mr-2 ml-auto'>
-							{hiddenPinnedMessage ? (
-								<i className='fa-sharp fa-light fa-angle-up'></i>
-							) : (
-								<i className='fa-sharp fa-light fa-angle-down'></i>
-							)}
-						</span>
-					</div>
-					{hiddenPinnedMessage &&
-						chatsState
-							.filter((item) => item.isPinned)
-							.map((element) => <UserChat room={element} key={element.id} />)}
-					<div className={`${container}`}>
-						<p className='text-base text-[#8D8B91] mt-3'>
-							<i className='fa-solid fa-messages'></i> Всі чати
-						</p>
-					</div>
-					{chatsState
-						.filter((item) => !item.isPinned)
-						.map((element) => (
-							<UserChat room={element} key={element.id} />
-						))}
+					<Loader isLoading={loading}>
+						<div
+							className={`${container} cursor-pointer border-b pb-2 flex`}
+							onClick={() => setHiddenPinnedMessage(!hiddenPinnedMessage)}
+						>
+							<p className='text-base text-[#8D8B91] mt-3'>
+								<i className='fa-solid fa-bookmark'></i> Закріплені
+							</p>
+							<span className='text-base text-[#8D8B91] mt-3 mr-2 ml-auto'>
+								{hiddenPinnedMessage ? (
+									<i className='fa-sharp fa-light fa-angle-up'></i>
+								) : (
+									<i className='fa-sharp fa-light fa-angle-down'></i>
+								)}
+							</span>
+						</div>
+						{hiddenPinnedMessage &&
+							chatsState &&
+							chatsState
+								.filter((item) => item.isPinned)
+								.map((element) => <UserChat room={element} key={element.id} />)}
+						<div className={`${container}`}>
+							<p className='text-base text-[#8D8B91] mt-3'>
+								<i className='fa-solid fa-messages'></i> Всі чати
+							</p>
+						</div>
+						{chatsState &&
+							chatsState
+								.filter((item) => !item.isPinned)
+								.map((element) => <UserChat room={element} key={element.id} />)}
+					</Loader>
 				</Scroller>
 			</div>
 			{open && (

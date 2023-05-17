@@ -1,10 +1,20 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Avatar from '../../UI/Avatar';
-import Button from '../../UI/Button';
+import SpinnerButton from '../../UI/SpinnerButton';
+import { ChatService } from '../../services/ChatService';
 
 const UserPreview = ({ user }) => {
-	const { userName, email, image } = user;
+	const navigate = useNavigate();
+	const { id, userName, email, image } = user;
+
+	const handleStartMessaging = async () => {
+		const chatId = await ChatService.create(id);
+
+		navigate(`/${chatId}`);
+	};
+
 	return (
 		<div className='border-t last:border-b flex p-4 justify-between'>
 			<div className='flex items-center'>
@@ -14,9 +24,9 @@ const UserPreview = ({ user }) => {
 					<h2>{email}</h2>
 				</div>
 			</div>
-			<Button>
+			<SpinnerButton onClick={handleStartMessaging}>
 				Написати <i className='fas fa-envelope'></i>
-			</Button>
+			</SpinnerButton>
 		</div>
 	);
 };

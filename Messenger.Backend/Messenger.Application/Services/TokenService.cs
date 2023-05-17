@@ -18,7 +18,7 @@ public class TokenService : ITokenService
         _jwtConfiguration = jwtConfiguration;
     }
 
-    public string GenerateAccessToken(User user)
+    public string GenerateAccessToken(User? user)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfiguration.Key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -47,7 +47,7 @@ public class TokenService : ITokenService
         };
     }
 
-    private static IEnumerable<Claim> GetClaims(User user)
+    private static IEnumerable<Claim> GetClaims(User? user)
     {
         var claims = new List<Claim> {new Claim(ClaimTypes.Name, $"{user.Id}")};
 

@@ -46,16 +46,20 @@ namespace Messenger.Database.Migrations
                     b.Property<bool>("AllSeen")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Key")
+                    b.Property<string>("EncryptedText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("PrivateKey")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PublicKey")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<Guid>("RoomId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -78,16 +82,7 @@ namespace Messenger.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ImageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
 
                     b.ToTable("Rooms");
                 });
@@ -143,7 +138,7 @@ namespace Messenger.Database.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRoom");
+                    b.ToTable("UserRooms");
                 });
 
             modelBuilder.Entity("Messenger.Core.Entities.UserToken", b =>
@@ -196,17 +191,6 @@ namespace Messenger.Database.Migrations
                     b.Navigation("Room");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Messenger.Core.Entities.Room", b =>
-                {
-                    b.HasOne("Messenger.Core.Entities.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("Messenger.Core.Entities.User", b =>

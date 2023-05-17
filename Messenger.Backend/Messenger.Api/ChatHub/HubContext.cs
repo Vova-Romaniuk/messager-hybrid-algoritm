@@ -1,10 +1,12 @@
 using MediatR;
 using Messenger.Application.Commands;
 using Messenger.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Messenger.Backend.ChatHub;
 
+[Authorize]
 public class HubContext : Hub
 {
     private readonly IDictionary<string, string> _connections = new Dictionary<string, string>();
@@ -22,7 +24,7 @@ public class HubContext : Hub
         if (message.Trim() != string.Empty)
         {
             var currentUserId = _securityContext.GetCurrentUserId();
-            var res = _mediator.Send(new SendMessageCommand(message,chatId, currentUserId));
+            var res = await _mediator.Send(new SendMessageCommand(message,chatId, currentUserId));
             await Clients.Group(chatId.ToString()).SendAsync("ReceiveMessage", res);
         }
     }

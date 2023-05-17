@@ -22,7 +22,7 @@ public class GoogleLoginCommandHandler : IRequestHandler<GoogleAuthCommand, Auth
 
     public async Task<AuthenticateResponseModel> Handle(GoogleAuthCommand request, CancellationToken cancellationToken)
     {
-        User user;
+        User? user;
         if (!await _db.Users.AnyAsync(x => x.Email == request.Email, cancellationToken))
         {
             //Register new user logic
@@ -45,7 +45,7 @@ public class GoogleLoginCommandHandler : IRequestHandler<GoogleAuthCommand, Auth
         return new AuthenticateResponseModel(jwtToken, refreshToken.Token);
     }
 
-    private async Task<User> RegisterGoogleUserAsync(string email, string picture, string fullName)
+    private async Task<User?> RegisterGoogleUserAsync(string email, string picture, string fullName)
     {
         var userEntity = (await _db.Users.AddAsync(new User
         {
@@ -58,7 +58,7 @@ public class GoogleLoginCommandHandler : IRequestHandler<GoogleAuthCommand, Auth
         return userEntity;
     }
 
-    private async Task<User> LoginGoogleUserAsync(string email, string picture, string fullName)
+    private async Task<User?> LoginGoogleUserAsync(string email, string picture, string fullName)
     {
         var user = await _db.Users
             .Include(x => x.Image)
