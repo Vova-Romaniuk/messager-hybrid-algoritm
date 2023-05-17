@@ -11,6 +11,7 @@ export default function ChatsMedia() {
 	const [hiddenPinnedMessage, setHiddenPinnedMessage] = useState(true);
 	const userChats = useSelector(selectUserChats);
 	const [chatsState, setChatsState] = useState(userChats);
+
 	useEffect(() => {
 		setChatsState(userChats);
 	}, [userChats]);
@@ -20,7 +21,7 @@ export default function ChatsMedia() {
 			setChatsState([...userChats]);
 			return;
 		}
-		setChatsState(chatsState.filter((element) => element.userName.includes(value)));
+		setChatsState(chatsState?.filter((element) => element?.userName?.includes(value)));
 	};
 	return (
 		<div className='w-full h-[calc(100%-4rem)] flex flex-col border-gray'>
@@ -54,7 +55,7 @@ export default function ChatsMedia() {
 					</div>
 					{hiddenPinnedMessage &&
 						chatsState
-							.filter((item) => item.isPinned)
+							?.filter((item) => item.isPinned)
 							.map((element, index) => <UserChat room={element} key={index} />)}
 					<div className={`${container}`}>
 						<p className='text-base text-[#8D8B91] mt-3'>
@@ -62,7 +63,7 @@ export default function ChatsMedia() {
 						</p>
 					</div>
 					{chatsState
-						.filter((item) => !item.isPinned)
+						?.filter((item) => !item.isPinned)
 						.map((element, index) => (
 							<UserChat room={element} key={index} />
 						))}
