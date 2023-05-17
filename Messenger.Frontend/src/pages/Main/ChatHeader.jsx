@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import Avatar from '../../UI/Avatar';
 import IconButton from '../../UI/IconButton';
 import PopupChatAction from '../../components/PopupChatAction';
+import { selectChat } from '../../features/chats/chats.slice';
 
-const ChatHeader = ({ infoOpen, chatData }) => {
-	const tempText = '2 онлайн';
+const ChatHeader = ({ infoOpen }) => {
+	const chat = useSelector(selectChat);
 	const [isOpen, setIsOpen] = useState(false);
 	const handleClick = () => {
 		setIsOpen(!isOpen);
@@ -15,16 +17,18 @@ const ChatHeader = ({ infoOpen, chatData }) => {
 			<div className='w-11/12 mx-auto flex items-center justify-between h-full'>
 				<div className='flex'>
 					<div className='mr-5'>
-						<Avatar img={chatData.icon} className='h-16 w-16' />
+						<Avatar className='h-16 w-16' src={chat?.image} />
 					</div>
 					<div className='flex flex-col justify-between'>
-						<h2 className='text-2xl font-bold'>{chatData.userName}</h2>
-						<p className='font-light text-lg'>{tempText}</p>
+						<h2 className='text-2xl font-bold'>
+							{chat?.recipient?.fullName || chat?.recipient?.userName}
+						</h2>
+						<p className='font-light text-lg'>{chat?.recipient?.email}</p>
 					</div>
 				</div>
 				<div className='w-fit h-fit relative'>
 					<IconButton icon='fa-regular fa-ellipsis' onClick={handleClick} />
-					{isOpen && <PopupChatAction chatId={chatData.id} />}
+					{isOpen && <PopupChatAction chatId={chat.id} />}
 					<IconButton icon='fa-light fa-circle-info' onClick={infoOpen} />
 				</div>
 			</div>

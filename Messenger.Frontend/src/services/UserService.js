@@ -48,4 +48,17 @@ export const UserService = {
 			throw error;
 		}
 	},
+	getUsers: async (searchWord = '') => {
+		try {
+			const { data } = await axiosInstanse.get(`${url}/search?keyword=${searchWord}`, {
+				headers: {
+					Authorization: `Bearer ${Token.get()}`,
+				},
+			});
+
+			return data;
+		} catch (error) {
+			throw error;
+		}
+	},
 };

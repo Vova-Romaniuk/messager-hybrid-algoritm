@@ -1,23 +1,10 @@
 ﻿using Messenger.Application.Services;
-using Messenger.Core.Interfaces;
 
-var asymmetricEncryptionService = new AsymmetricEncryptionService();
-ISymmetricEncryptionService symmetricEncryptionService = new SymmetricEncryptionService();
+var hybridService = new RsaHybridEncryptionService();
 
-// Створення гібридного сервісу з використанням інстансів інших сервісів
-var hybridService = new HybridEncryptionService(asymmetricEncryptionService, symmetricEncryptionService);
+var res = hybridService.Encrypt("Привіт привіт привіт");
 
-// Згенерувати ключі
-var publicKey = asymmetricEncryptionService.GenerateKey();
-var privateKey = asymmetricEncryptionService.GenerateKey();
+var message = hybridService.Decrypt(res);
 
-// Повідомлення для шифрування
-string message = "Maks and Vova";
+Console.WriteLine(message);
 
-// Шифрування повідомлення
-string encryptedMessage = hybridService.Encrypt(message, publicKey);
-Console.WriteLine("Зашифроване повідомлення: " + encryptedMessage);
-
-// Розшифрування повідомлення
-string decryptedMessage = hybridService.Decrypt(encryptedMessage, privateKey);
-Console.WriteLine("Розшифроване повідомлення: " + decryptedMessage);

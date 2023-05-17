@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 
 import Button from '../../UI/Button';
 
-export default function Sender() {
+export default function Sender({ send }) {
 	const [value, setValue] = useState('');
 	const textAreaRef = useRef(null);
 
@@ -14,7 +14,7 @@ export default function Sender() {
 	const handleKeyDowm = (event) => {
 		if (event.keyCode === 13 && !event.shiftKey) {
 			event.preventDefault();
-			handleClick();
+			handleClick(event);
 		} else if (event.keyCode === 13 && event.shiftKey) {
 			textAreaRef.current.value += '\n';
 		}
@@ -25,10 +25,14 @@ export default function Sender() {
 		setValue(e.target.value);
 	};
 
-	const handleClick = () => {
+	const handleClick = (e) => {
+		e.preventDefault();
+
 		if (value.trim() !== '') {
 			setValue('');
 		}
+
+		send(value);
 	};
 
 	return (
@@ -44,7 +48,7 @@ export default function Sender() {
 			<Button
 				className='bg-transparent w-12 mt-auto mr-4 ml-auto text-[#8D8B91] border-none'
 				onClick={handleClick}
-				type='submit'
+				type='button'
 			>
 				<i className='fa-solid fa-paper-plane'></i>
 			</Button>

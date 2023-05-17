@@ -14,7 +14,7 @@ public class MessengerContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
-    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<User?> Users { get; set; }
 
     public virtual DbSet<UserToken> UserTokens { get; set; }
 
@@ -26,4 +26,6 @@ public class MessengerContext : DbContext
     public virtual DbSet<Room> Rooms { get; set; }
 
     public virtual DbSet<Message> Messages { get; set; }
+
+    public DbSet<UserRoom> UserRooms { get; set; }
 }
