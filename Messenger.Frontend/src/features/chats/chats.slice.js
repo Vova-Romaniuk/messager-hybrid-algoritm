@@ -9,7 +9,7 @@ export const chatsSlice = createSlice({
 		userChats: null,
 		chat: {
 			id: null,
-			image: null,
+			icon: null,
 			lastMessage: null,
 			userName: null,
 			isPinned: null,
@@ -17,6 +17,7 @@ export const chatsSlice = createSlice({
 		},
 		loading: false,
 		sidebarLoading: false,
+		isOpenChat: false,
 	},
 	reducers: {
 		changeActiveUser: (state, action) => {
@@ -25,8 +26,29 @@ export const chatsSlice = createSlice({
 		changeUserChat: (state, action) => {
 			state.userChats = [...state.userChats, action.payload];
 		},
+		changeChat: (state, action) => {
+			state.chat = { ...state.chat, ...action.payload };
+		},
+		changeChat: (state, action) => {
+			state.chat = { ...state.chat, ...action.payload };
+		},
 		changeChatMessages: (state, action) => {
 			state.chat.messages = [...state.chat.messages, action.payload];
+		},
+		deleteAllMessages: (state, action) => {
+			if (action.payload === state.chat.id) {
+				return {
+					...state,
+					chat: {
+						...state.chat,
+						messages: [],
+					},
+				};
+			}
+			return state;
+		},
+		changeIsOpenChat: (state) => {
+			state.isOpenChat = !state.isOpenChat;
 		},
 	},
 	extraReducers: (builder) => {
@@ -61,7 +83,14 @@ export const chatsSlice = createSlice({
 	},
 });
 
-export const { changeActiveUser, changeUserChat, changeChatMessages } = chatsSlice.actions;
+export const {
+	changeActiveUser,
+	changeUserChat,
+	changeChatMessages,
+	deleteAllMessages,
+	changeChat,
+	changeIsOpenChat,
+} = chatsSlice.actions;
 
 export const selectChatsUserState = (state) => state.chats.activeUserChat;
 
@@ -72,5 +101,7 @@ export const selectChat = (state) => state.chats.chat;
 export const selectChatLoading = (state) => state.chats.loading;
 
 export const selectChatsLoading = (state) => state.chats.sidebarLoading;
+
+export const selectIsOpenChat = (state) => state.chats.isOpenChat;
 
 export default chatsSlice.reducer;

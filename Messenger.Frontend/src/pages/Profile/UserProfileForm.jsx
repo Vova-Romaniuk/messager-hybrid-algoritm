@@ -32,7 +32,7 @@ const UserProfileForm = ({ user, handleSubmit }) => {
 							/>
 						</div>
 						<div>
-							<label htmlFor='userName'>Імя користувача</label>
+							<label htmlFor='userName'>Ім`я користувача</label>
 							<Field
 								as={TextField}
 								type='text'
@@ -48,7 +48,7 @@ const UserProfileForm = ({ user, handleSubmit }) => {
 						</div>
 
 						<div>
-							<label htmlFor='fullName'>Повне імя</label>
+							<label htmlFor='fullName'>Повне Ім`я</label>
 							<div className='w-full flex items-center'>
 								<Field
 									as={TextField}

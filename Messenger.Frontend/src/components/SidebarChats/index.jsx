@@ -42,7 +42,7 @@ export default function SidebarChats() {
 
 	return (
 		<div className='w-80 h-screen flex flex-col border-r-2 border-gray'>
-			<div className={`${container} h-1/6`}>
+			<div className={`${container} h-fit`}>
 				<h4 className='text-2xl font-bold text-left mt-3'>Повідомлення</h4>
 				<div className='w-full h-12 rounded-xl flex bg-[#F8F8FA] text-[#C1C0C4] mt-5 text-base items-center border'>
 					<i className='fa-sharp fa-solid fa-magnifying-glass mr-2 ml-3'></i>

@@ -13,7 +13,7 @@ export const formatDate = (inputDate) => {
 export const formatDateTimeToday = (dateTime) => {
 	const zonedDateTime = utcToZonedTime(dateTime, timeZone);
 
-	if (isToday(zonedDateTime)) {
+	if (zonedDateTime && isToday(zonedDateTime)) {
 		// Якщо день є сьогодні, форматуємо тільки години та хвилини
 		return format(zonedDateTime, 'HH:mm');
 	} else {

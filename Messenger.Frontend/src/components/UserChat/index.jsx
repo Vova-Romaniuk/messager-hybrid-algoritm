@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import Avatar from '../../UI/Avatar';
 import { pinChat } from '../../features/chats/chats.api';
+import { changeChat, changeIsOpenChat } from '../../features/chats/chats.slice';
 import { formatDateTimeToday } from '../../utils/date';
 
 export default function UserChat({ room }) {
@@ -21,7 +22,10 @@ export default function UserChat({ room }) {
 	const handleMouseOut = () => {
 		setIsHovering(false);
 	};
-
+	const clickContainer = () => {
+		dispatch(changeChat(room));
+		dispatch(changeIsOpenChat());
+	};
 	const handleClick = (event) => {
 		event.preventDefault();
 		dispatch(pinChat(room.id));
@@ -37,6 +41,7 @@ export default function UserChat({ room }) {
 			}}
 			onMouseOver={handleMouseOver}
 			onMouseOut={handleMouseOut}
+			onClick={clickContainer}
 		>
 			<div className='w-full h-full relative flex'>
 				<div className='w-12 mr-1 h-fit my-auto'>
@@ -48,7 +53,7 @@ export default function UserChat({ room }) {
 							{room?.recipient.userName}
 						</span>
 						<span className='text-sm text-[#8D8B91] text-right'>
-							{formatDateTimeToday(room?.message?.when)}
+							{room?.message && formatDateTimeToday(room?.message?.when)}
 						</span>
 					</div>
 					<div className='mt-2 flex justify-between'>

@@ -13,3 +13,7 @@ body {
 .scroll-none::-webkit-scrollbar {
 	display: none;
 }
+.text-stroke {
+	-webkit-text-stroke-width: 1.2px;
+	-webkit-text-stroke-color: #43417d;
+}

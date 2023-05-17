@@ -25,7 +25,7 @@ const UserPreview = ({ user }) => {
 				</div>
 			</div>
 			<SpinnerButton onClick={handleStartMessaging}>
-				Написати <i className='fas fa-envelope'></i>
+				Написати <i className='ml-2 fas fa-envelope'></i>
 			</SpinnerButton>
 		</div>
 	);

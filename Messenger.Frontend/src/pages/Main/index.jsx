@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import Loader from '../../components/Loader';
 import { fetchChat } from '../../features/chats/chats.api';
-import { selectChatLoading } from '../../features/chats/chats.slice';
+import { selectChatLoading, selectChat } from '../../features/chats/chats.slice';
 import { selectHubConnection } from '../../features/hub/hub.slice';
 import ChatContainer from './ChatContainer';
 import ChatHeader from './ChatHeader';
@@ -14,6 +14,7 @@ const Main = () => {
 	const dispatch = useDispatch();
 	const loading = useSelector(selectChatLoading);
 	const hubConnection = useSelector(selectHubConnection);
+	const chatData = useSelector(selectChat);
 
 	const { id } = useParams();
 	const [open, setOpen] = useState(false);
@@ -32,6 +33,10 @@ const Main = () => {
 
 		hubConnection?.invoke('SendMessage', id, message);
 	};
+
+	useEffect(() => {
+		// setInfoChat(chatData);
+	}, [chatData]);
 
 	const toggleSidebar = () => {
 		setOpen(!open);
