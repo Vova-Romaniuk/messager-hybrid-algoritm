@@ -17,6 +17,7 @@ export const chatsSlice = createSlice({
 			messages: [...messages],
 		},
 		loading: false,
+		isOpenChat: false,
 	},
 	reducers: {
 		changeActiveUser: (state, action) => {
@@ -42,6 +43,9 @@ export const chatsSlice = createSlice({
 				};
 			}
 			return state;
+		},
+		changeIsOpenChat: (state) => {
+			state.isOpenChat = !state.isOpenChat;
 		},
 	},
 	extraReducers: (builder) => {
@@ -72,6 +76,7 @@ export const {
 	changeChatMessages,
 	deleteAllMessages,
 	changeChat,
+	changeIsOpenChat,
 } = chatsSlice.actions;
 
 export const selectChatsUserState = (state) => state.chats.activeUserChat;
@@ -79,5 +84,7 @@ export const selectChatsUserState = (state) => state.chats.activeUserChat;
 export const selectUserChats = (state) => state.chats.usersChat;
 
 export const selectChat = (state) => state.chats.chat;
+
+export const selectIsOpenChat = (state) => state.chats.isOpenChat;
 
 export default chatsSlice.reducer;

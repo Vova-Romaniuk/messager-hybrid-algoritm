@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import Avatar from '../../UI/Avatar';
 import { pinChat } from '../../features/chats/chats.api';
-import { changeChat } from '../../features/chats/chats.slice';
+import { changeChat, changeIsOpenChat } from '../../features/chats/chats.slice';
 
 export default function UserChat({ room }) {
 	const [isHovering, setIsHovering] = useState(false);
@@ -23,6 +23,7 @@ export default function UserChat({ room }) {
 	};
 	const clickContainer = () => {
 		dispatch(changeChat(room));
+		dispatch(changeIsOpenChat());
 	};
 	const handleClick = (event) => {
 		event.preventDefault();
