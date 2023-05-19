@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import Avatar from '../../UI/Avatar';
 import { pinChat } from '../../features/chats/chats.api';
 import { changeChat, changeIsOpenChat } from '../../features/chats/chats.slice';
+import { formatDateTimeToday } from '../../utils/date';
 
 export default function UserChat({ room }) {
 	const [isHovering, setIsHovering] = useState(false);
@@ -42,18 +43,24 @@ export default function UserChat({ room }) {
 			onMouseOut={handleMouseOut}
 			onClick={clickContainer}
 		>
-			<div className='w-full h-full flex relative'>
-				<div className='w-fit h-fit my-auto'>
-					<Avatar className='w-12 h-12 shadow-none' />
+			<div className='w-full h-full relative flex'>
+				<div className='w-12 mr-1 h-fit my-auto'>
+					<Avatar className='w-12 h-12 shadow-none' src={room?.image} />
 				</div>
-				<div className='w-10/12 flex flex-col ml-3'>
-					<div className='mt-3 flex justify-between'>
-						<span className='font-bold'>{room?.userName}</span>
-						<span className='text-sm text-[#8D8B91]'>03.05.2023</span>
+				<div className='w-[calc(100%-3rem)] flex flex-col'>
+					<div className='mt-3 grid grid-cols-3 justify-between w-full'>
+						<span className='font-bold text-ellipsis overflow-hidden col-span-2'>
+							{room?.recipient.userName}
+						</span>
+						<span className='text-sm text-[#8D8B91] text-right'>
+							{room?.message && formatDateTimeToday(room?.message?.when)}
+						</span>
 					</div>
 					<div className='mt-2 flex justify-between'>
-						<span className=''>{room?.lastMessage}</span>
-						<div className='w-5 h-5 bg-[#ED4A4D] flex text-white rounded-full'>
+						<span className=' text-ellipsis overflow-hidden'>
+							{room?.message?.text}
+						</span>
+						<div className='ml-5 w-5 h-5 bg-[#ED4A4D] flex text-white rounded-full'>
 							<span className='m-auto text-sm'>1</span>
 						</div>
 					</div>

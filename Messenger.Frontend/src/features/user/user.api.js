@@ -5,6 +5,7 @@ import { AuthenticateService } from '../../services/AuthenticateService';
 import { UserService } from '../../services/UserService';
 import { showApiEndpointErrorAlert, showSuccessAlert } from '../../services/alert';
 import { Token } from '../../services/domain/token';
+import { fetchUserChats } from '../chats/chats.api';
 
 export const googleAuthenticate = createAsyncThunk(
 	'user/googleAuthenticate',
@@ -85,10 +86,11 @@ export const authenticate = createAsyncThunk(
 
 export const fetchCurrentUser = createAsyncThunk(
 	'user/fetchCurrentUser',
-	async (_, { fulfillWithValue, rejectWithValue }) => {
+	async (_, { fulfillWithValue, rejectWithValue, dispatch }) => {
 		try {
 			const user = await UserService.get();
 
+			dispatch(fetchUserChats());
 			return fulfillWithValue(user);
 		} catch (error) {
 			showApiEndpointErrorAlert(error);
@@ -144,6 +146,20 @@ export const uploadUserImage = createAsyncThunk(
 			showApiEndpointErrorAlert(error);
 
 			return rejectWithValue(null);
+		}
+	}
+);
+
+export const fetchUsers = createAsyncThunk(
+	'user/fetchUsers',
+	async (searchWord, { fulfillWithValue, rejectWithValue }) => {
+		try {
+			const users = await UserService.getUsers(searchWord || '');
+
+			return fulfillWithValue(users);
+		} catch (error) {
+			showApiEndpointErrorAlert(error);
+			return rejectWithValue();
 		}
 	}
 );

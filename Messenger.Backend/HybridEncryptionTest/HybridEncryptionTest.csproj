@@ -12,4 +12,8 @@
       <ProjectReference Include="..\Messenger.Domain\Messenger.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="BouncyCastle.NetCore" Version="1.9.0" />
+    </ItemGroup>
+
 </Project>
