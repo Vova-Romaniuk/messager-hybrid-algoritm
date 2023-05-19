@@ -24,7 +24,7 @@ export default function BarMedia() {
 	};
 
 	return (
-		<div className='w-full h-16 border-t-2 border-gray flex '>
+		<div className='w-full h-16 border-t-2 border-gray flex mt-auto mb-0'>
 			<div className='flex w-fit m-auto'>
 				{SIDEBAR_ICONS.map((element) => (
 					<div
