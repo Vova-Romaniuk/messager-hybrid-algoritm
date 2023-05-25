@@ -24,12 +24,21 @@ export const chatsSlice = createSlice({
 			hubConnection: null,
 			connected: false,
 		},
+		notificationMessages: [],
 		userWhichCreateChat: {},
 	},
 	reducers: {
 		setConnection: (state, { payload }) => {
 			state.hub.hubConnection = payload.hubConnection;
 			state.hub.connected = payload.connected;
+		},
+		addNotificationMessage: (state, { payload }) => {
+			state.notificationMessages = [...state.notificationMessages, payload];
+		},
+		removeNotificationMessage: (state, { payload }) => {
+			state.notificationMessages = state.notificationMessages.filter(
+				(message) => message.id !== payload
+			);
 		},
 		changeActiveUser: (state, action) => {
 			state.activeUserChat = action.payload;
@@ -117,6 +126,8 @@ export const {
 	changeIsAddUserPopup,
 	changeIsSelectEncryption,
 	changeUserWhichCreateChat,
+	addNotificationMessage,
+	removeNotificationMessage,
 } = chatsSlice.actions;
 
 export const selectChatsUserState = (state) => state.chats.activeUserChat;
@@ -126,6 +137,8 @@ export const selectUserChats = (state) => state.chats.userChats;
 export const selectChat = (state) => state.chats.chat;
 
 export const selectIsAddUserPopup = (state) => state.chats.isAddUserPopup;
+
+export const selectNotificationMessages = (state) => state.chats.notificationMessages;
 
 export const selectUserWhichCreateChat = (state) => state.chats.userWhichCreateChat;
 

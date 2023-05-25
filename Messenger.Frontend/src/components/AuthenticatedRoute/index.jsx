@@ -10,6 +10,7 @@ import { Token } from '../../services/domain/token';
 import BarMedia from '../BarMedia';
 // import ChatRoomMedia from '../ChatRoomMedia';
 import ChatsMedia from '../ChatsMedia';
+import NotificationContainer from '../NotificationContainer';
 import Sidebar from '../Sidebar';
 import SidebarChats from '../SidebarChats';
 
@@ -28,10 +29,11 @@ const AuthenticatedRoute = ({ element }) => {
 	}, []);
 
 	return !media ? (
-		<div className='w-full h-screen flex'>
+		<div className='w-full h-screen flex relative'>
 			<Sidebar />
 			<SidebarChats />
 			<div className='w-[calc(100%-24rem)] h-full overflow-y-auto'>{element}</div>
+			<NotificationContainer />
 		</div>
 	) : (
 		<div className='w-full h-screen flex flex-col relative'>
@@ -47,6 +49,7 @@ const AuthenticatedRoute = ({ element }) => {
 			) : (
 				<BarMedia />
 			)}
+			<NotificationContainer />
 		</div>
 	);
 };
