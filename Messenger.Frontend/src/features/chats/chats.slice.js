@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchChat, fetchUserChats, pinChat } from './chats.api';
+import { pinChat, fetchUserChats, fetchChat } from './chats.api';
 
 export const chatsSlice = createSlice({
 	name: 'chats',
@@ -20,9 +20,17 @@ export const chatsSlice = createSlice({
 		isSelectEncryption: false,
 		sidebarLoading: false,
 		isOpenChat: false,
+		hub: {
+			hubConnection: null,
+			connected: false,
+		},
 		userWhichCreateChat: {},
 	},
 	reducers: {
+		setConnection: (state, { payload }) => {
+			state.hub.hubConnection = payload.hubConnection;
+			state.hub.connected = payload.connected;
+		},
 		changeActiveUser: (state, action) => {
 			state.activeUserChat = action.payload;
 		},
@@ -92,6 +100,9 @@ export const chatsSlice = createSlice({
 		builder.addCase(fetchUserChats.rejected, (state) => {
 			state.sidebarLoading = false;
 		});
+		// builder.addCase(connectToHub.fulfilled, (state, { payload }) => {
+		// 	state.hubConnection = payload;
+		// });
 	},
 });
 
@@ -102,6 +113,7 @@ export const {
 	deleteAllMessages,
 	changeChat,
 	changeIsOpenChat,
+	setConnection,
 	changeIsAddUserPopup,
 	changeIsSelectEncryption,
 	changeUserWhichCreateChat,
@@ -124,5 +136,9 @@ export const selectChatLoading = (state) => state.chats.loading;
 export const selectChatsLoading = (state) => state.chats.sidebarLoading;
 
 export const selectIsOpenChat = (state) => state.chats.isOpenChat;
+
+export const selectHubConnection = (state) => state?.chats?.hub.hubConnection;
+
+export const selectHubConnectionState = (state) => state?.chats?.hub.connected;
 
 export default chatsSlice.reducer;

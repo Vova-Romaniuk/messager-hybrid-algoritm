@@ -6,9 +6,7 @@ import Avatar from '../../UI/Avatar';
 import Button from '../../UI/Button';
 import IconButton from '../../UI/IconButton';
 import PopupChatAction from '../../components/PopupChatAction';
-import { changeIsOpenChat } from '../../features/chats/chats.slice';
-import { selectChat } from '../../features/chats/chats.slice';
-
+import { changeIsOpenChat, selectChat } from '../../features/chats/chats.slice';
 
 const ChatHeader = ({ infoOpen }) => {
 	const chat = useSelector(selectChat);
@@ -17,7 +15,7 @@ const ChatHeader = ({ infoOpen }) => {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		setIsOpen(false);
-	}, [chatData]);
+	}, [chat]);
 	const handleClick = () => {
 		setIsOpen(!isOpen);
 	};
@@ -49,7 +47,7 @@ const ChatHeader = ({ infoOpen }) => {
 				<div className='w-fit h-fit relative'>
 					<IconButton icon='fa-regular fa-ellipsis' onClick={handleClick} />
 
-					{isOpen && <PopupChatAction chatData={chatData} onClick={handleClick} />}
+					{isOpen && <PopupChatAction chatData={chat} onClick={handleClick} />}
 
 					{isOpen && <PopupChatAction chatId={chat.id} />}
 

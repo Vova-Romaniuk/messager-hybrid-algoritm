@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchCurrentUser, fetchUsers, updateUserInfo, uploadUserImage } from './user.api';
+import { fetchCurrentUser, updateUserInfo, uploadUserImage, fetchUsers } from './user.api';
 
 const initialState = {
 	data: null,

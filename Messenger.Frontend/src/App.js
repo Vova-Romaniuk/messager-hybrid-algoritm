@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
+import ConnectionContainer from './components/ConnectionContainer';
 import routes from './pages';
 
 const router = createBrowserRouter(routes);
@@ -14,8 +15,10 @@ const googleClientId = process.env.REACT_APP_GOOGLE_API_KEY;
 const App = () => {
 	return (
 		<GoogleOAuthProvider clientId={googleClientId}>
-			<RouterProvider router={router} />
-			<ToastContainer autoClose={3000} theme='colored' />
+			<ConnectionContainer>
+				<RouterProvider router={router} />
+				<ToastContainer autoClose={3000} theme='colored' />
+			</ConnectionContainer>
 		</GoogleOAuthProvider>
 	);
 };
