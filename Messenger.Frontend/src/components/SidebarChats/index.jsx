@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '../../UI/Button';
 import Modal from '../../UI/Modal';
 import SearchField from '../../UI/fields/SearchField';
-import { selectChatsLoading, selectUserChats } from '../../features/chats/chats.slice';
+import {
+	selectChatsLoading,
+	selectUserChats,
+	changeIsAddUserPopup,
+	selectIsAddUserPopup,
+	selectIsSelectEncryption,
+	changeIsSelectEncryption,
+} from '../../features/chats/chats.slice';
 import { signalRConnection } from '../../services/HubService';
 import Loader from '../Loader';
 import Scroller from '../Scroller';
+import TypeEncryptions from '../TypeEncryptions';
 import UserChat from '../UserChat';
 import Users from '../Users';
 
 export default function SidebarChats() {
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	const container = 'w-11/12 mx-auto';
 	const [hiddenPinnedMessage, setHiddenPinnedMessage] = useState(true);
 	const userChats = useSelector(selectUserChats);
 	const loading = useSelector(selectChatsLoading);
+	const isAddUserPopup = useSelector(selectIsAddUserPopup);
+	const isSelectEncryption = useSelector(selectIsSelectEncryption);
 	const [chatsState, setChatsState] = useState(userChats);
-	const [open, setOpen] = useState(false);
-
-	useEffect(() => {
-		// if (!userChats) {
-		// 	dispatch(fetchUserChats());
-		// }
-	}, [userChats]);
 
 	useEffect(() => {
 		setChatsState(userChats);
@@ -46,7 +49,7 @@ export default function SidebarChats() {
 	};
 
 	const handleOpen = () => {
-		setOpen(true);
+		dispatch(changeIsAddUserPopup());
 	};
 
 	return (
@@ -100,12 +103,20 @@ export default function SidebarChats() {
 					</Loader>
 				</Scroller>
 			</div>
-			{open && (
+			{isAddUserPopup && (
 				<Modal
-					handleClose={() => setOpen(false)}
+					handleClose={() => dispatch(changeIsAddUserPopup())}
 					className='min-w-[600px] max-w-[800px] h-fit'
 				>
 					<Users />
+				</Modal>
+			)}
+			{isSelectEncryption && (
+				<Modal
+					handleClose={() => dispatch(changeIsSelectEncryption())}
+					className='w-8/12 h-3/6'
+				>
+					<TypeEncryptions />
 				</Modal>
 			)}
 		</div>

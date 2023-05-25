@@ -11,7 +11,6 @@ const Users = () => {
 	const dispatch = useDispatch();
 	const users = useSelector(selectUsers);
 	const [usersState, setUsersState] = useState(users);
-
 	useEffect(() => {
 		dispatch(fetchUsers());
 	}, []);
@@ -29,7 +28,7 @@ const Users = () => {
 	};
 
 	return (
-		<div className='w-full h-full p-4'>
+		<div className='w-full h-full p-4 relative'>
 			<SearchField placeholder='Пошук користувачів...' onChange={handleChange} />
 			<div className='h-[400px] overflow-y-auto px-5'>
 				<Loader isLoading={usersState === null} className=''>

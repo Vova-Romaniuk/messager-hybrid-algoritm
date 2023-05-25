@@ -15,7 +15,7 @@ const UserProfileForm = ({ user, handleSubmit }) => {
 		>
 			{({ isValid }) => (
 				<Form>
-					<div className='w-2/3'>
+					<div className='w-2/3 max-sm:w-full flex flex-col'>
 						<div>
 							<label htmlFor='email'>Email</label>
 							<Field
@@ -82,7 +82,7 @@ const UserProfileForm = ({ user, handleSubmit }) => {
 							/>
 						</div>
 						<Button
-							className='h-10 mt-2 bg-primary text-white'
+							className='h-10 mt-2 bg-primary text-white max-sm:mx-auto max-sm:w-1/2'
 							type='submit'
 							disabled={!isValid}
 						>

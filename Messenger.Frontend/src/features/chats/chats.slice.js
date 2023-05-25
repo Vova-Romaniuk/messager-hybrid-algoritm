@@ -16,12 +16,15 @@ export const chatsSlice = createSlice({
 			messages: [],
 		},
 		loading: false,
+		isAddUserPopup: false,
+		isSelectEncryption: false,
 		sidebarLoading: false,
 		isOpenChat: false,
 		hub: {
 			hubConnection: null,
 			connected: false,
 		},
+		userWhichCreateChat: {},
 	},
 	reducers: {
 		setConnection: (state, { payload }) => {
@@ -33,6 +36,15 @@ export const chatsSlice = createSlice({
 		},
 		changeUserChat: (state, action) => {
 			state.userChats = [...state.userChats, action.payload];
+		},
+		changeUserWhichCreateChat: (state, action) => {
+			state.userWhichCreateChat = { ...state.userWhichCreateChat, ...action.payload };
+		},
+		changeIsAddUserPopup: (state) => {
+			state.isAddUserPopup = !state.isAddUserPopup;
+		},
+		changeIsSelectEncryption: (state) => {
+			state.isSelectEncryption = !state.isSelectEncryption;
 		},
 		changeChat: (state, action) => {
 			state.chat = { ...state.chat, ...action.payload };
@@ -102,6 +114,9 @@ export const {
 	changeChat,
 	changeIsOpenChat,
 	setConnection,
+	changeIsAddUserPopup,
+	changeIsSelectEncryption,
+	changeUserWhichCreateChat,
 } = chatsSlice.actions;
 
 export const selectChatsUserState = (state) => state.chats.activeUserChat;
@@ -109,6 +124,12 @@ export const selectChatsUserState = (state) => state.chats.activeUserChat;
 export const selectUserChats = (state) => state.chats.userChats;
 
 export const selectChat = (state) => state.chats.chat;
+
+export const selectIsAddUserPopup = (state) => state.chats.isAddUserPopup;
+
+export const selectUserWhichCreateChat = (state) => state.chats.userWhichCreateChat;
+
+export const selectIsSelectEncryption = (state) => state.chats.isSelectEncryption;
 
 export const selectChatLoading = (state) => state.chats.loading;
 

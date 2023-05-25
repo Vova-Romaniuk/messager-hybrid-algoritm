@@ -27,18 +27,25 @@ const Profile = () => {
 
 	return (
 		<Loader isLoading={loading}>
-			<div className='w-10/12 mx-auto p-4'>
-				<div className='my-16'>
-					<h1 className='text-3xl font-bold'>Профіль користувача</h1>
-					<h5 className='font-light'>Тут ви можете змінити деякі данні про себе.</h5>
+			<div className='w-10/12 mx-auto p-4 max-sm:flex max-sm:flex-col'>
+				<div className='my-16 max-sm:mt-8 max-sm:mb-2'>
+					<h1 className='text-3xl font-bold max-sm:text-2xl max-sm:text-center'>
+						Профіль користувача
+					</h1>
+					<h5 className='font-light max-sm:text-center max-sm:mt-2'>
+						Тут ви можете змінити деякі дані про себе.
+					</h5>
 				</div>
 				{/* Avatar */}
-				<div className='flex justify-between w-full'>
-					<div className='h-fit py-5 w-1/2 rounded-xl flex flex-col'>
-						<h2 className='text-xl font-bold mb-5'>Змініть фото</h2>
+				<div className='flex justify-between w-full max-sm:flex-col'>
+					<div className='h-fit py-5 w-1/2 rounded-xl flex flex-col max-sm:w-full'>
+						<h2 className='text-xl font-bold mb-5 max-sm:text-center'>Змініть фото</h2>
 						<div className='flex flex-col'>
-							<div className='flex max-h-max mb-4'>
-								<Avatar src={user?.image} className='h-32 w-32 mx-0 mr-16' />
+							<div className='flex max-h-max mb-4 max-sm:flex-col'>
+								<Avatar
+									src={user?.image}
+									className='h-32 w-32 mx-0 mr-16 max-sm:mx-auto max-sm:mb-3'
+								/>
 								<div className='flex flex-col items-center justify-center'>
 									<Button
 										className='bg-primary text-white mb-3 w-52'
@@ -52,17 +59,17 @@ const Profile = () => {
 									</Button>
 								</div>
 							</div>
-							<p className='text-sm text-black/60'>
+							<p className='text-sm text-black/60 max-sm:text-center'>
 								Рекомендовано завантажувати фото розширення 256px×256px
 							</p>
 						</div>
 					</div>
-					<div className='w-1/2 max-h-[300px] bg-slate-500/5 p-5 rounded-2xl'>
+					<div className='w-1/2 max-h-[300px] bg-slate-500/5 p-5 rounded-2xl max-sm:hidden'>
 						<ProfileSvg />
 					</div>
 				</div>
 				{/* User info form */}
-				<div className='w-2/3'>
+				<div className='w-2/3 max-sm:w-full max-sm:mx-auto'>
 					<UserProfileForm user={user} handleSubmit={handleSubmit} />
 				</div>
 			</div>

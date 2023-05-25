@@ -6,10 +6,6 @@ export const SIDEBAR_ICONS = [
 		icon: 'fa-regular fa-message',
 	},
 	{
-		name: 'pinned',
-		icon: 'fa-regular fa-bookmark',
-	},
-	{
 		name: 'profile',
 		icon: 'fa-regular fa-gear',
 	},
@@ -153,5 +149,20 @@ export const fakeUsers = [
 		email: faker.internet.email(),
 		id: faker.datatype.uuid(),
 		image: faker.image,
+	},
+];
+
+export const HYBRID_ENCRYPTION_ALGORITHMS = [
+	{
+		id: '1',
+		name: 'Гібридне шифрування з публічним ключем',
+	},
+	{
+		id: '2',
+		name: 'Гібридне шифрування з ключовим обміном',
+	},
+	{
+		id: '3',
+		name: 'Гібридне шифрування з використанням симетричних ключів',
 	},
 ];

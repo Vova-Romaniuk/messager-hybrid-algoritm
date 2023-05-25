@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { SIDEBAR_ICONS } from '../utils/constants';
+import { SIDEBAR_ICONS } from '../../utils/constants';
 
 export const sidebarSlice = createSlice({
 	name: 'sidebar',

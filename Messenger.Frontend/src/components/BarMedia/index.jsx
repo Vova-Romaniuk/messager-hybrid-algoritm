@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { changeMenuState, selectSidebarState } from '../../features/sidebar.slice';
+import { changeMenuState, selectSidebarState } from '../../features/sidebar/sidebar.slice';
 import { SIDEBAR_ICONS } from '../../utils/constants';
 
 export default function BarMedia() {
@@ -24,7 +24,7 @@ export default function BarMedia() {
 	};
 
 	return (
-		<div className='w-full h-16 border-t-2 border-gray flex '>
+		<div className='w-full h-16 border-t-2 border-gray flex mt-auto mb-0'>
 			<div className='flex w-fit m-auto'>
 				{SIDEBAR_ICONS.map((element) => (
 					<div
