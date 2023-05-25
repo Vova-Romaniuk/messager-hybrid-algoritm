@@ -18,11 +18,15 @@ export const chatsSlice = createSlice({
 		loading: false,
 		sidebarLoading: false,
 		isOpenChat: false,
-		hubConnection: null,
+		hub: {
+			hubConnection: null,
+			connected: false,
+		},
 	},
 	reducers: {
 		setConnection: (state, { payload }) => {
-			state.hubConnection = payload;
+			state.hub.hubConnection = payload.hubConnection;
+			state.hub.connected = payload.connected;
 		},
 		changeActiveUser: (state, action) => {
 			state.activeUserChat = action.payload;
@@ -112,6 +116,8 @@ export const selectChatsLoading = (state) => state.chats.sidebarLoading;
 
 export const selectIsOpenChat = (state) => state.chats.isOpenChat;
 
-export const selectHubConnection = (state) => state?.chats?.hubConnection;
+export const selectHubConnection = (state) => state?.chats?.hub.hubConnection;
+
+export const selectHubConnectionState = (state) => state?.chats?.hub.connected;
 
 export default chatsSlice.reducer;

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 
 import Avatar from '../../UI/Avatar';
-import { changeMenuState, selectSidebarState } from '../../features/sidebarSlice';
+import { changeMenuState, selectSidebarState } from '../../features/sidebar.slice';
 import { logOut } from '../../features/user/user.api';
 import { SIDEBAR_ICONS } from '../../utils/constants';
 

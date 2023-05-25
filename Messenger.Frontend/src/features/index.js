@@ -1,5 +1,5 @@
 import chats from './chats/chats.slice';
-import sidebar from './sidebarSlice';
+import sidebar from './sidebar.slice';
 import user from './user/user.slice';
 
 export default {
