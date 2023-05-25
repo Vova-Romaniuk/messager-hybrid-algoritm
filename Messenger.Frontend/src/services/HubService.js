@@ -1,50 +1,58 @@
 import * as signalR from '@microsoft/signalr';
 import { LogLevel } from '@microsoft/signalr';
 
+import { store } from '../app/store';
+import { changeChatMessages } from '../features/chats/chats.slice';
 import { Token } from './domain/token';
 
-// eslint-disable-next-line no-undef
-const url = process.env.REACT_APP_CHAT_HUB_URL;
+export const signalRConnection = async () => {
+	const connection = new signalR.HubConnectionBuilder()
+		// eslint-disable-next-line no-undef
+		.withUrl(process.env.REACT_APP_CHAT_HUB_URL, {
+			accessTokenFactory: () => Token.get(),
+		})
+		.withAutomaticReconnect()
+		.configureLogging(LogLevel.Information)
+		.build();
 
-export class HubService {
-	#hubConnection;
+	socketMethods(connection);
+	await connection.start();
+	return connection;
+};
 
-	configure() {
-		this.#hubConnection = new signalR.HubConnectionBuilder()
-			.withUrl(url, {
-				accessTokenFactory: () => Token.get(),
-			})
-			.configureLogging(LogLevel.Information)
-			.build();
-	}
+const socketMethods = (connection) => {
+	connection.on('JoinToRoom', (res) => {
+		console.log('Join', res);
+	});
 
-	async startConnection() {
-		this.#hubConnection.on('JoinToRoom', (res) => {
-			console.log('Join', res);
-		});
+	connection.on('ReceiveMessage', (message) => {
+		if (window.location.href.includes(message.roomId)) {
+			store.dispatch(changeChatMessages(message));
+		} else {
+			// store.dispatch(addMessageNotification(message));
+			// setTimeout(() => {
+			// 	store.dispatch(removeMessageNotification(message.id));
+			// }, 5000);
+		}
+		//store.dispatch(changeLastMessage(message));
+	});
 
-		this.#hubConnection.on('ReceiveMessage', (message) => {
-			if (window.location.href.includes(message.roomId)) {
-			}
-		});
+	connection.on('UsersInRoom', (data) => {
+		console.log(data);
+	});
 
-		this.#hubConnection.on('UsersInRoom', (data) => {
-			console.log(data);
-		});
+	connection.on('UserTyping', () => {
+		//store.dispatch(handleTyping(data));
+	});
 
-		this.#hubConnection.on('UserTyping', (data) => {
-			console.log(data);
-		});
+	connection.on('UserStopTyping', () => {
+		//store.dispatch(restoreHandleTyping());
+	});
+};
 
-		this.#hubConnection.on('UserStopTyping', () => {
-			console.log('');
-		});
-
-		await this.#hubConnection.start();
-		return this.#hubConnection;
-	}
-
-	async disconnect() {
-		await this.#hubConnection.stop();
-	}
-}
+export const connectGatekeeper = (connection) => {
+	return (
+		connection.state === signalR.HubConnectionState.Connecting ||
+		connection.state === signalR.HubConnectionState.Connected
+	);
+};

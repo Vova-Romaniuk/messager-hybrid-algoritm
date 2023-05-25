@@ -16,7 +16,7 @@ const AuthenticatedRoute = ({ element }) => {
 	if (!Token.get()) {
 		return <Navigate to='/authenticate' />;
 	}
-	// eslint-disable-next-line no-unused-vars
+
 	const isChatOpen = useSelector(selectIsOpenChat);
 	const media = useMediaQuery({ maxWidth: ' 450px' });
 	const dispatch = useDispatch();

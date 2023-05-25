@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { changeMenuState, selectSidebarState } from '../../features/sidebar/sidebar.slice';
+import { changeMenuState, selectSidebarState } from '../../features/sidebarSlice';
 import { SIDEBAR_ICONS } from '../../utils/constants';
 
 export default function BarMedia() {

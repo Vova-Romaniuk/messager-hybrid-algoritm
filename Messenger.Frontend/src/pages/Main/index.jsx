@@ -4,8 +4,11 @@ import { useParams } from 'react-router-dom';
 
 import Loader from '../../components/Loader';
 import { fetchChat } from '../../features/chats/chats.api';
-import { selectChatLoading, selectChat } from '../../features/chats/chats.slice';
-import { selectHubConnection } from '../../features/hub/hub.slice';
+import {
+	selectChatLoading,
+	selectChat,
+	selectHubConnection,
+} from '../../features/chats/chats.slice';
 import ChatContainer from './ChatContainer';
 import ChatHeader from './ChatHeader';
 import ChatInfoSidebar from './ChatInfoSidebar';

@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Button from '../../UI/Button';
 import Modal from '../../UI/Modal';
 import SearchField from '../../UI/fields/SearchField';
-import { fetchUserChats } from '../../features/chats/chats.api';
 import { selectChatsLoading, selectUserChats } from '../../features/chats/chats.slice';
+import { signalRConnection } from '../../services/HubService';
 import Loader from '../Loader';
 import Scroller from '../Scroller';
 import UserChat from '../UserChat';
 import Users from '../Users';
 
 export default function SidebarChats() {
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 	const container = 'w-11/12 mx-auto';
 	const [hiddenPinnedMessage, setHiddenPinnedMessage] = useState(true);
 	const userChats = useSelector(selectUserChats);
@@ -21,11 +21,20 @@ export default function SidebarChats() {
 	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
-		dispatch(fetchUserChats());
-	}, []);
+		// if (!userChats) {
+		// 	dispatch(fetchUserChats());
+		// }
+	}, [userChats]);
 
 	useEffect(() => {
 		setChatsState(userChats);
+		(async () => {
+			if (userChats && userChats.length > 0) {
+				const ids = userChats.map((item) => item.id);
+				const connection = await signalRConnection();
+				connection?.invoke('JoinToUsersRooms', ids);
+			}
+		})();
 	}, [userChats]);
 
 	const handleChange = (value) => {
