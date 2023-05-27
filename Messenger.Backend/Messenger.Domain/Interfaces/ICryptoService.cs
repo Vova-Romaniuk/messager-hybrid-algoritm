@@ -1,6 +1,7 @@
 using Messenger.Core.Models;
+using Messenger.Domain.Models;
 
-namespace Messenger.Core.Interfaces;
+namespace Messenger.Domain.Interfaces;
 
 public interface ICryptoService
 {

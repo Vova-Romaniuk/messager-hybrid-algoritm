@@ -1,6 +1,6 @@
 using MediatR;
 using Messenger.Application.Commands;
-using Messenger.Core.Interfaces;
+using Messenger.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
@@ -19,12 +19,20 @@ public class HubContext : Hub
         _securityContext = securityContext;
     }
 
+    private async Task JoinRoom(string chatId)
+    {
+        await Groups.AddToGroupAsync(Context.ConnectionId, chatId);
+        _connections[Context.ConnectionId] = chatId;
+        await Clients.Group(chatId).SendAsync("JoinToRoom", "Was connected to room");
+        await SendUsersConnected(chatId);
+    }
+
     public async Task SendMessage(Guid chatId, string message)
     {
         if (message.Trim() != string.Empty)
         {
             var currentUserId = _securityContext.GetCurrentUserId();
-            var res = await _mediator.Send(new SendMessageCommand(message,chatId, currentUserId));
+            var res = await _mediator.Send(new SendMessageCommand(message, chatId, currentUserId));
             await Clients.Group(chatId.ToString()).SendAsync("ReceiveMessage", res);
         }
     }
@@ -36,6 +44,11 @@ public class HubContext : Hub
             userId = _securityContext.GetCurrentUserId(),
             text = $"{fullName} is typing..."
         });
+    }
+
+    public async Task StopTyping(string chatId, string fullName)
+    {
+        await Clients.Group(chatId).SendAsync("UserStopTyping");
     }
 
     public async Task JoinToUsersRooms(List<string> chatsIds)
@@ -50,13 +63,5 @@ public class HubContext : Hub
     {
         var users = _connections.Values.Where(x => x == chatId);
         return Clients.Group(chatId).SendAsync("UsersInRoom", users);
-    }
-
-    private async Task JoinRoom(string chatId)
-    {
-        await Groups.AddToGroupAsync(Context.ConnectionId, chatId);
-        _connections[Context.ConnectionId] = chatId;
-        await Clients.Group(chatId).SendAsync("JoinToRoom", "Was connected to room");
-        await SendUsersConnected(chatId);
     }
 }

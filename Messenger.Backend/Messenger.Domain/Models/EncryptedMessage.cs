@@ -1,4 +1,4 @@
-namespace Messenger.Core.Models;
+namespace Messenger.Domain.Models;
 
 public class EncryptedMessage
 {

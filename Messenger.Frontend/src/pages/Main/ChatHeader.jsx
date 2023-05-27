@@ -13,15 +13,19 @@ const ChatHeader = ({ infoOpen }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const media = useMediaQuery({ maxWidth: ' 450px' });
 	const dispatch = useDispatch();
+
 	useEffect(() => {
 		setIsOpen(false);
 	}, [chat]);
+
 	const handleClick = () => {
 		setIsOpen(!isOpen);
 	};
+
 	const handleCloseChat = () => {
 		dispatch(changeIsOpenChat());
 	};
+
 	return (
 		<div className='w-full border-b-2 h-24'>
 			<div className='w-11/12 mx-auto flex items-center justify-between h-full'>
@@ -49,7 +53,7 @@ const ChatHeader = ({ infoOpen }) => {
 
 					{isOpen && <PopupChatAction chatData={chat} onClick={handleClick} />}
 
-					{isOpen && <PopupChatAction chatId={chat.id} />}
+					{isOpen && <PopupChatAction chatData={chat} onClick={handleClick} />}
 
 					<IconButton icon='fa-light fa-circle-info' onClick={infoOpen} />
 				</div>

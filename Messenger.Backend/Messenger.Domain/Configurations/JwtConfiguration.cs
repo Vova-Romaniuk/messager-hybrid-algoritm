@@ -1,4 +1,4 @@
-namespace Messenger.Core.Configurations;
+namespace Messenger.Domain.Configurations;
 
 public class JwtConfiguration
 {

@@ -1,6 +1,6 @@
 using AutoMapper;
-using Messenger.Core.Entities;
 using Messenger.Core.Models;
+using Messenger.Domain.Entities;
 
 namespace Messenger.Backend.Mapping;
 

@@ -2,7 +2,12 @@ import * as signalR from '@microsoft/signalr';
 import { LogLevel } from '@microsoft/signalr';
 
 import { store } from '../app/store';
-import { changeChatMessages } from '../features/chats/chats.slice';
+import {
+	changeChatMessages,
+	changeLastMessage,
+	addNotificationMessage,
+	removeNotificationMessage,
+} from '../features/chats/chats.slice';
 import { Token } from './domain/token';
 
 export const signalRConnection = async () => {
@@ -29,24 +34,12 @@ const socketMethods = (connection) => {
 		if (window.location.href.includes(message.roomId)) {
 			store.dispatch(changeChatMessages(message));
 		} else {
-			// store.dispatch(addMessageNotification(message));
-			// setTimeout(() => {
-			// 	store.dispatch(removeMessageNotification(message.id));
-			// }, 5000);
+			store.dispatch(addNotificationMessage(message));
+			setTimeout(() => {
+				store.dispatch(removeNotificationMessage(message.id));
+			}, 5000);
 		}
-		//store.dispatch(changeLastMessage(message));
-	});
-
-	connection.on('UsersInRoom', (data) => {
-		console.log(data);
-	});
-
-	connection.on('UserTyping', () => {
-		//store.dispatch(handleTyping(data));
-	});
-
-	connection.on('UserStopTyping', () => {
-		//store.dispatch(restoreHandleTyping());
+		store.dispatch(changeLastMessage(message));
 	});
 };
 
