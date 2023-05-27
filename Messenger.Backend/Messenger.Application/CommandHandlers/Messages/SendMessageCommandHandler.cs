@@ -2,10 +2,11 @@ using AutoMapper;
 using MediatR;
 using Messenger.Application.Commands;
 using Messenger.Application.Exceptions;
-using Messenger.Core.Entities;
-using Messenger.Core.Interfaces;
 using Messenger.Core.Models;
 using Messenger.Database.Context;
+using Messenger.Domain.Entities;
+using Messenger.Domain.Interfaces;
+using Messenger.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.Application.CommandHandlers.Messages;

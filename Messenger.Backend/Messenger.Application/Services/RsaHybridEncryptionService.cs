@@ -1,6 +1,6 @@
 using System.Text;
-using Messenger.Core.Interfaces;
-using Messenger.Core.Models;
+using Messenger.Domain.Interfaces;
+using Messenger.Domain.Models;
 using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Asn1.Pkcs;
 using Org.BouncyCastle.Asn1.X509;
@@ -10,7 +10,6 @@ using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Pkcs;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.X509;
-using Utf8Json;
 
 namespace Messenger.Application.Services;
 

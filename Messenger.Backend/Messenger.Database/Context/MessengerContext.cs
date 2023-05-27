@@ -1,5 +1,5 @@
 using System.Reflection;
-using Messenger.Core.Entities;
+using Messenger.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.Database.Context;

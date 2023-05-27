@@ -1,4 +1,4 @@
-namespace Messenger.Core.Entities;
+namespace Messenger.Domain.Entities;
 
 public class User : Entity
 {

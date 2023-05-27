@@ -1,4 +1,4 @@
-namespace Messenger.Core.Interfaces;
+namespace Messenger.Domain.Interfaces;
 
 public interface IPasswordService
 {

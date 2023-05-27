@@ -11,6 +11,7 @@ import {
 	selectIsAddUserPopup,
 	selectIsSelectEncryption,
 	changeIsSelectEncryption,
+	selectHubConnection,
 } from '../../features/chats/chats.slice';
 import { signalRConnection } from '../../services/HubService';
 import Loader from '../Loader';
@@ -24,6 +25,7 @@ export default function SidebarChats() {
 	const container = 'w-11/12 mx-auto';
 	const [hiddenPinnedMessage, setHiddenPinnedMessage] = useState(true);
 	const userChats = useSelector(selectUserChats);
+	const hub = useSelector(selectHubConnection);
 	const loading = useSelector(selectChatsLoading);
 	const isAddUserPopup = useSelector(selectIsAddUserPopup);
 	const isSelectEncryption = useSelector(selectIsSelectEncryption);
@@ -33,9 +35,11 @@ export default function SidebarChats() {
 		setChatsState(userChats);
 		(async () => {
 			if (userChats && userChats.length > 0) {
-				const ids = userChats.map((item) => item.id);
-				const connection = await signalRConnection();
-				connection?.invoke('JoinToUsersRooms', ids);
+				if (hub === null) {
+					const ids = userChats.map((item) => item.id);
+					const connection = await signalRConnection();
+					connection?.invoke('JoinToUsersRooms', ids);
+				}
 			}
 		})();
 	}, [userChats]);
@@ -53,7 +57,7 @@ export default function SidebarChats() {
 	};
 
 	return (
-		<div className='w-80 h-screen flex flex-col border-r-2 border-gray'>
+		<div className='w-[400px] h-screen flex flex-col border-r-2 border-gray'>
 			<div className={`${container} h-fit`}>
 				<h4 className='text-2xl font-bold text-left mt-3'>Повідомлення</h4>
 				<div className='w-full h-12 rounded-xl flex bg-[#F8F8FA] text-[#C1C0C4] mt-5 text-base items-center border'>
@@ -90,16 +94,27 @@ export default function SidebarChats() {
 							chatsState &&
 							chatsState
 								.filter((item) => item.isPinned)
-								.map((element) => <UserChat room={element} key={element.id} />)}
+								.map((element) => (
+									<div className='w-11/12 mx-auto' key={element.id}>
+										<UserChat room={element} />
+										<hr />
+									</div>
+								))}
 						<div className={`${container}`}>
-							<p className='text-base text-[#8D8B91] mt-3'>
+							<p className='text-base text-[#8D8B91] my-3'>
 								<i className='fa-solid fa-messages'></i> Всі чати
 							</p>
+							<hr />
 						</div>
 						{chatsState &&
 							chatsState
 								.filter((item) => !item.isPinned)
-								.map((element) => <UserChat room={element} key={element.id} />)}
+								.map((element) => (
+									<div className='w-11/12 mx-auto' key={element.id}>
+										<UserChat room={element} />
+										<hr />
+									</div>
+								))}
 					</Loader>
 				</Scroller>
 			</div>

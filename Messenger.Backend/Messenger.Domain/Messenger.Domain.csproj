@@ -4,7 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>Messenger.Core</RootNamespace>
+        <RootNamespace>Messenger.Domain</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

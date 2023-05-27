@@ -2,9 +2,9 @@ using MediatR;
 using Messenger.Application.Commands;
 using Messenger.Application.Exceptions;
 using Messenger.Application.Gatekeepers;
-using Messenger.Core.Entities;
-using Messenger.Core.Interfaces;
 using Messenger.Database.Context;
+using Messenger.Domain.Entities;
+using Messenger.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.Application.CommandHandlers.Rooms;
@@ -15,9 +15,6 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, Guid>
     private readonly ISecurityContext _securityContext;
     private readonly IRoomGatekeeper _roomGatekeeper;
     private readonly IMediator _mediator;
-
-    private const string DefaultImage =
-        "https://sites.cns.utexas.edu/sites/default/files/geometry_lab/files/default_person.jpg?m=1654796730";
 
     public CreateRoomCommandHandler(MessengerContext db, ISecurityContext securityContext, IRoomGatekeeper roomGatekeeper, IMediator mediator)
     {
@@ -50,6 +47,7 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, Guid>
 
         var room = new Room
         {
+            TypeEncryption = request.TypeEncryption,
             UserRooms = usersRooms,
             Messages = new List<Message>(),
         };

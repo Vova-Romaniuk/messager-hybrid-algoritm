@@ -27,7 +27,7 @@ const Profile = () => {
 
 	return (
 		<Loader isLoading={loading}>
-			<div className='w-10/12 mx-auto p-4 max-sm:flex max-sm:flex-col'>
+			<div className='w-11/12 mx-auto p-4 max-sm:flex max-sm:flex-col'>
 				<div className='my-16 max-sm:mt-8 max-sm:mb-2'>
 					<h1 className='text-3xl font-bold max-sm:text-2xl max-sm:text-center'>
 						Профіль користувача
