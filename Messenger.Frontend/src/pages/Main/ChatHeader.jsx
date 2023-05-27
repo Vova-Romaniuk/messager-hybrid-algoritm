@@ -33,15 +33,17 @@ const ChatHeader = ({ infoOpen }) => {
 						<i className='fa-solid fa-angle-left mr-1 font-bold text-2xl'></i>
 					</Button>
 				)}
-				<div className='flex'>
+				<div className='flex w-fit'>
 					<div className='mr-5'>
 						<Avatar className='h-16 w-16' src={chat?.image} />
 					</div>
-					<div className='flex flex-col justify-between'>
-						<h2 className='text-2xl font-bold'>
+					<div className='flex flex-col justify-between max-sm:w-6/12'>
+						<h2 className='text-2xl font-bold max-sm:text-xl max-sm:truncate max-sm:w-full'>
 							{chat?.recipient?.fullName || chat?.recipient?.userName}
 						</h2>
-						<p className='font-light text-lg'>{chat?.recipient?.email}</p>
+						<p className='font-light text-lg max-sm:truncate'>
+							{chat?.recipient?.email}
+						</p>
 					</div>
 				</div>
 				<div className='w-fit h-fit relative'>

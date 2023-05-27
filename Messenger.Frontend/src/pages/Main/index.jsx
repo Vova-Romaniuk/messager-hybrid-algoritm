@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 import { useParams } from 'react-router-dom';
 
 import Loader from '../../components/Loader';
@@ -17,6 +19,7 @@ const Main = () => {
 	const dispatch = useDispatch();
 	const loading = useSelector(selectChatLoading);
 	const hubConnection = useSelector(selectHubConnection);
+	const media = useMediaQuery({ maxWidth: ' 450px' });
 	const chatData = useSelector(selectChat);
 
 	const { id } = useParams();
@@ -48,11 +51,21 @@ const Main = () => {
 	return (
 		<Loader isLoading={loading}>
 			<div className='flex w-full'>
-				<div className='w-full'>
-					<ChatHeader infoOpen={toggleSidebar} />
-					<ChatContainer send={sendMessage} />
-				</div>
-				{open && <ChatInfoSidebar />}
+				{!media ? (
+					<div className='w-full'>
+						<ChatHeader infoOpen={toggleSidebar} />
+						<ChatContainer send={sendMessage} />
+					</div>
+				) : (
+					media &&
+					!open && (
+						<div className='w-full'>
+							<ChatHeader infoOpen={toggleSidebar} />
+							<ChatContainer send={sendMessage} />
+						</div>
+					)
+				)}
+				{open && <ChatInfoSidebar onClick={toggleSidebar} />}
 			</div>
 		</Loader>
 	);
