@@ -1,20 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
+import Button from '../../UI/Button';
+import Modal from '../../UI/Modal';
 import SearchField from '../../UI/fields/SearchField';
-import { selectUserChats } from '../../features/chats/chats.slice';
+import {
+	selectUserChats,
+	changeIsAddUserPopup,
+	selectIsAddUserPopup,
+	changeIsSelectEncryption,
+	selectIsSelectEncryption,
+} from '../../features/chats/chats.slice';
 import Scroller from '../Scroller';
+import TypeEncryptions from '../TypeEncryptions';
 import UserChat from '../UserChat';
+import Users from '../Users';
 
 export default function ChatsMedia() {
 	const container = 'w-11/12 mx-auto';
+	const dispatch = useDispatch();
 	const [hiddenPinnedMessage, setHiddenPinnedMessage] = useState(true);
 	const userChats = useSelector(selectUserChats);
+	const isSelectEncryption = useSelector(selectIsSelectEncryption);
 	const [chatsState, setChatsState] = useState(userChats);
-
+	const isAddUserPopup = useSelector(selectIsAddUserPopup);
 	useEffect(() => {
 		setChatsState(userChats);
 	}, [userChats]);
+
+	const handleOpen = () => {
+		dispatch(changeIsAddUserPopup());
+	};
 
 	const handleChange = (value) => {
 		if (value.trim() === '') {
@@ -25,7 +41,7 @@ export default function ChatsMedia() {
 	};
 	return (
 		<div className='w-full h-[calc(100%-4rem)] flex flex-col border-gray'>
-			<div className={`${container} h-1/6`}>
+			<div className={`${container} h-fit`}>
 				<h4 className='text-2xl font-bold text-left mt-3'>Повідомлення</h4>
 				<div className='w-full h-12 rounded-xl flex bg-[#F8F8FA] text-[#C1C0C4] mt-5 text-base items-center border'>
 					<i className='fa-sharp fa-solid fa-magnifying-glass mr-2 ml-3'></i>
@@ -35,6 +51,9 @@ export default function ChatsMedia() {
 						onChange={handleChange}
 					/>
 				</div>
+				<Button onClick={handleOpen} className='bg-primary text-white w-full mt-3'>
+					Почати листування
+				</Button>
 			</div>
 			<div className='w-full h-5/6 pb-3'>
 				<Scroller>
@@ -69,6 +88,22 @@ export default function ChatsMedia() {
 						))}
 				</Scroller>
 			</div>
+			{isAddUserPopup && (
+				<Modal
+					handleClose={() => dispatch(changeIsAddUserPopup())}
+					className='max-sm:w-11/12 h-fit'
+				>
+					<Users />
+				</Modal>
+			)}
+			{isSelectEncryption && (
+				<Modal
+					handleClose={() => dispatch(changeIsSelectEncryption())}
+					className='max-sm:w-11/12 max-sm:h-4/6'
+				>
+					<TypeEncryptions />
+				</Modal>
+			)}
 		</div>
 	);
 }
