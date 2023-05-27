@@ -2,9 +2,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Messenger.Core.Configurations;
-using Messenger.Core.Entities;
-using Messenger.Core.Interfaces;
+using Messenger.Domain.Configurations;
+using Messenger.Domain.Entities;
+using Messenger.Domain.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Messenger.Application.Services;

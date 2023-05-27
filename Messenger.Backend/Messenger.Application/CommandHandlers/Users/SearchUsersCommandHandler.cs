@@ -1,9 +1,9 @@
 using AutoMapper;
 using MediatR;
 using Messenger.Application.Commands;
-using Messenger.Core.Interfaces;
 using Messenger.Core.Models;
 using Messenger.Database.Context;
+using Messenger.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.Application.CommandHandlers.Users;

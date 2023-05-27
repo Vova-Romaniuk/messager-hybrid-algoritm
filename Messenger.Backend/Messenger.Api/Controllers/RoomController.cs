@@ -1,8 +1,8 @@
 using MediatR;
 using Messenger.Application.Commands;
 using Messenger.Backend.ViewModels;
-using Messenger.Core.Interfaces;
 using Messenger.Core.Models;
+using Messenger.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,12 +52,13 @@ public class RoomController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("{roomViewModel}")]
     public async Task<IActionResult> CreateAsync([FromBody] RoomViewModel roomViewModel)
     {
         try
         {
-            var roomId = await _mediator.Send(new CreateRoomCommand(roomViewModel.Members));
+            var roomId = await _mediator.Send(
+                new CreateRoomCommand(roomViewModel.Members, roomViewModel.TypeEncryption));
 
             return Ok(roomId);
         }

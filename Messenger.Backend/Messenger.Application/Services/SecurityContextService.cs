@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using Messenger.Core.Interfaces;
+using Messenger.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 namespace Messenger.Application.Services;

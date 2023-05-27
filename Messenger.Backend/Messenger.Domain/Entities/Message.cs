@@ -1,4 +1,4 @@
-namespace Messenger.Core.Entities;
+namespace Messenger.Domain.Entities;
 
 public class Message : Entity
 {
@@ -19,7 +19,7 @@ public class Message : Entity
 
     public Guid RoomId { get; set; }
 
-    public bool AllSeen { get; set; } = false;
+    public bool IsSeen { get; set; }
 
     // TODO Add seen messages!
 }

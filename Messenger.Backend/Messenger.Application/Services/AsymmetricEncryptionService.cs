@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
-using Messenger.Core.Interfaces;
+using Messenger.Domain.Interfaces;
 
 namespace Messenger.Application.Services;
 

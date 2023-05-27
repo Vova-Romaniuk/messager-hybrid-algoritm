@@ -64,6 +64,10 @@ export const chatsSlice = createSlice({
 		changeChatMessages: (state, action) => {
 			state.chat.messages = [...state.chat.messages, action.payload];
 		},
+		changeLastMessage: (state, { payload }) => {
+			const index = state.userChats.findIndex((chat) => chat.id === payload.roomId);
+			state.userChats[index].message = payload;
+		},
 		deleteAllMessages: (state, action) => {
 			if (action.payload === state.chat.id) {
 				return {
@@ -109,9 +113,6 @@ export const chatsSlice = createSlice({
 		builder.addCase(fetchUserChats.rejected, (state) => {
 			state.sidebarLoading = false;
 		});
-		// builder.addCase(connectToHub.fulfilled, (state, { payload }) => {
-		// 	state.hubConnection = payload;
-		// });
 	},
 });
 
@@ -128,6 +129,7 @@ export const {
 	changeUserWhichCreateChat,
 	addNotificationMessage,
 	removeNotificationMessage,
+	changeLastMessage,
 } = chatsSlice.actions;
 
 export const selectChatsUserState = (state) => state.chats.activeUserChat;

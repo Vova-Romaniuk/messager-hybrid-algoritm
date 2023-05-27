@@ -10,8 +10,7 @@ import { formatDateTimeToday } from '../../utils/date';
 export default function UserChat({ room }) {
 	const [isHovering, setIsHovering] = useState(false);
 	const dispatch = useDispatch();
-	const styleUserChat =
-		'w-11/12 h-20 border-b-[1px] my-1 flex border-gray last:border-b-0 mx-auto hover:cursor-pointer px-2';
+	const styleUserChat = 'h-24 my-1 flex mx-auto hover:cursor-pointer px-1';
 	const iconPinnedStyle =
 		'absolute top-1 -right-1 text-white z-50 text-base p-1 rounded-full w-8 h-8 bg-primary';
 
@@ -43,7 +42,7 @@ export default function UserChat({ room }) {
 			onMouseOut={handleMouseOut}
 			onClick={clickContainer}
 		>
-			<div className='w-full h-full relative flex'>
+			<div className='w-full h-full p-2 relative flex'>
 				<div className='w-12 mr-1 h-fit my-auto'>
 					<Avatar className='w-12 h-12 shadow-none' src={room?.image} />
 				</div>

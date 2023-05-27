@@ -1,6 +1,6 @@
-using Messenger.Core.Entities;
+using Messenger.Domain.Entities;
 
-namespace Messenger.Core.Interfaces;
+namespace Messenger.Domain.Interfaces;
 
 public interface ITokenService
 {
