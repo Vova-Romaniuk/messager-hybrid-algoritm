@@ -8,11 +8,13 @@ import { selectChat } from '../../features/chats/chats.slice';
 import { HYBRID_ENCRYPTION_ALGORITHMS } from '../../utils/constants';
 
 const ChatInfoSidebar = ({ onClick }) => {
-	const { recipient } = useSelector(selectChat);
-	const typeEncryption = HYBRID_ENCRYPTION_ALGORITHMS[recipient?.typeEncryption]?.name;
+	const { recipient, typeEncryption } = useSelector(selectChat);
+	const description = HYBRID_ENCRYPTION_ALGORITHMS[typeEncryption]?.name;
+
 	const media = useMediaQuery({ maxWidth: ' 450px' });
+
 	return (
-		<div className='w-[500px] sm:w-full border-l-2 h-screen flex flex-col text-lg'>
+		<div className='w-[500px] max-sm:w-full border-l-2 h-screen flex flex-col text-lg'>
 			{media && (
 				<Button onClick={onClick} className='mr-5 ml-auto mt-4'>
 					<i className='fa-solid fa-xmark'></i>
@@ -27,11 +29,14 @@ const ChatInfoSidebar = ({ onClick }) => {
 				title='Повне ім`я:'
 				description={recipient?.fullName || 'Користувач немає повного імені'}
 			/>
-			<SidebarTitle title='Про себе:' description={recipient?.description} />
-			<SidebarTitle title='Тип шифрування:' description={typeEncryption} />
+			{recipient.description && (
+				<SidebarTitle title='Про себе:' description={recipient?.description} />
+			)}
+			<SidebarTitle title='Тип шифрування:' description={description} />
 		</div>
 	);
 };
+
 const SidebarTitle = ({ title, description }) => (
 	<div className='my-4 flex flex-col px-3'>
 		<span className='text-gray-500'>{title}</span>

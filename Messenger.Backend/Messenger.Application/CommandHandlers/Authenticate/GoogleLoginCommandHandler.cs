@@ -74,8 +74,6 @@ public class GoogleLoginCommandHandler : IRequestHandler<GoogleAuthCommand, Auth
             throw new AuthenticateException("Ви вже зареєстровані під цим емейлом, але вам потрібно використати пароль!");
         }
 
-
-        user.Image!.ImageUrl = picture;
         user.FullName = fullName;
         _db.Users.Update(user);
 

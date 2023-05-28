@@ -26,7 +26,7 @@ public class DeleteRoomCommandHandler : IRequestHandler<DeleteRoomCommand>
         }
 
         var room = await _db.Rooms
-            .Include(x => x.UserRooms).ThenInclude(x => x.Room)
+            .Include(x => x.UserRooms)
             .Include(x => x.Messages)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
@@ -36,8 +36,6 @@ public class DeleteRoomCommandHandler : IRequestHandler<DeleteRoomCommand>
         }
 
         _db.Rooms.Remove(room);
-        _db.UserRooms.RemoveRange(room.UserRooms);
-        _db.Messages.RemoveRange(room.Messages);
 
         await _db.SaveChangesAsync(cancellationToken);
     }

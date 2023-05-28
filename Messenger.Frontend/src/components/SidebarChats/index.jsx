@@ -28,7 +28,6 @@ export default function SidebarChats() {
 	const userChats = useSelector(selectUserChats);
 	const hub = useSelector(selectHubConnection);
 	const loading = useSelector(selectChatsLoading);
-	// eslint-disable-next-line no-unused-vars
 	const pinned = useSelector(selectPinned);
 	const isAddUserPopup = useSelector(selectIsAddUserPopup);
 	const isSelectEncryption = useSelector(selectIsSelectEncryption);

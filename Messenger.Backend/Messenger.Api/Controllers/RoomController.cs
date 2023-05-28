@@ -52,7 +52,7 @@ public class RoomController : ControllerBase
         }
     }
 
-    [HttpPost("{roomViewModel}")]
+    [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] RoomViewModel roomViewModel)
     {
         try
@@ -90,7 +90,7 @@ public class RoomController : ControllerBase
         try
         {
             await _mediator.Send(
-                new CleanRoomCommand(id));
+                new DeleteRoomCommand(id));
 
             return NoContent();
         }
@@ -114,6 +114,7 @@ public class RoomController : ControllerBase
             Image = recipient.Image,
             Recipient = recipient,
             Messages = roomDto.Messages,
+            TypeEncryption = roomDto.TypeEncryption,
         };
 
         return chat;

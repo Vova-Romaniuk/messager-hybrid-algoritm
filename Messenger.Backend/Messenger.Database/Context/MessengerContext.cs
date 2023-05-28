@@ -14,7 +14,7 @@ public class MessengerContext : DbContext
             .HasMany(r => r.UserRooms)
             .WithOne()
             .HasForeignKey(ur => ur.RoomId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Room>()
             .HasMany(r => r.Messages)
