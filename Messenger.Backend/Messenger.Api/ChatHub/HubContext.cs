@@ -45,11 +45,6 @@ public class HubContext : Hub
         }
     }
 
-    public async Task UserSeenMessages(Guid roomId, Guid userId)
-    {
-        await Clients.Group(roomId.ToString()).SendAsync("SeenMessages", new { roomId, userId });
-    }
-
     private Task SendUsersConnected(string chatId)
     {
         var users = _connections.Values.Where(x => x == chatId);
