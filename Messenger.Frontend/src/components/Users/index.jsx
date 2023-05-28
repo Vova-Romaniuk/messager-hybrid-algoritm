@@ -3,16 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import SearchField from '../../UI/fields/SearchField';
 import { fetchUsers } from '../../features/user/user.api';
-import { selectUsers } from '../../features/user/user.slice';
+import { selectUsers, selectUserId } from '../../features/user/user.slice';
 import Loader from '../Loader';
 import UserPreview from '../UserPreview';
 
 const Users = () => {
 	const dispatch = useDispatch();
 	const users = useSelector(selectUsers);
+	const currentUserId = useSelector(selectUserId);
 	const [usersState, setUsersState] = useState(users);
 	useEffect(() => {
 		dispatch(fetchUsers());
+		console.log(usersState);
+		console.log(currentUserId);
 	}, []);
 
 	useEffect(() => {

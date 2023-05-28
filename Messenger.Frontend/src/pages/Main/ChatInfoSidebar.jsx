@@ -9,7 +9,7 @@ import { HYBRID_ENCRYPTION_ALGORITHMS } from '../../utils/constants';
 
 const ChatInfoSidebar = ({ onClick }) => {
 	const { recipient } = useSelector(selectChat);
-	const typeEncryption = HYBRID_ENCRYPTION_ALGORITHMS[recipient?.typeEncryption].name;
+	const typeEncryption = HYBRID_ENCRYPTION_ALGORITHMS[recipient?.typeEncryption]?.name;
 	const media = useMediaQuery({ maxWidth: ' 450px' });
 	return (
 		<div className='w-[500px] sm:w-full border-l-2 h-screen flex flex-col text-lg'>
