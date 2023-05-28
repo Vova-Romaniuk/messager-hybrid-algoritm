@@ -2,10 +2,10 @@ using AutoMapper;
 using MediatR;
 using Messenger.Application.Commands;
 using Messenger.Application.Exceptions;
+using Messenger.Application.Factory;
 using Messenger.Core.Models;
 using Messenger.Database.Context;
 using Messenger.Domain.Entities;
-using Messenger.Domain.Interfaces;
 using Messenger.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,38 +14,30 @@ namespace Messenger.Application.CommandHandlers.Messages;
 public class SendMessageCommandHandler : IRequestHandler<SendMessageCommand, MessageDto>
 {
     private readonly MessengerContext _db;
-    private readonly ISecurityContext _securityContext;
     private readonly IMapper _mapper;
-    private readonly ICryptoService _crypto;
-    private readonly IAsymmetricEncryptionService _asymmetricEncryption;
-    private readonly ISymmetricEncryptionService _symmetricEncryption;
+    private readonly CryptoServiceFactory _cryptoServiceFactory;
 
     public SendMessageCommandHandler(
         MessengerContext db,
-        ISecurityContext securityContext,
         IMapper mapper,
-        ICryptoService crypto,
-        ISymmetricEncryptionService symmetricEncryption,
-        IAsymmetricEncryptionService asymmetricEncryption)
+        CryptoServiceFactory crypto)
     {
         _db = db;
-        _securityContext = securityContext;
         _mapper = mapper;
-        _crypto = crypto;
-        _symmetricEncryption = symmetricEncryption;
-        _asymmetricEncryption = asymmetricEncryption;
+        _cryptoServiceFactory = crypto;
     }
 
     public async Task<MessageDto> Handle(SendMessageCommand request, CancellationToken cancellationToken)
     {
-        var isRoomExist = _db.Rooms.Any(room => room.Id == request.RoomId);
+        var room = _db.Rooms.FirstOrDefault(room => room.Id == request.RoomId);
 
-        if (!isRoomExist)
+        if (room == null)
         {
             throw new NotFoundException(nameof(Room), request.RoomId);
         }
 
-        var encryptedMessage = _crypto.Encrypt(request.Text);
+        var crypto = _cryptoServiceFactory.CreateCryptoService(room.TypeEncryption);
+        var encryptedMessage = crypto.Encrypt(request.Text);
 
         var messageId =
             (await _db.Messages.AddAsync(
@@ -70,8 +62,7 @@ public class SendMessageCommandHandler : IRequestHandler<SendMessageCommand, Mes
         {
             Id = newMessage.Id,
             RoomId = newMessage.RoomId,
-            Room = _mapper.Map<RoomDto>(newMessage.Room),
-            Text = _crypto.Decrypt(new EncryptedMessage(
+            Text = crypto.Decrypt(new EncryptedMessage(
                 newMessage.EncryptedText,
                 newMessage.PrivateKey,
                 newMessage.PublicKey)),

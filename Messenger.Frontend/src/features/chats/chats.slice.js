@@ -1,20 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { pinChat, fetchUserChats, fetchChat } from './chats.api';
+import { pinChat, fetchUserChats, fetchChat, cleanChat, deleteChat } from './chats.api';
+
+const initialChatState = {
+	id: null,
+	icon: null,
+	lastMessage: null,
+	userName: null,
+	messages: [],
+};
 
 export const chatsSlice = createSlice({
 	name: 'chats',
 	initialState: {
 		activeUserChat: '',
 		userChats: null,
-		chat: {
-			id: null,
-			icon: null,
-			lastMessage: null,
-			userName: null,
-			isPinned: null,
-			messages: [],
-		},
+		chat: initialChatState,
 		loading: false,
 		isAddUserPopup: false,
 		isSelectEncryption: false,
@@ -113,6 +114,18 @@ export const chatsSlice = createSlice({
 		builder.addCase(fetchUserChats.rejected, (state) => {
 			state.sidebarLoading = false;
 		});
+		builder.addCase(cleanChat.fulfilled, (state, { payload }) => {
+			state.chat.messages = [];
+			console.log(payload);
+			const index = state.userChats?.findIndex((x) => x.id === payload);
+			if (index !== null) {
+				state.userChats[index].message = null;
+			}
+		});
+		builder.addCase(deleteChat.fulfilled, (state, { payload }) => {
+			state.chat = initialChatState;
+			state.userChats = state.userChats.filter((x) => x.id !== payload);
+		});
 	},
 });
 
@@ -120,7 +133,6 @@ export const {
 	changeActiveUser,
 	changeUserChat,
 	changeChatMessages,
-	deleteAllMessages,
 	changeChat,
 	changeIsOpenChat,
 	setConnection,

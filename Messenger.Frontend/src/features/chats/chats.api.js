@@ -15,21 +15,21 @@ export const pinChat = createAsyncThunk(
 	}
 );
 
-export const createUserChat = createAsyncThunk(
-	'chat/createUserChat',
-	async (id, { fulfillWithValue, rejectWithValue }) => {
-		try {
-			const data = await ChatService.create(id);
+// export const createUserChat = createAsyncThunk(
+// 	'chat/createUserChat',
+// 	async ({ userId, typeEncryption }, { fulfillWithValue, rejectWithValue }) => {
+// 		try {
+// 			const data = await ChatService.create(userId, typeEncryption);
 
-			const { id } = data;
-			return fulfillWithValue(id);
-		} catch (error) {
-			showApiEndpointErrorAlert(error);
+// 			const { id } = data;
+// 			return fulfillWithValue(id);
+// 		} catch (error) {
+// 			showApiEndpointErrorAlert(error);
 
-			return rejectWithValue();
-		}
-	}
-);
+// 			return rejectWithValue();
+// 		}
+// 	}
+// );
 
 export const fetchChat = createAsyncThunk(
 	'chat/fetchChat',
@@ -56,6 +56,34 @@ export const fetchUserChats = createAsyncThunk(
 			showApiEndpointErrorAlert(error);
 
 			return rejectWithValue();
+		}
+	}
+);
+
+export const cleanChat = createAsyncThunk(
+	'chats/cleanChat',
+	async (id, { fulfillWithValue, rejectWithValue }) => {
+		try {
+			await ChatService.clean(id);
+
+			return fulfillWithValue(id);
+		} catch (error) {
+			showApiEndpointErrorAlert(error);
+			return rejectWithValue(null);
+		}
+	}
+);
+
+export const deleteChat = createAsyncThunk(
+	'chats/deleteChat',
+	async (id, { fulfillWithValue, rejectWithValue }) => {
+		try {
+			await ChatService.delete(id);
+
+			return fulfillWithValue(id);
+		} catch (error) {
+			showApiEndpointErrorAlert(error);
+			return rejectWithValue(null);
 		}
 	}
 );

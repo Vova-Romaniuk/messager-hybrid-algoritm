@@ -13,16 +13,17 @@ import Scroller from '../Scroller';
 
 export default function TypeEncryptions() {
 	const navigate = useNavigate();
-	const [typeEncryption, setTypeEncryption] = useState('');
+	const [typeEncryption, setTypeEncryption] = useState();
 	const { id } = useSelector(selectUserWhichCreateChat);
 	const dispatch = useDispatch();
+
 	const handleClick = () => {
 		handleStartMessaging();
 		dispatch(changeIsSelectEncryption());
 	};
 
 	const handleStartMessaging = async () => {
-		const chatId = await ChatService.create(id);
+		const chatId = await ChatService.create(id, typeEncryption);
 
 		navigate(`/${chatId}`);
 	};

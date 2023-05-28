@@ -159,7 +159,7 @@ export const HYBRID_ENCRYPTION_ALGORITHMS = [
 	},
 	{
 		id: 1,
-		name: 'Гібридне шифрування з ключовим обміном. (Diffie-Hellman + AES)',
+		name: 'Гібридне шифрування з ключовим обміном. (Camellia + AES)',
 	},
 	{
 		id: 2,

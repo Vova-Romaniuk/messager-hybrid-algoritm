@@ -2,9 +2,11 @@ using AutoMapper;
 using MediatR;
 using Messenger.Application.Commands;
 using Messenger.Application.Exceptions;
+using Messenger.Application.Factory;
 using Messenger.Core.Models;
 using Messenger.Database.Context;
 using Messenger.Domain.Entities;
+using Messenger.Domain.Enums;
 using Messenger.Domain.Interfaces;
 using Messenger.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -17,15 +19,16 @@ public class GetUserChatCommandHandler : IRequestHandler<GetUserChatCommand, Roo
     private readonly ISecurityContext _securityContext;
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
-    private readonly ICryptoService _crypto;
+    private readonly CryptoServiceFactory _cryptoServiceFactory;
 
-    public GetUserChatCommandHandler(MessengerContext db, ISecurityContext securityContext, IMediator mediator, IMapper mapper, ICryptoService crypto)
+    public GetUserChatCommandHandler(MessengerContext db, ISecurityContext securityContext, IMediator mediator,
+        IMapper mapper, CryptoServiceFactory cryptoServiceFactory)
     {
         _db = db;
         _securityContext = securityContext;
         _mediator = mediator;
         _mapper = mapper;
-        _crypto = crypto;
+        _cryptoServiceFactory = cryptoServiceFactory;
     }
 
     public async Task<RoomDto> Handle(GetUserChatCommand request, CancellationToken cancellationToken)
@@ -58,19 +61,20 @@ public class GetUserChatCommandHandler : IRequestHandler<GetUserChatCommand, Roo
 
         var roomDto = _mapper.Map<RoomDto>(res);
 
-        roomDto.Messages = MapMessages(res.Messages);
+        roomDto.Messages = MapMessages(room.TypeEncryption, res.Messages);
 
         return roomDto;
     }
 
-    private List<MessageDto> MapMessages(IEnumerable<Message> messages)
+    private List<MessageDto> MapMessages(TypeEncryption typeEncryption, IEnumerable<Message> messages)
     {
+        var cryptoService = _cryptoServiceFactory.CreateCryptoService(typeEncryption);
         var messagesDtos = messages.Select(message => new MessageDto
             {
                 Id = message.Id,
                 RoomId = message.RoomId,
                 Room = _mapper.Map<RoomDto>(message.Room),
-                Text = _crypto.Decrypt(new EncryptedMessage(message.EncryptedText, message.PrivateKey, message.PublicKey)),
+                Text = cryptoService.Decrypt(new EncryptedMessage(message.EncryptedText, message.PrivateKey, message.PublicKey)),
                 User = _mapper.Map<UserDto>(message.User),
                 When = message.When,
             })

@@ -68,6 +68,38 @@ public class RoomController : ControllerBase
         }
     }
 
+    [HttpDelete("{id}/clean")]
+    public async Task<ActionResult> CleanRoom(Guid id)
+    {
+        try
+        {
+            await _mediator.Send(
+                new CleanRoomCommand(id));
+
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new ErrorResponseModel(e.Message));
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteRoom(Guid id)
+    {
+        try
+        {
+            await _mediator.Send(
+                new CleanRoomCommand(id));
+
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new ErrorResponseModel(e.Message));
+        }
+    }
+
     private ChatViewModel MapChat(RoomDto roomDto)
     {
         var currentUserId = _securityContext.GetCurrentUserId();
@@ -100,10 +132,10 @@ public class RoomController : ControllerBase
             Users = roomDto.Users,
             Image = recipient.Image,
             Recipient = recipient,
+            TypeEncryption = roomDto.TypeEncryption,
             Message = roomDto.Messages.LastOrDefault()
         };
 
         return chat;
     }
-
 }

@@ -22,13 +22,29 @@ export const ChatService = {
 		}
 	},
 
-	create: async (id) => {
+	create: async (id, typeEncryption) => {
 		try {
 			const { data } = await axiosInstanse.post(url, {
 				members: [id],
+				typeEncryption,
 			});
 
 			return data;
+		} catch (error) {
+			throw error;
+		}
+	},
+	delete: async (id) => {
+		try {
+			await axiosInstanse.delete(`${url}/${id}`);
+		} catch (error) {
+			throw error;
+		}
+	},
+
+	clean: async (id) => {
+		try {
+			await axiosInstanse.delete(`${url}/${id}/clean`);
 		} catch (error) {
 			throw error;
 		}

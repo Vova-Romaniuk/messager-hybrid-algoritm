@@ -1,6 +1,6 @@
 ﻿using Messenger.Application.Services;
 
-var hybridService = new DhCryptoService();
+var hybridService = new CamelliaAesService();
 
 var res = hybridService.Encrypt("Привіт привіт привіт");
 
