@@ -27,6 +27,7 @@ export const chatsSlice = createSlice({
 			hubConnection: null,
 			connected: false,
 		},
+		showReadMessage: false,
 		notificationMessages: [],
 		userWhichCreateChat: {},
 	},
@@ -55,6 +56,9 @@ export const chatsSlice = createSlice({
 		changeUserChat: (state, action) => {
 			state.userChats = [...state.userChats, action.payload];
 		},
+		addUserChats: (state, { payload }) => {
+			state.userChats = [state.userChats, payload];
+		},
 		changeUserWhichCreateChat: (state, action) => {
 			state.userWhichCreateChat = { ...state.userWhichCreateChat, ...action.payload };
 		},
@@ -63,9 +67,6 @@ export const chatsSlice = createSlice({
 		},
 		changeIsSelectEncryption: (state) => {
 			state.isSelectEncryption = !state.isSelectEncryption;
-		},
-		changeChat: (state, action) => {
-			state.chat = { ...state.chat, ...action.payload };
 		},
 		changeChat: (state, action) => {
 			state.chat = { ...state.chat, ...action.payload };
@@ -92,6 +93,17 @@ export const chatsSlice = createSlice({
 		changeIsOpenChat: (state) => {
 			state.isOpenChat = !state.isOpenChat;
 		},
+		addUnReadMessageCount: (state, { payload }) => {
+			const index = state.userChats.findIndex((chat) => chat.id === payload);
+			state.userChats[index].notSeenCount++;
+		},
+		removeUnReadMessageCount: (state, { payload }) => {
+			const index = state.userChats.findIndex((chat) => chat.id === payload);
+			state.userChats[index].notSeenCount = 0;
+		},
+		changeShowReadMessage: (state) => {
+			state.showReadMessage = !state.showReadMessage;
+		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchChat.pending, (state) => {
@@ -116,7 +128,7 @@ export const chatsSlice = createSlice({
 		});
 		builder.addCase(cleanChat.fulfilled, (state, { payload }) => {
 			state.chat.messages = [];
-			console.log(payload);
+
 			const index = state.userChats?.findIndex((x) => x.id === payload);
 			if (index !== null) {
 				state.userChats[index].message = null;
@@ -144,6 +156,9 @@ export const {
 	changeLastMessage,
 	addPinned,
 	removePinned,
+	addUserChats,
+	addUnReadMessageCount,
+	removeUnReadMessageCount,
 } = chatsSlice.actions;
 
 export const selectChatsUserState = (state) => state.chats.activeUserChat;
@@ -171,5 +186,7 @@ export const selectIsOpenChat = (state) => state.chats.isOpenChat;
 export const selectHubConnection = (state) => state?.chats?.hub.hubConnection;
 
 export const selectHubConnectionState = (state) => state?.chats?.hub.connected;
+
+export const selectShowReadMessage = (state) => state?.chats?.showReadMessage;
 
 export default chatsSlice.reducer;

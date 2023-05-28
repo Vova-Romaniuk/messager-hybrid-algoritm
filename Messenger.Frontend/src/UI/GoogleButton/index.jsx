@@ -15,7 +15,7 @@ export default function GoogleButton({ children }) {
 		onSuccess: ({ access_token }) =>
 			// eslint-disable-next-line implicit-arrow-linebreak
 			dispatch(googleAuthenticate(access_token)).then(() => {
-				navigate('/');
+				navigate('/profile');
 			}),
 		onError: () => {
 			('Login Failed');

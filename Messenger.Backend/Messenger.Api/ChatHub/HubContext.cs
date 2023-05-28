@@ -37,26 +37,17 @@ public class HubContext : Hub
         }
     }
 
-    public async Task Typing(string chatId, string fullName)
-    {
-        await Clients.Group(chatId).SendAsync("UserTyping", new
-        {
-            userId = _securityContext.GetCurrentUserId(),
-            text = $"{fullName} is typing..."
-        });
-    }
-
-    public async Task StopTyping(string chatId, string fullName)
-    {
-        await Clients.Group(chatId).SendAsync("UserStopTyping");
-    }
-
     public async Task JoinToUsersRooms(List<string> chatsIds)
     {
         foreach (var item in chatsIds)
         {
             await JoinRoom(item);
         }
+    }
+
+    public async Task UserSeenMessages(Guid roomId, Guid userId)
+    {
+        await Clients.Group(roomId.ToString()).SendAsync("SeenMessages", new { roomId, userId });
     }
 
     private Task SendUsersConnected(string chatId)

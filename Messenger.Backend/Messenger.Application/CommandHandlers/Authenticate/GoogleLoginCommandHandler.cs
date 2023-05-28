@@ -30,7 +30,7 @@ public class GoogleLoginCommandHandler : IRequestHandler<GoogleAuthCommand, Auth
         }
         else
         {
-            // login user logic
+            // Login user logic
             user = await LoginGoogleUserAsync(request.Email, request.Picture, request.FullName);
         }
 

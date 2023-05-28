@@ -1,5 +1,6 @@
 using Messenger.Core.Models;
 using Messenger.Domain.Enums;
+using Messenger.Domain.Models;
 
 namespace Messenger.Backend.ViewModels;
 
@@ -18,4 +19,6 @@ public class ChatPreviewViewModel
     public TypeEncryption TypeEncryption { get; set; }
 
     public MessageDto Message { get; set; }
+
+    public int NotSeenCount { get; set; }
 }

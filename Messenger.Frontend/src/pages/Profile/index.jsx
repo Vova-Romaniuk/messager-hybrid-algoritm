@@ -85,7 +85,7 @@ const Profile = () => {
 				</div>
 				{isSmWidth && (
 					<div
-						className='w-12 h-12 grid place-items-center text-xl my-2 pointer cursor-pointer bg-red-700 text-white rounded-xl mx-auto m-auto'
+						className='w-10 h-10 grid place-items-center text-xl my-4 pointer cursor-pointer bg-red-700 text-white rounded-xl mx-auto m-auto'
 						onClick={handleLogout}
 					>
 						<i className='fa-solid fa-right-from-bracket'></i>

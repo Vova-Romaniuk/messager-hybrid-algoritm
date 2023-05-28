@@ -22,7 +22,7 @@ export default function Authenticate() {
 
 	const handleSubmit = (values) => {
 		dispatch(authenticate(values)).then(() => {
-			navigate('/');
+			navigate('/profile');
 		});
 	};
 

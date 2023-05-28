@@ -55,7 +55,7 @@ export const selectUserLoading = (state) => state.user.loading;
 
 export const selectUserData = (state) => state.user.data;
 
-export const selectUserId = (state) => state.user.data?.id;
+export const selectUserId = (state) => state.user?.data?.id;
 
 export const selectUsers = (state) => state.user.users;
 

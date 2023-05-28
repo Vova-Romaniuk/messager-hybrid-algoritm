@@ -7,6 +7,7 @@ import {
 	changeLastMessage,
 	addNotificationMessage,
 	removeNotificationMessage,
+	addUnReadMessageCount,
 } from '../features/chats/chats.slice';
 import { Token } from './domain/token';
 
@@ -38,8 +39,15 @@ const socketMethods = (connection) => {
 			setTimeout(() => {
 				store.dispatch(removeNotificationMessage(message.id));
 			}, 5000);
+
+			store.dispatch(addUnReadMessageCount(message.roomId));
 		}
+
 		store.dispatch(changeLastMessage(message));
+	});
+
+	connection.on('SeenMessages', (roomId, userId) => {
+		console.log(userId, roomId);
 	});
 };
 

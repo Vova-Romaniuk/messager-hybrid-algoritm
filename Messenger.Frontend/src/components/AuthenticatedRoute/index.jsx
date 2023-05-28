@@ -10,7 +10,7 @@ import { Token } from '../../services/domain/token';
 import BarMedia from '../BarMedia';
 // import ChatRoomMedia from '../ChatRoomMedia';
 import ChatsMedia from '../ChatsMedia';
-//import NotificationContainer from '../NotificationContainer';
+import NotificationContainer from '../NotificationContainer';
 import Sidebar from '../Sidebar';
 import SidebarChats from '../SidebarChats';
 
@@ -19,7 +19,6 @@ const AuthenticatedRoute = ({ element }) => {
 		return <Navigate to='/authenticate' />;
 	}
 	const activeIcon = useSelector(selectSidebarState);
-	// eslint-disable-next-line no-unused-vars
 	const isChatOpen = useSelector(selectIsOpenChat);
 	const media = useMediaQuery({ maxWidth: ' 450px' });
 	const dispatch = useDispatch();
@@ -32,8 +31,8 @@ const AuthenticatedRoute = ({ element }) => {
 		<div className='w-full h-screen flex relative'>
 			<Sidebar />
 			<SidebarChats />
+			<NotificationContainer />
 			<div className='w-[calc(100%-24rem)] h-full overflow-y-auto'>{element}</div>
-			{/* <NotificationContainer /> */}
 		</div>
 	) : (
 		<div className='w-full h-screen flex flex-col relative'>
@@ -49,7 +48,7 @@ const AuthenticatedRoute = ({ element }) => {
 			) : (
 				<BarMedia />
 			)}
-			{/* <NotificationContainer /> */}
+			<NotificationContainer />
 		</div>
 	);
 };
