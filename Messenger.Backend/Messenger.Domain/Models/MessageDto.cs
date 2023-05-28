@@ -1,4 +1,6 @@
-namespace Messenger.Core.Models;
+using Messenger.Core.Models;
+
+namespace Messenger.Domain.Models;
 
 public class MessageDto
 {
@@ -11,6 +13,8 @@ public class MessageDto
     public UserDto User { get; set; }
 
     public RoomDto Room { get; set; }
+
+    public bool IsSeen { get; set; }
 
     public Guid RoomId { get; set; }
 }

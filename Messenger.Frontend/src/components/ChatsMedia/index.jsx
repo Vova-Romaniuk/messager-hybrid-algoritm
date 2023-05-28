@@ -11,7 +11,11 @@ import {
 	changeIsSelectEncryption,
 	selectIsSelectEncryption,
 	selectPinned,
+	selectHubConnection,
+	selectChatsLoading,
 } from '../../features/chats/chats.slice';
+import { signalRConnection } from '../../services/HubService';
+import Loader from '../Loader';
 import Scroller from '../Scroller';
 import TypeEncryptions from '../TypeEncryptions';
 import UserChat from '../UserChat';
@@ -23,9 +27,25 @@ export default function ChatsMedia() {
 	const [hiddenPinnedMessage, setHiddenPinnedMessage] = useState(true);
 	const userChats = useSelector(selectUserChats);
 	const pinned = useSelector(selectPinned);
+	const hub = useSelector(selectHubConnection);
 	const isSelectEncryption = useSelector(selectIsSelectEncryption);
+	const loading = useSelector(selectChatsLoading);
 	const [chatsState, setChatsState] = useState(userChats);
 	const isAddUserPopup = useSelector(selectIsAddUserPopup);
+
+	useEffect(() => {
+		setChatsState(userChats);
+		(async () => {
+			if (userChats && userChats.length > 0) {
+				if (hub === null) {
+					const ids = userChats.map((item) => item.id);
+					const connection = await signalRConnection();
+					connection?.invoke('JoinToUsersRooms', ids);
+				}
+			}
+		})();
+	}, [userChats]);
+
 	useEffect(() => {
 		setChatsState(userChats);
 	}, [userChats]);
@@ -39,7 +59,12 @@ export default function ChatsMedia() {
 			setChatsState([...userChats]);
 			return;
 		}
-		setChatsState(chatsState?.filter((element) => element?.userName?.includes(value)));
+
+		setChatsState(
+			userChats.filter((room) => {
+				return room?.title.toLowerCase().includes(value.toLowerCase());
+			})
+		);
 	};
 	return (
 		<div className='w-full h-[calc(100%-4rem)] flex flex-col border-gray'>
@@ -59,21 +84,23 @@ export default function ChatsMedia() {
 			</div>
 			<div className='w-full h-5/6 pb-3'>
 				<Scroller>
-					<div
-						className={`${container} cursor-pointer border-b pb-2 flex`}
-						onClick={() => setHiddenPinnedMessage(!hiddenPinnedMessage)}
-					>
-						<p className='text-base text-[#8D8B91] mt-3'>
-							<i className='fa-solid fa-bookmark'></i> Закріплені
-						</p>
-						<span className='text-base text-[#8D8B91] mt-3 mr-2 ml-auto'>
-							{hiddenPinnedMessage ? (
-								<i className='fa-sharp fa-light fa-angle-up'></i>
-							) : (
-								<i className='fa-sharp fa-light fa-angle-down'></i>
-							)}
-						</span>
-					</div>
+					<Loader isLoading={loading}>
+						<div
+							className={`${container} cursor-pointer border-b pb-2 flex`}
+							onClick={() => setHiddenPinnedMessage(!hiddenPinnedMessage)}
+						>
+							<p className='text-base text-[#8D8B91] mt-3'>
+								<i className='fa-solid fa-bookmark'></i> Закріплені
+							</p>
+							<span className='text-base text-[#8D8B91] mt-3 mr-2 ml-auto'>
+								{hiddenPinnedMessage ? (
+									<i className='fa-sharp fa-light fa-angle-up'></i>
+								) : (
+									<i className='fa-sharp fa-light fa-angle-down'></i>
+								)}
+							</span>
+						</div>
+					</Loader>
 					{hiddenPinnedMessage &&
 						chatsState
 							?.filter((element) => pinned?.includes(element.id))

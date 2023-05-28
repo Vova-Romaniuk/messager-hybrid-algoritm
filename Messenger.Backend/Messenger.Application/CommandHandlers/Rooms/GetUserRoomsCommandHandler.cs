@@ -79,9 +79,9 @@ public class GetUserRoomsCommandHandler : IRequestHandler<GetUserChatsCommand, I
                 });
             }
 
+            roomDto.NotSeenCount = room.Messages.Count(x => x.IsSeen == false && x.UserId != _securityContext.GetCurrentUserId());
             listRoomDto.Add(roomDto);
         }
-
         return listRoomDto;
     }
 }

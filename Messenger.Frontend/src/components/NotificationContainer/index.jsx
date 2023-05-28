@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectNotificationMessages } from '../../features/chats/chats.slice';
 import NotificationMessage from '../NotificationMessage';
 
-export default function NotificationContainer() {
+const NotificationContainer = () => {
 	const scrollDown = useRef(null);
 	const notificationMessages = useSelector(selectNotificationMessages);
 
@@ -14,16 +14,20 @@ export default function NotificationContainer() {
 
 	return (
 		notificationMessages.length > 0 && (
-			<div className='absolute w-60 h-fit z-50 max-sm:h-32 max-sm:right-0 max-sm:left-1/2 max-sm:transform max-sm:-translate-x-1/2 right-10 flex flex-col overflow-y-auto scroll-none p-2 pt-8'>
+			<div className='absolute w-80 h-fit z-50 max-sm:h-32 max-sm:right-0 max-sm:left-1/2 max-sm:transform max-sm:-translate-x-1/2 right-10 flex flex-col overflow-y-auto scroll-none p-2 pt-8 pb-3'>
 				{notificationMessages?.map((element) => (
 					<NotificationMessage
-						content={element.content}
-						userName={element.userName}
+						roomId={element.roomId}
+						text={element.text}
+						userName={element.user.userName}
 						key={element.id}
+						image={element.user.image}
 					/>
 				))}
 				<div ref={scrollDown}></div>
 			</div>
 		)
 	);
-}
+};
+
+export default NotificationContainer;

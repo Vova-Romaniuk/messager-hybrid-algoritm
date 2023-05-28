@@ -32,7 +32,7 @@ const ChatHeader = ({ infoOpen }) => {
 				{media && (
 					<Button
 						onClick={handleCloseChat}
-						className='bg-transparent border-0 text-lg text-black mr-4'
+						className='bg-transparent border-0 text-lg text-black'
 					>
 						<i className='fa-solid fa-angle-left mr-1 font-bold text-2xl'></i>
 					</Button>

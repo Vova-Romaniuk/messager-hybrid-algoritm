@@ -3,13 +3,14 @@ import { useSelector } from 'react-redux';
 
 import Message from '../../components/Message';
 import Sender from '../../components/Sender';
-import { selectChat } from '../../features/chats/chats.slice';
+import { selectChat, selectShowReadMessage } from '../../features/chats/chats.slice';
 import { selectUserId } from '../../features/user/user.slice';
 
 const ChatContainer = ({ send }) => {
 	const chat = useSelector(selectChat);
 	const userId = useSelector(selectUserId);
 	const scrollDown = useRef(null);
+	const isShowRead = useSelector(selectShowReadMessage);
 
 	useEffect(() => {
 		handleScroll();
@@ -36,6 +37,9 @@ const ChatContainer = ({ send }) => {
 					<div className='h-full grid place-items-center'>
 						<h1>У вас поки немає повідомлень!</h1>
 					</div>
+				)}
+				{isShowRead && chat?.notSeenCount && (
+					<h5 className='text-black/50 text-xs text-right'>Переглянуто</h5>
 				)}
 				<div ref={scrollDown}></div>
 			</div>

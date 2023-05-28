@@ -1,4 +1,5 @@
 using Messenger.Domain.Enums;
+using Messenger.Domain.Models;
 
 namespace Messenger.Core.Models;
 
@@ -11,4 +12,6 @@ public class RoomDto
     public TypeEncryption TypeEncryption { get; set; }
 
     public List<MessageDto>? Messages { get; set; } = new ();
+
+    public int NotSeenCount { get; set; } = 0;
 }

@@ -88,10 +88,16 @@ export const fetchCurrentUser = createAsyncThunk(
 	'user/fetchCurrentUser',
 	async (_, { fulfillWithValue, rejectWithValue, dispatch }) => {
 		try {
-			const user = await UserService.get();
+			let user = {};
+			try {
+				user = await UserService.get();
+			} catch (error) {
+				setTimeout(async () => {
+					user = await UserService.get();
+				}, 0);
+			}
 
 			dispatch(fetchUserChats());
-
 			return fulfillWithValue(user);
 		} catch (error) {
 			showApiEndpointErrorAlert(error);

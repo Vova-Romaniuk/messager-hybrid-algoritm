@@ -10,12 +10,14 @@ import {
 	removePinned,
 	selectPinned,
 } from '../../features/chats/chats.slice';
+import { selectUserId } from '../../features/user/user.slice';
 import { PinnedService } from '../../services/PinnedService';
 import { formatDateTimeToday } from '../../utils/date';
 
 export default function UserChat({ room }) {
 	const [isHovering, setIsHovering] = useState(false);
 	const dispatch = useDispatch();
+	const userId = useSelector(selectUserId);
 	const pinned = useSelector(selectPinned);
 	const styleUserChat = 'h-24 my-1 flex mx-auto hover:cursor-pointer px-1';
 	const iconPinnedStyle =
@@ -68,12 +70,17 @@ export default function UserChat({ room }) {
 						</span>
 					</div>
 					<div className='mt-2 flex justify-between'>
-						<span className=' text-ellipsis overflow-hidden'>
-							{room?.message?.text}
+						<span className='text-black/80 text-ellipsis overflow-hidden text-sm'>
+							{userId === room?.message?.user?.id
+								? 'Ви'
+								: room?.message.user.userName}
+							: {room?.message?.text}
 						</span>
-						<div className='ml-5 w-5 h-5 bg-[#ED4A4D] flex text-white rounded-full'>
-							<span className='m-auto text-sm'>1</span>
-						</div>
+						{room.notSeenCount !== 0 && (
+							<div className='ml-5 w-5 h-5 bg-[#ED4A4D] flex text-white rounded-full'>
+								<span className='m-auto text-sm'>{room.notSeenCount}</span>
+							</div>
+						)}
 					</div>
 				</div>
 				{isHovering && pinned?.includes(room.id) && (

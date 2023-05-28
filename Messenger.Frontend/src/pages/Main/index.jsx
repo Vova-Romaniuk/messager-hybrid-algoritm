@@ -10,7 +10,11 @@ import {
 	selectChatLoading,
 	selectChat,
 	selectHubConnection,
+	selectUserChats,
+	addUserChats,
+	removeUnReadMessageCount,
 } from '../../features/chats/chats.slice';
+import { selectUserId } from '../../features/user/user.slice';
 import ChatContainer from './ChatContainer';
 import ChatHeader from './ChatHeader';
 import ChatInfoSidebar from './ChatInfoSidebar';
@@ -20,14 +24,17 @@ const Main = () => {
 	const loading = useSelector(selectChatLoading);
 	const hubConnection = useSelector(selectHubConnection);
 	const media = useMediaQuery({ maxWidth: ' 450px' });
-	const chatData = useSelector(selectChat);
+	const userId = useSelector(selectUserId);
 
 	const { id } = useParams();
 	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
 		if (id) {
-			dispatch(fetchChat(id));
+			dispatch(fetchChat(id)).then(() => {
+				dispatch(removeUnReadMessageCount(id));
+				hubConnection?.invoke('UserSeenMessages', userId);
+			});
 		}
 	}, [id]);
 
@@ -39,10 +46,6 @@ const Main = () => {
 
 		hubConnection?.invoke('SendMessage', id, message);
 	};
-
-	useEffect(() => {
-		// setInfoChat(chatData);
-	}, [chatData]);
 
 	const toggleSidebar = () => {
 		setOpen(!open);

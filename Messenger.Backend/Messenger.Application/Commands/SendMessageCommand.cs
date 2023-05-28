@@ -1,5 +1,6 @@
 using MediatR;
 using Messenger.Core.Models;
+using Messenger.Domain.Models;
 
 namespace Messenger.Application.Commands;
 

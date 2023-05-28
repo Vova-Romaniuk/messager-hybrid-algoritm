@@ -53,7 +53,8 @@ public class RoomController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromBody] RoomViewModel roomViewModel)
+    public async Task<IActionResult> CreateAsync(
+        [FromBody] RoomViewModel roomViewModel)
     {
         try
         {
@@ -114,6 +115,7 @@ public class RoomController : ControllerBase
             Image = recipient.Image,
             Recipient = recipient,
             Messages = roomDto.Messages,
+            NotSeenCount = roomDto.NotSeenCount,
             TypeEncryption = roomDto.TypeEncryption,
         };
 
@@ -134,7 +136,8 @@ public class RoomController : ControllerBase
             Image = recipient.Image,
             Recipient = recipient,
             TypeEncryption = roomDto.TypeEncryption,
-            Message = roomDto.Messages.LastOrDefault()
+            Message = roomDto.Messages.LastOrDefault(),
+            NotSeenCount = roomDto.NotSeenCount,
         };
 
         return chat;

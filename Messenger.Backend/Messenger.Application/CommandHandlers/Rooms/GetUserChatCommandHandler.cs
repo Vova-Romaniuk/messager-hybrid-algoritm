@@ -59,6 +59,7 @@ public class GetUserChatCommandHandler : IRequestHandler<GetUserChatCommand, Roo
             throw new NotFoundException(nameof(Room), room.Id);
         }
 
+        await _mediator.Send(new SeenMessageCommand(room.Id), cancellationToken);
         var roomDto = _mapper.Map<RoomDto>(res);
 
         roomDto.Messages = MapMessages(room.TypeEncryption, res.Messages);
@@ -77,6 +78,7 @@ public class GetUserChatCommandHandler : IRequestHandler<GetUserChatCommand, Roo
                 Text = cryptoService.Decrypt(new EncryptedMessage(message.EncryptedText, message.PrivateKey, message.PublicKey)),
                 User = _mapper.Map<UserDto>(message.User),
                 When = message.When,
+                IsSeen = message.IsSeen,
             })
             .ToList();
 

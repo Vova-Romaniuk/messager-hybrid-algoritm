@@ -6,6 +6,8 @@ import Button from '../../UI/Button';
 import {
 	selectUserWhichCreateChat,
 	changeIsSelectEncryption,
+	selectHubConnection,
+	selectUserChats,
 } from '../../features/chats/chats.slice';
 import { ChatService } from '../../services/ChatService';
 import { HYBRID_ENCRYPTION_ALGORITHMS } from '../../utils/constants';
@@ -15,15 +17,22 @@ export default function TypeEncryptions() {
 	const navigate = useNavigate();
 	const [typeEncryption, setTypeEncryption] = useState();
 	const { id } = useSelector(selectUserWhichCreateChat);
+	const connection = useSelector(selectHubConnection);
+	const chats = useSelector(selectUserChats);
 	const dispatch = useDispatch();
 
 	const handleClick = () => {
 		handleStartMessaging();
+
 		dispatch(changeIsSelectEncryption());
 	};
 
 	const handleStartMessaging = async () => {
 		const chatId = await ChatService.create(id, typeEncryption);
+
+		if (!chats.map((x) => x.id).includes(chatId)) {
+			connection?.invoke('JoinToUsersRooms', [chatId]);
+		}
 
 		navigate(`/${chatId}`);
 	};

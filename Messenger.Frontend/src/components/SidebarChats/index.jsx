@@ -28,6 +28,7 @@ export default function SidebarChats() {
 	const userChats = useSelector(selectUserChats);
 	const hub = useSelector(selectHubConnection);
 	const loading = useSelector(selectChatsLoading);
+
 	const pinned = useSelector(selectPinned);
 	const isAddUserPopup = useSelector(selectIsAddUserPopup);
 	const isSelectEncryption = useSelector(selectIsSelectEncryption);
@@ -51,7 +52,12 @@ export default function SidebarChats() {
 			setChatsState([...userChats]);
 			return;
 		}
-		setChatsState(chatsState.filter((element) => element.userName.includes(value)));
+
+		setChatsState(
+			userChats.filter((room) => {
+				return room?.title.toLowerCase().includes(value.toLowerCase());
+			})
+		);
 	};
 
 	const handleOpen = () => {

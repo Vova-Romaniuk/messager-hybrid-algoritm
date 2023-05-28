@@ -1,5 +1,6 @@
 using Messenger.Core.Models;
 using Messenger.Domain.Enums;
+using Messenger.Domain.Models;
 
 namespace Messenger.Backend.ViewModels;
 
@@ -14,6 +15,8 @@ public class ChatViewModel
     public UserDto Recipient { get; set; }
 
     public string Image { get; set; }
+
+    public int NotSeenCount { get; set; }
 
     public TypeEncryption TypeEncryption { get; set; }
 
