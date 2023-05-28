@@ -12,6 +12,7 @@ import {
 	selectIsSelectEncryption,
 	changeIsSelectEncryption,
 	selectHubConnection,
+	selectPinned,
 } from '../../features/chats/chats.slice';
 import { signalRConnection } from '../../services/HubService';
 import Loader from '../Loader';
@@ -27,6 +28,8 @@ export default function SidebarChats() {
 	const userChats = useSelector(selectUserChats);
 	const hub = useSelector(selectHubConnection);
 	const loading = useSelector(selectChatsLoading);
+	// eslint-disable-next-line no-unused-vars
+	const pinned = useSelector(selectPinned);
 	const isAddUserPopup = useSelector(selectIsAddUserPopup);
 	const isSelectEncryption = useSelector(selectIsSelectEncryption);
 	const [chatsState, setChatsState] = useState(userChats);
@@ -91,10 +94,9 @@ export default function SidebarChats() {
 							</span>
 						</div>
 						{hiddenPinnedMessage &&
-							chatsState &&
 							chatsState
-								.filter((item) => item.isPinned)
-								.map((element) => (
+								?.filter((element) => pinned?.includes(element.id))
+								?.map((element) => (
 									<div className='w-11/12 mx-auto' key={element.id}>
 										<UserChat room={element} />
 										<hr />
@@ -108,8 +110,8 @@ export default function SidebarChats() {
 						</div>
 						{chatsState &&
 							chatsState
-								.filter((item) => !item.isPinned)
-								.map((element) => (
+								?.filter((element) => !pinned?.includes(element.id))
+								?.map((element) => (
 									<div className='w-11/12 mx-auto' key={element.id}>
 										<UserChat room={element} />
 										<hr />
