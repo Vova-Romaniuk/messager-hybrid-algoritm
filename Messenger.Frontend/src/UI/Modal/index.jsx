@@ -8,7 +8,7 @@ const Modal = ({ children, handleClose, className = '' }) => {
 		>
 			<div
 				onClick={(e) => e.stopPropagation()}
-				className={`bg-white z-50 w-fit h-fit -translate-x-2/4 -translate-y-2/4 left-1/2 top-1/2 absolute rounded-xl  ${className}`}
+				className={`bg-white z-50 w-fit h-fit -translate-x-2/4 -translate-y-2/4 left-1/2 top-1/2 absolute rounded-xl ${className} `}
 			>
 				{children}
 			</div>
