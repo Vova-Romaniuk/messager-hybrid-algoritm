@@ -28,8 +28,12 @@ const Users = () => {
 	};
 
 	return (
-		<div className='w-full h-full p-4 relative'>
-			<SearchField placeholder='Пошук користувачів...' onChange={handleChange} />
+		<div className='w-full h-full p-4 max-sm:p-0 relative flex flex-col'>
+			<SearchField
+				className='max-sm:w-10/12 mx-auto mt-5'
+				placeholder='Пошук користувачів...'
+				onChange={handleChange}
+			/>
 			<div className='h-[400px] overflow-y-auto px-5'>
 				<Loader isLoading={usersState === null} className=''>
 					{usersState?.length > 0 ? (

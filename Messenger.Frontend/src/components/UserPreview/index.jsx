@@ -25,15 +25,15 @@ const UserPreview = ({ user }) => {
 		dispatch(changeUserWhichCreateChat(user));
 	};
 	return (
-		<div className='border-t last:border-b flex p-4 justify-between'>
-			<div className='flex items-center'>
+		<div className='border-t last:border-b flex p-4 justify-between max-sm:flex-col max-sm:w-full'>
+			<div className='flex items-center max-sm:w-full'>
 				<Avatar src={image} className='mr-4' />
-				<div>
-					<h1 className='font-bold text-xl'>{userName}</h1>
-					<h2>{email}</h2>
+				<div className='max-sm:w-9/12'>
+					<h1 className='font-bold text-xl truncate'>{userName}</h1>
+					<h2 className='truncate'>{email}</h2>
 				</div>
 			</div>
-			<SpinnerButton onClick={handleClick}>
+			<SpinnerButton className='max-sm:mt-2' onClick={handleClick}>
 				Написати <i className='ml-2 fas fa-envelope'></i>
 			</SpinnerButton>
 		</div>
