@@ -10,6 +10,7 @@ import {
 	selectIsAddUserPopup,
 	changeIsSelectEncryption,
 	selectIsSelectEncryption,
+	selectPinned,
 } from '../../features/chats/chats.slice';
 import Scroller from '../Scroller';
 import TypeEncryptions from '../TypeEncryptions';
@@ -21,6 +22,7 @@ export default function ChatsMedia() {
 	const dispatch = useDispatch();
 	const [hiddenPinnedMessage, setHiddenPinnedMessage] = useState(true);
 	const userChats = useSelector(selectUserChats);
+	const pinned = useSelector(selectPinned);
 	const isSelectEncryption = useSelector(selectIsSelectEncryption);
 	const [chatsState, setChatsState] = useState(userChats);
 	const isAddUserPopup = useSelector(selectIsAddUserPopup);
@@ -74,18 +76,27 @@ export default function ChatsMedia() {
 					</div>
 					{hiddenPinnedMessage &&
 						chatsState
-							?.filter((item) => item.isPinned)
-							.map((element, index) => <UserChat room={element} key={index} />)}
+							?.filter((element) => pinned?.includes(element.id))
+							?.map((element) => (
+								<div className='w-11/12 mx-auto' key={element.id}>
+									<UserChat room={element} />
+									<hr />
+								</div>
+							))}
 					<div className={`${container}`}>
 						<p className='text-base text-[#8D8B91] mt-3'>
 							<i className='fa-solid fa-messages'></i> Всі чати
 						</p>
 					</div>
-					{chatsState
-						?.filter((item) => !item.isPinned)
-						.map((element, index) => (
-							<UserChat room={element} key={index} />
-						))}
+					{chatsState &&
+						chatsState
+							?.filter((element) => !pinned?.includes(element.id))
+							?.map((element) => (
+								<div className='w-11/12 mx-auto' key={element.id}>
+									<UserChat room={element} />
+									<hr />
+								</div>
+							))}
 				</Scroller>
 			</div>
 			{isAddUserPopup && (

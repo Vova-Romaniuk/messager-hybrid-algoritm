@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { pinChat, fetchUserChats, fetchChat } from './chats.api';
+import { PinnedService } from '../../services/PinnedService';
+import { fetchUserChats, fetchChat } from './chats.api';
 
 export const chatsSlice = createSlice({
 	name: 'chats',
@@ -12,9 +13,9 @@ export const chatsSlice = createSlice({
 			icon: null,
 			lastMessage: null,
 			userName: null,
-			isPinned: null,
 			messages: [],
 		},
+		pinned: PinnedService.get() || [],
 		loading: false,
 		isAddUserPopup: false,
 		isSelectEncryption: false,
@@ -42,6 +43,12 @@ export const chatsSlice = createSlice({
 		},
 		changeActiveUser: (state, action) => {
 			state.activeUserChat = action.payload;
+		},
+		addPinned: (state, { payload }) => {
+			state.pinned = [...state.pinned, payload];
+		},
+		removePinned: (state, { payload }) => {
+			state.pinned = state.pinned.filter((item) => item !== payload);
 		},
 		changeUserChat: (state, action) => {
 			state.userChats = [...state.userChats, action.payload];
@@ -85,14 +92,6 @@ export const chatsSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(pinChat.fulfilled, (state, { payload }) => {
-			const chats = [...state.userChats];
-			const index = chats.findIndex((x) => x.id === payload);
-			if (index > -1) {
-				chats.splice(index, 1, { ...chats[index], isPinned: !chats[index].isPinned });
-			}
-			state.userChats = chats;
-		});
 		builder.addCase(fetchChat.pending, (state) => {
 			state.loading = true;
 		});
@@ -130,6 +129,8 @@ export const {
 	addNotificationMessage,
 	removeNotificationMessage,
 	changeLastMessage,
+	addPinned,
+	removePinned,
 } = chatsSlice.actions;
 
 export const selectChatsUserState = (state) => state.chats.activeUserChat;
@@ -147,6 +148,8 @@ export const selectUserWhichCreateChat = (state) => state.chats.userWhichCreateC
 export const selectIsSelectEncryption = (state) => state.chats.isSelectEncryption;
 
 export const selectChatLoading = (state) => state.chats.loading;
+
+export const selectPinned = (state) => state.chats.pinned;
 
 export const selectChatsLoading = (state) => state.chats.sidebarLoading;
 

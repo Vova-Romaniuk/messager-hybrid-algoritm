@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import Avatar from '../../UI/Avatar';
 import { changeMenuState, selectSidebarState } from '../../features/sidebar/sidebar.slice';
 import { logOut } from '../../features/user/user.api';
+import { PinnedService } from '../../services/PinnedService';
 import { SIDEBAR_ICONS } from '../../utils/constants';
 
 export default function Sidebar() {
@@ -31,6 +32,7 @@ export default function Sidebar() {
 		dispatch(logOut()).then(() => {
 			navigate('/authenticate');
 		});
+		PinnedService.delete();
 	};
 
 	return (

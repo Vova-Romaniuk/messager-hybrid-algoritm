@@ -10,7 +10,7 @@ import { Token } from '../../services/domain/token';
 import BarMedia from '../BarMedia';
 // import ChatRoomMedia from '../ChatRoomMedia';
 import ChatsMedia from '../ChatsMedia';
-// import NotificationContainer from '../NotificationContainer';
+//import NotificationContainer from '../NotificationContainer';
 import Sidebar from '../Sidebar';
 import SidebarChats from '../SidebarChats';
 

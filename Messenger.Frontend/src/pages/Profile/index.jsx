@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import Avatar from '../../UI/Avatar';
 import Button from '../../UI/Button';
 import Loader from '../../components/Loader';
-import { updateUserInfo } from '../../features/user/user.api';
+import { updateUserInfo, logOut } from '../../features/user/user.api';
 import { selectUserData, selectUserLoading } from '../../features/user/user.slice';
+import { PinnedService } from '../../services/PinnedService';
 import AvatarUploadModal from './AvatarUploadModal';
 import ProfileSvg from './ProfileSvg';
 import UserProfileForm from './UserProfileForm';
@@ -13,11 +15,16 @@ import UserProfileForm from './UserProfileForm';
 const Profile = () => {
 	const dispatch = useDispatch();
 	const [openModal, setOpenModal] = useState(false);
-
+	const navigate = useNavigate();
 	const toggleModal = (value = false) => {
 		setOpenModal(value);
 	};
-
+	const handleLogout = () => {
+		dispatch(logOut()).then(() => {
+			navigate('/authenticate');
+		});
+		PinnedService.delete();
+	};
 	const user = useSelector(selectUserData);
 	const loading = useSelector(selectUserLoading);
 
@@ -71,6 +78,12 @@ const Profile = () => {
 				{/* User info form */}
 				<div className='w-2/3 max-sm:w-full max-sm:mx-auto'>
 					<UserProfileForm user={user} handleSubmit={handleSubmit} />
+				</div>
+				<div
+					className='w-12 h-12 grid place-items-center text-xl my-2 pointer cursor-pointer bg-red-700 text-white rounded-xl mx-auto m-auto'
+					onClick={handleLogout}
+				>
+					<i className='fa-solid fa-right-from-bracket'></i>
 				</div>
 			</div>
 			{/* Upload avatar modal */}
