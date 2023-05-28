@@ -45,10 +45,6 @@ const socketMethods = (connection) => {
 
 		store.dispatch(changeLastMessage(message));
 	});
-
-	connection.on('SeenMessages', (roomId, userId) => {
-		console.log(userId, roomId);
-	});
 };
 
 export const connectGatekeeper = (connection) => {

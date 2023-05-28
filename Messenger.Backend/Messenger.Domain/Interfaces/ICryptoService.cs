@@ -1,4 +1,3 @@
-using Messenger.Core.Models;
 using Messenger.Domain.Models;
 
 namespace Messenger.Domain.Interfaces;

@@ -33,7 +33,6 @@ const Main = () => {
 		if (id) {
 			dispatch(fetchChat(id)).then(() => {
 				dispatch(removeUnReadMessageCount(id));
-				hubConnection?.invoke('UserSeenMessages', userId);
 			});
 		}
 	}, [id]);
