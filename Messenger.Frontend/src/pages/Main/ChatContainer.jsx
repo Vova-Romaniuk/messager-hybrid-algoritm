@@ -38,9 +38,6 @@ const ChatContainer = ({ send }) => {
 						<h1>У вас поки немає повідомлень!</h1>
 					</div>
 				)}
-				{isShowRead && chat?.notSeenCount && (
-					<h5 className='text-black/50 text-xs text-right'>Переглянуто</h5>
-				)}
 				<div ref={scrollDown}></div>
 			</div>
 			<div className='w-full h-24 bg-white flex border-t-2'>

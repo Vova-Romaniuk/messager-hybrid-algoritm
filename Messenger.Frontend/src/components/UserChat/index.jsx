@@ -73,7 +73,7 @@ export default function UserChat({ room }) {
 						<span className='text-black/80 text-ellipsis overflow-hidden text-sm'>
 							{userId === room?.message?.user?.id
 								? 'Ви'
-								: room?.message.user.userName}
+								: room?.message?.user?.userName}
 							: {room?.message?.text}
 						</span>
 						{room.notSeenCount !== 0 && (
