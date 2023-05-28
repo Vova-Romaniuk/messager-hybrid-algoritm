@@ -38,8 +38,8 @@ export default function TypeEncryptions() {
 							<div
 								className={
 									typeEncryption === item.name
-										? 'h-fit p-4 w-full rounded-2xl border bg-primary text-white grid cursor-pointer place-items-center'
-										: 'h-fit p-4 w-full rounded-2xl border hover:bg-primary hover:text-white grid cursor-pointer place-items-center'
+										? 'max-sm:h-fit p-4 w-full rounded-2xl border bg-primary text-white grid cursor-pointer place-items-center'
+										: 'max-sm:h-fit p-4 w-full rounded-2xl border hover:bg-primary hover:text-white grid cursor-pointer place-items-center'
 								}
 								onClick={() => setTypeEncryption(item.id)}
 								key={item.id}

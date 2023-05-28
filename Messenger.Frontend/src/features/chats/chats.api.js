@@ -50,7 +50,6 @@ export const fetchUserChats = createAsyncThunk(
 	async (_, { fulfillWithValue, rejectWithValue }) => {
 		try {
 			const data = await ChatService.get();
-
 			return fulfillWithValue(data);
 		} catch (error) {
 			showApiEndpointErrorAlert(error);

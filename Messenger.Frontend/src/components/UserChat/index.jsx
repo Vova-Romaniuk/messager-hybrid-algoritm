@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import Avatar from '../../UI/Avatar';
-import { pinChat } from '../../features/chats/chats.api';
-import { changeChat, changeIsOpenChat } from '../../features/chats/chats.slice';
+import {
+	changeChat,
+	changeIsOpenChat,
+	addPinned,
+	removePinned,
+	selectPinned,
+} from '../../features/chats/chats.slice';
+import { PinnedService } from '../../services/PinnedService';
 import { formatDateTimeToday } from '../../utils/date';
 
 export default function UserChat({ room }) {
 	const [isHovering, setIsHovering] = useState(false);
 	const dispatch = useDispatch();
+	const pinned = useSelector(selectPinned);
 	const styleUserChat = 'h-24 my-1 flex mx-auto hover:cursor-pointer px-1';
 	const iconPinnedStyle =
 		'absolute top-1 -right-1 text-white z-50 text-base p-1 rounded-full w-8 h-8 bg-primary';
@@ -17,7 +24,6 @@ export default function UserChat({ room }) {
 	const handleMouseOver = () => {
 		setIsHovering(true);
 	};
-
 	const handleMouseOut = () => {
 		setIsHovering(false);
 	};
@@ -25,9 +31,15 @@ export default function UserChat({ room }) {
 		dispatch(changeChat(room));
 		dispatch(changeIsOpenChat());
 	};
-	const handleClick = (event) => {
+	const handleAdd = (event) => {
 		event.preventDefault();
-		dispatch(pinChat(room.id));
+		PinnedService.add(room.id);
+		dispatch(addPinned(room.id));
+	};
+	const handleRemove = (event) => {
+		event.preventDefault();
+		PinnedService.remove(room.id);
+		dispatch(removePinned(room.id));
 	};
 
 	return (
@@ -64,13 +76,13 @@ export default function UserChat({ room }) {
 						</div>
 					</div>
 				</div>
-				{isHovering && room?.isPinned && (
-					<button className={iconPinnedStyle} onClick={handleClick}>
+				{isHovering && pinned?.includes(room.id) && (
+					<button className={iconPinnedStyle} onClick={handleRemove}>
 						<i className='fa-solid fa-bookmark-slash'></i>
 					</button>
 				)}
-				{isHovering && !room?.isPinned && (
-					<button className={iconPinnedStyle} onClick={handleClick}>
+				{isHovering && !pinned?.includes(room.id) && (
+					<button className={iconPinnedStyle} onClick={handleAdd}>
 						<i className='fa-solid fa-bookmark'></i>
 					</button>
 				)}
