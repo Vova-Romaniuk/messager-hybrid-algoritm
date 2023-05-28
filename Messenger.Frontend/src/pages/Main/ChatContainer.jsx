@@ -29,7 +29,7 @@ const ChatContainer = ({ send }) => {
 							id={message?.user?.id}
 							content={message.text}
 							when={message.when}
-							key={message.userId}
+							key={message.id}
 						/>
 					))
 				) : (

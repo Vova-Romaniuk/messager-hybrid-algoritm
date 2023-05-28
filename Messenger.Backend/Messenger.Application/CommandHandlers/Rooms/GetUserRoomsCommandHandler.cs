@@ -2,6 +2,7 @@ using System.Linq;
 using AutoMapper;
 using MediatR;
 using Messenger.Application.Commands;
+using Messenger.Application.Factory;
 using Messenger.Core.Models;
 using Messenger.Database.Context;
 using Messenger.Domain.Entities;
@@ -16,15 +17,15 @@ public class GetUserRoomsCommandHandler : IRequestHandler<GetUserChatsCommand, I
     private readonly MessengerContext _db;
     private readonly IMapper _mapper;
     private readonly ISecurityContext _securityContext;
-    private readonly ICryptoService _crypto;
+    private readonly CryptoServiceFactory _cryptoServiceFactory;
 
     public GetUserRoomsCommandHandler(MessengerContext db, IMapper mapper, ISecurityContext securityContext,
-        ICryptoService crypto)
+        CryptoServiceFactory cryptoServiceFactory)
     {
         _db = db;
         _mapper = mapper;
         _securityContext = securityContext;
-        _crypto = crypto;
+        _cryptoServiceFactory = cryptoServiceFactory;
     }
 
     public async Task<IEnumerable<RoomDto>> Handle(GetUserChatsCommand request, CancellationToken cancellationToken)
@@ -65,12 +66,13 @@ public class GetUserRoomsCommandHandler : IRequestHandler<GetUserChatsCommand, I
 
             if (roomLastMessage != null)
             {
+                var crypto = _cryptoServiceFactory.CreateCryptoService(room.TypeEncryption);
                 roomDto.Messages.Add(new MessageDto()
                 {
                     Id = roomLastMessage.Id,
                     RoomId = roomLastMessage.RoomId,
                     Room = _mapper.Map<RoomDto>(roomLastMessage.Room),
-                    Text = _crypto.Decrypt(new EncryptedMessage(roomLastMessage.EncryptedText,
+                    Text = crypto.Decrypt(new EncryptedMessage(roomLastMessage.EncryptedText,
                         roomLastMessage.PrivateKey, roomLastMessage.PublicKey)),
                     User = _mapper.Map<UserDto>(roomLastMessage.User),
                     When = roomLastMessage.When,

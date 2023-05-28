@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchUserChats } from '../../features/chats/chats.api';
+// import { fetchUserChats } from '../../features/chats/chats.api';
 import {
 	selectHubConnection,
 	selectHubConnectionState,
@@ -9,7 +9,8 @@ import {
 	setConnection,
 } from '../../features/chats/chats.slice';
 import { connectGatekeeper, signalRConnection } from '../../services/HubService';
-import { Token } from '../../services/domain/token';
+
+// import { Token } from '../../services/domain/token';
 
 const ConnectionContainer = ({ children }) => {
 	const dispatch = useDispatch();
@@ -26,9 +27,9 @@ const ConnectionContainer = ({ children }) => {
 	};
 
 	useEffect(() => {
-		if (Token.get() && !chats) {
-			dispatch(fetchUserChats());
-		}
+		// if (Token.get() && !chats) {
+		// 	dispatch(fetchUserChats());
+		// }
 		(async () => {
 			if (connection && connectGatekeeper(connection)) {
 				return;

@@ -10,18 +10,37 @@ public class MessengerContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Room>()
+            .HasMany(r => r.UserRooms)
+            .WithOne()
+            .HasForeignKey(ur => ur.RoomId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Room>()
+            .HasMany(r => r.Messages)
+            .WithOne()
+            .HasForeignKey(m => m.RoomId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<UserRoom>()
+            .HasOne(ur => ur.Room)
+            .WithMany(r => r.UserRooms)
+            .HasForeignKey(ur => ur.RoomId);
+
+        modelBuilder.Entity<Message>()
+            .HasOne(m => m.Room)
+            .WithMany(r => r.Messages)
+            .HasForeignKey(m => m.RoomId);
+
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
-    public virtual DbSet<User?> Users { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserToken> UserTokens { get; set; }
 
     public virtual DbSet<Image> Images { get; set; }
-
-    // TODO uncomment this lines
-    //public virtual DbSet<SeenMessage> SeenMessages { get; set; }
 
     public virtual DbSet<Room> Rooms { get; set; }
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 
 import Avatar from '../../UI/Avatar';
@@ -16,9 +17,12 @@ const Profile = () => {
 	const dispatch = useDispatch();
 	const [openModal, setOpenModal] = useState(false);
 	const navigate = useNavigate();
+	const isSmWidth = useMediaQuery({ query: '(max-width: 640px)' });
+
 	const toggleModal = (value = false) => {
 		setOpenModal(value);
 	};
+
 	const handleLogout = () => {
 		dispatch(logOut()).then(() => {
 			navigate('/authenticate');
@@ -79,12 +83,14 @@ const Profile = () => {
 				<div className='w-2/3 max-sm:w-full max-sm:mx-auto'>
 					<UserProfileForm user={user} handleSubmit={handleSubmit} />
 				</div>
-				<div
-					className='w-12 h-12 grid place-items-center text-xl my-2 pointer cursor-pointer bg-red-700 text-white rounded-xl mx-auto m-auto'
-					onClick={handleLogout}
-				>
-					<i className='fa-solid fa-right-from-bracket'></i>
-				</div>
+				{isSmWidth && (
+					<div
+						className='w-12 h-12 grid place-items-center text-xl my-2 pointer cursor-pointer bg-red-700 text-white rounded-xl mx-auto m-auto'
+						onClick={handleLogout}
+					>
+						<i className='fa-solid fa-right-from-bracket'></i>
+					</div>
+				)}
 			</div>
 			{/* Upload avatar modal */}
 			{openModal && (

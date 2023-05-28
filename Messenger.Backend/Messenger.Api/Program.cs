@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text;
 using Messenger.Application.CommandHandlers.Authenticate;
+using Messenger.Application.Factory;
 using Messenger.Application.Gatekeepers;
 using Messenger.Application.Services;
 using Messenger.Backend.ChatHub;
@@ -36,10 +37,11 @@ builder.Services.AddAutoMapper(typeof(UserMapper).GetTypeInfo().Assembly);
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IPasswordService, PasswordHasherService>();
 builder.Services.AddScoped<ISecurityContext, SecurityContextService>();
-builder.Services.AddScoped<IAsymmetricEncryptionService, AsymmetricEncryptionService>();
-builder.Services.AddScoped<ISymmetricEncryptionService, SymmetricEncryptionService>();
 builder.Services.AddScoped<ICryptoService, RsaHybridEncryptionService>();
 builder.Services.AddScoped<IRoomGatekeeper, RoomGatekeeper>();
+builder.Services.AddScoped<ICryptoService, BrowfishAesService>();
+builder.Services.AddScoped<ICryptoService, CamelliaAesService>();
+builder.Services.AddScoped<CryptoServiceFactory>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSignalR();
 builder.Services.AddMediatR(cfg =>

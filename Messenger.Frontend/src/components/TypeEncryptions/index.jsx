@@ -13,16 +13,17 @@ import Scroller from '../Scroller';
 
 export default function TypeEncryptions() {
 	const navigate = useNavigate();
-	const [typeEncryption, setTypeEncryption] = useState('');
+	const [typeEncryption, setTypeEncryption] = useState();
 	const { id } = useSelector(selectUserWhichCreateChat);
 	const dispatch = useDispatch();
+
 	const handleClick = () => {
 		handleStartMessaging();
 		dispatch(changeIsSelectEncryption());
 	};
 
 	const handleStartMessaging = async () => {
-		const chatId = await ChatService.create(id);
+		const chatId = await ChatService.create(id, typeEncryption);
 
 		navigate(`/${chatId}`);
 	};
@@ -36,7 +37,7 @@ export default function TypeEncryptions() {
 						{HYBRID_ENCRYPTION_ALGORITHMS.map((item) => (
 							<div
 								className={
-									typeEncryption === item.name
+									typeEncryption === item.id
 										? 'max-sm:h-fit p-4 w-full rounded-2xl border bg-primary text-white grid cursor-pointer place-items-center'
 										: 'max-sm:h-fit p-4 w-full rounded-2xl border hover:bg-primary hover:text-white grid cursor-pointer place-items-center'
 								}

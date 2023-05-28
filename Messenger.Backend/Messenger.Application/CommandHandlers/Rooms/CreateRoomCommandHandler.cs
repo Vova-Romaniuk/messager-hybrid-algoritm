@@ -36,9 +36,9 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, Guid>
         {
             await _roomGatekeeper.CreateRoomGatekeeper(users.Select(x => x.Id).ToList());
         }
-        catch (ChatIsExistException e)
+        catch (ChatIsExistException)
         {
-            var chat = await _mediator.Send(new GetUserChatCommand(users.First(x => x.Id != currentUser!.Id).Id), cancellationToken);
+            var chat = await _mediator.Send(new GetUserChatCommand(users.First(x => x.Id != currentUser.Id).Id), cancellationToken);
 
             return chat.Id;
         }
