@@ -10,7 +10,7 @@ using Org.BouncyCastle.X509;
 
 namespace Messenger.Application.Services;
 
-public class DHCryptoService : ICryptoService
+public class DhCryptoService : ICryptoService
 {
     public EncryptedMessage Encrypt(string message)
     {
@@ -69,12 +69,12 @@ public class DHCryptoService : ICryptoService
         return decryptedBytes;
     }
 
-    private byte[] GetPrivateKeyBytes(AsymmetricKeyParameter privateKey)
+    private static byte[] GetPrivateKeyBytes(AsymmetricKeyParameter privateKey)
     {
         return PrivateKeyInfoFactory.CreatePrivateKeyInfo(privateKey).GetDerEncoded();
     }
 
-    private byte[] GetPublicKeyBytes(AsymmetricKeyParameter publicKey)
+    private static byte[] GetPublicKeyBytes(AsymmetricKeyParameter publicKey)
     {
         var publicKeyInfo = SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(publicKey);
         return publicKeyInfo.GetEncoded();

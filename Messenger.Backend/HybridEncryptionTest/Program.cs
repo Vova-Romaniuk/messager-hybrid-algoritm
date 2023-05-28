@@ -1,6 +1,6 @@
 ﻿using Messenger.Application.Services;
 
-var hybridService = new RsaHybridEncryptionService();
+var hybridService = new DhCryptoService();
 
 var res = hybridService.Encrypt("Привіт привіт привіт");
 
