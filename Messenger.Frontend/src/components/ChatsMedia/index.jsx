@@ -22,16 +22,17 @@ import UserChat from '../UserChat';
 import Users from '../Users';
 
 export default function ChatsMedia() {
-	const container = 'w-11/12 mx-auto';
 	const dispatch = useDispatch();
+	const container = 'w-11/12 mx-auto';
 	const [hiddenPinnedMessage, setHiddenPinnedMessage] = useState(true);
 	const userChats = useSelector(selectUserChats);
-	const pinned = useSelector(selectPinned);
 	const hub = useSelector(selectHubConnection);
-	const isSelectEncryption = useSelector(selectIsSelectEncryption);
 	const loading = useSelector(selectChatsLoading);
-	const [chatsState, setChatsState] = useState(userChats);
+
+	const pinned = useSelector(selectPinned);
 	const isAddUserPopup = useSelector(selectIsAddUserPopup);
+	const isSelectEncryption = useSelector(selectIsSelectEncryption);
+	const [chatsState, setChatsState] = useState(userChats);
 
 	useEffect(() => {
 		setChatsState(userChats);
@@ -46,14 +47,6 @@ export default function ChatsMedia() {
 		})();
 	}, [userChats]);
 
-	useEffect(() => {
-		setChatsState(userChats);
-	}, [userChats]);
-
-	const handleOpen = () => {
-		dispatch(changeIsAddUserPopup());
-	};
-
 	const handleChange = (value) => {
 		if (value.trim() === '') {
 			setChatsState([...userChats]);
@@ -66,6 +59,15 @@ export default function ChatsMedia() {
 			})
 		);
 	};
+
+	const handleOpen = () => {
+		dispatch(changeIsAddUserPopup());
+	};
+
+	// useEffect(() => {
+	// 	setChatsState(userChats);
+	// }, [userChats]);
+
 	return (
 		<div className='w-full h-[calc(100%-4rem)] flex flex-col border-gray'>
 			<div className={`${container} h-fit`}>

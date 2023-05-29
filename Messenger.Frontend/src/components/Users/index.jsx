@@ -36,7 +36,7 @@ const Users = () => {
 				placeholder='Пошук користувачів...'
 				onChange={handleChange}
 			/>
-			<div className='h-[400px] overflow-y-auto px-5'>
+			<div className='h-[400px] max-sm:h-[400px] overflow-y-auto px-5'>
 				<Loader isLoading={loading} className=''>
 					{usersState && usersState?.length > 0 ? (
 						usersState.map((user) => <UserPreview key={user.id} user={user} />)
