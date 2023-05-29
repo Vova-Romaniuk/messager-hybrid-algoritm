@@ -20,7 +20,7 @@ const ChatContainer = ({ send }) => {
 	};
 
 	return (
-		<div className='h-[calc(100vh-6rem)] bg-[#F8F8FA] flex flex-col'>
+		<div className='h-[calc(100%-6rem)] bg-[#F8F8FA] flex flex-col'>
 			<div className='w-11/12 mx-auto h-full flex flex-col overflow-y-auto scroll-none py-5'>
 				{chat?.messages?.length > 0 ? (
 					chat?.messages?.map((message) => (

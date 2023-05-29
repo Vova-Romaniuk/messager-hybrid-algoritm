@@ -50,7 +50,7 @@ const Main = () => {
 
 	return (
 		<Loader isLoading={loading}>
-			<div className='flex w-full'>
+			<div className='flex w-full h-full'>
 				{!media ? (
 					<div className='w-full'>
 						<ChatHeader infoOpen={toggleSidebar} />
