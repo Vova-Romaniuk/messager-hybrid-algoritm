@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,6 +13,9 @@ const router = createBrowserRouter(routes);
 const googleClientId = process.env.REACT_APP_GOOGLE_API_KEY;
 
 const App = () => {
+	useEffect(() => {
+		document.body.style.height = `${window.innerHeight}px`;
+	}, []);
 	return (
 		<GoogleOAuthProvider clientId={googleClientId}>
 			<ConnectionContainer>

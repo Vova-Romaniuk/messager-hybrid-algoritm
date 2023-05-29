@@ -14,7 +14,7 @@ const ChatInfoSidebar = ({ onClick }) => {
 	const media = useMediaQuery({ maxWidth: ' 450px' });
 
 	return (
-		<div className='w-[500px] max-sm:w-full border-l-2 h-screen flex flex-col text-lg'>
+		<div className='w-[500px] max-sm:w-full border-l-2 h-full flex flex-col text-lg'>
 			{media && (
 				<Button onClick={onClick} className='mr-5 ml-auto mt-4'>
 					<i className='fa-solid fa-xmark'></i>

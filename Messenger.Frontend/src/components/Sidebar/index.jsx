@@ -36,7 +36,7 @@ export default function Sidebar() {
 	};
 
 	return (
-		<div className='w-16 h-screen border-r-2 border-gray flex flex-col'>
+		<div className='w-16 h-full border-r-2 border-gray flex flex-col'>
 			<div className='w-full flex mt-5'>
 				<Link className='m-auto' to='/profile'>
 					<Avatar className={'w-12 h-12'} src={avatar} />

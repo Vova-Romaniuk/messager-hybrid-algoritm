@@ -30,7 +30,7 @@ export default function Registration() {
 
 	return (
 		<div
-			className='w-full h-screen flex bg-repeat-round'
+			className='w-full h-full flex bg-repeat-round'
 			style={{ backgroundImage: "url('/images/registration-background.png')" }}
 		>
 			<div className=' max-sm:w-11/12 max-lg:w-8/12 m-auto w-4/12 h-fit p-5 bg-white rounded-2xl shadow-form'>

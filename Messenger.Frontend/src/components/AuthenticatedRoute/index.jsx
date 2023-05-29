@@ -28,14 +28,14 @@ const AuthenticatedRoute = ({ element }) => {
 	}, []);
 
 	return !media ? (
-		<div className='w-full h-screen flex relative'>
+		<div className='w-full h-full flex relative'>
 			<Sidebar />
 			<SidebarChats />
 			<NotificationContainer />
 			<div className='w-[calc(100%-24rem)] h-full overflow-y-auto'>{element}</div>
 		</div>
 	) : (
-		<div className='w-full h-screen flex flex-col relative'>
+		<div className='w-full h-full flex flex-col relative'>
 			{!isChatOpen && activeIcon === 'messages' ? (
 				<ChatsMedia />
 			) : (
@@ -44,7 +44,7 @@ const AuthenticatedRoute = ({ element }) => {
 				)
 			)}
 			{isChatOpen ? (
-				<div className='w-full h-screen overflow-y-auto'>{element}</div>
+				<div className='w-full h-full overflow-y-auto'>{element}</div>
 			) : (
 				<BarMedia />
 			)}
