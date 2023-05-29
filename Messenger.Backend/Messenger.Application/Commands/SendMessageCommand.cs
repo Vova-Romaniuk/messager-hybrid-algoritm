@@ -1,5 +1,5 @@
 using MediatR;
-using Messenger.Core.Models;
+using Messenger.Domain.Enums;
 using Messenger.Domain.Models;
 
 namespace Messenger.Application.Commands;
@@ -12,10 +12,13 @@ public class SendMessageCommand : IRequest<MessageDto>
 
     public string Text { get; set; }
 
-    public SendMessageCommand(string text, Guid roomId, Guid userId)
+    public TypeEncryption TypeEncryption { get; set; }
+
+    public SendMessageCommand(string text, Guid roomId, Guid userId, TypeEncryption typeEncryption)
     {
         Text = text;
         RoomId = roomId;
         UserId = userId;
+        TypeEncryption = typeEncryption;
     }
 }

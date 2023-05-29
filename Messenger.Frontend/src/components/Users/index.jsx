@@ -3,14 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import SearchField from '../../UI/fields/SearchField';
 import { fetchUsers } from '../../features/user/user.api';
-import { selectUsers } from '../../features/user/user.slice';
+import { selectUsers, selectUsersLoading } from '../../features/user/user.slice';
 import Loader from '../Loader';
 import UserPreview from '../UserPreview';
 
 const Users = () => {
 	const dispatch = useDispatch();
 	const users = useSelector(selectUsers);
+	const loading = useSelector(selectUsersLoading);
 	const [usersState, setUsersState] = useState(users);
+
 	useEffect(() => {
 		dispatch(fetchUsers());
 	}, []);
@@ -35,8 +37,8 @@ const Users = () => {
 				onChange={handleChange}
 			/>
 			<div className='h-[400px] overflow-y-auto px-5'>
-				<Loader isLoading={usersState === null} className=''>
-					{usersState?.length > 0 ? (
+				<Loader isLoading={loading} className=''>
+					{usersState && usersState?.length > 0 ? (
 						usersState.map((user) => <UserPreview key={user.id} user={user} />)
 					) : (
 						<div className='h-full w-full grid place-items-center'>

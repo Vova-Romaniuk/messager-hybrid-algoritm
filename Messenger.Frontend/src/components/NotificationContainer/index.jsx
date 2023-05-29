@@ -14,7 +14,7 @@ const NotificationContainer = () => {
 
 	return (
 		notificationMessages.length > 0 && (
-			<div className='absolute w-80 h-fit z-50 max-sm:h-32 max-sm:right-0 max-sm:left-1/2 max-sm:transform max-sm:-translate-x-1/2 right-10 flex flex-col overflow-y-auto scroll-none p-2 pt-8 pb-3'>
+			<div className='absolute w-80 h-fit z-50 max-sm:h-32 max-sm:right-0 max-sm:left-1/2 max-sm:transform max-sm:-translate-x-1/2 right-6 flex flex-col overflow-y-auto scroll-none p-2 pt-8 pb-3'>
 				{notificationMessages?.map((element) => (
 					<NotificationMessage
 						roomId={element.roomId}

@@ -7,6 +7,7 @@ const initialState = {
 	loading: false,
 	errors: [],
 	users: null,
+	usersLoading: false,
 };
 
 const userSlice = createSlice({
@@ -23,7 +24,6 @@ const userSlice = createSlice({
 		});
 		builder.addCase(fetchCurrentUser.rejected, (state) => {
 			state.loading = false;
-			// TODO add error to Errors array
 		});
 		builder.addCase(updateUserInfo.fulfilled, (state, { payload }) => {
 			state.data = payload;
@@ -47,6 +47,13 @@ const userSlice = createSlice({
 		});
 		builder.addCase(fetchUsers.fulfilled, (state, { payload }) => {
 			state.users = payload;
+			state.usersLoading = false;
+		});
+		builder.addCase(fetchUsers.pending, (state) => {
+			state.usersLoading = true;
+		});
+		builder.addCase(fetchUsers.rejected, (state) => {
+			state.usersLoading = false;
 		});
 	},
 });
@@ -58,5 +65,7 @@ export const selectUserData = (state) => state.user.data;
 export const selectUserId = (state) => state.user?.data?.id;
 
 export const selectUsers = (state) => state.user.users;
+
+export const selectUsersLoading = (state) => state.user.usersLoading;
 
 export default userSlice.reducer;

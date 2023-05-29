@@ -10,8 +10,6 @@ import {
 	selectChatLoading,
 	selectChat,
 	selectHubConnection,
-	selectUserChats,
-	addUserChats,
 	removeUnReadMessageCount,
 } from '../../features/chats/chats.slice';
 import { selectUserId } from '../../features/user/user.slice';
@@ -23,6 +21,7 @@ const Main = () => {
 	const dispatch = useDispatch();
 	const loading = useSelector(selectChatLoading);
 	const hubConnection = useSelector(selectHubConnection);
+	const chat = useSelector(selectChat);
 	const media = useMediaQuery({ maxWidth: ' 450px' });
 	const userId = useSelector(selectUserId);
 
@@ -42,8 +41,7 @@ const Main = () => {
 		if (trimmedMessage === '') {
 			return;
 		}
-
-		hubConnection?.invoke('SendMessage', id, message);
+		hubConnection?.invoke('SendMessage', id, message, chat?.typeEncryption);
 	};
 
 	const toggleSidebar = () => {

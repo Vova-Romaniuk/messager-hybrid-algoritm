@@ -16,6 +16,7 @@ export const signalRConnection = async () => {
 		// eslint-disable-next-line no-undef
 		.withUrl(process.env.REACT_APP_CHAT_HUB_URL, {
 			accessTokenFactory: () => Token.get(),
+			useDefaultPath: false,
 		})
 		.withAutomaticReconnect()
 		.configureLogging(LogLevel.Information)
@@ -45,6 +46,20 @@ const socketMethods = (connection) => {
 
 		store.dispatch(changeLastMessage(message));
 	});
+
+	// connection.onreconnected(() => {
+	// 	console.log('Reconnecting...');
+	// 	const chats = store.getState().chats.userChats;
+	// 	if (!chats || chats.length === 0) {
+	// 		return;
+	// 	}
+	// 	console.log(chats);
+	// 	connection?.invoke(
+	// 		'JoinToUsersRooms',
+	// 		chats.map((chat) => chat.id)
+	// 	);
+	// 	console.log('Reconnected!');
+	// });
 };
 
 export const connectGatekeeper = (connection) => {

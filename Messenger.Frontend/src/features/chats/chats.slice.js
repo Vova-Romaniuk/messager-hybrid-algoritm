@@ -9,6 +9,7 @@ const initialChatState = {
 	lastMessage: null,
 	userName: null,
 	messages: [],
+	typeEncryption: null,
 };
 
 export const chatsSlice = createSlice({

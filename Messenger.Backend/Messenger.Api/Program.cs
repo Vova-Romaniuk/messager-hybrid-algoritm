@@ -16,7 +16,6 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 // Configure db context
 builder.Services.AddDbContextFactory<MessengerContext>(
     options => options.UseSqlServer(
@@ -40,6 +39,7 @@ builder.Services.AddScoped<ISecurityContext, SecurityContextService>();
 builder.Services.AddScoped<ICryptoService, RsaHybridEncryptionService>();
 builder.Services.AddScoped<IRoomGatekeeper, RoomGatekeeper>();
 builder.Services.AddScoped<ICryptoService, BrowfishAesService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<ICryptoService, CamelliaAesService>();
 builder.Services.AddScoped<CryptoServiceFactory>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

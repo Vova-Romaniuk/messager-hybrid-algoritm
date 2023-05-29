@@ -33,15 +33,12 @@ namespace Messenger.Application.CommandHandlers.Messages
 
         public async Task<MessageDto> Handle(SendMessageCommand request, CancellationToken cancellationToken)
         {
-            var room = await GetRoomFromCacheOrDatabase(request.RoomId);
-            var user = await GetUserFromCacheOrDatabase(request.UserId);
-
-            if (room == null)
+            if (!await _db.Rooms.AnyAsync(room => room.Id == request.RoomId, cancellationToken))
             {
                 throw new NotFoundException(nameof(Room), request.RoomId);
             }
 
-            var crypto = _cryptoServiceFactory.CreateCryptoService(room.TypeEncryption);
+            var crypto = _cryptoServiceFactory.CreateCryptoService(request.TypeEncryption);
             var encryptedMessage = crypto.Encrypt(request.Text);
 
             var message = new Message
@@ -54,59 +51,22 @@ namespace Messenger.Application.CommandHandlers.Messages
                 When = DateTime.Now,
             };
 
-            _db.Messages.Add(message);
+            var messageId = (await _db.Messages.AddAsync(message, cancellationToken)).Entity.Id;
             await _db.SaveChangesAsync(cancellationToken);
+
+            var newMessage = await _db.Messages
+                .Include(x=>x.User)
+                .ThenInclude(x=>x.Image)
+                .FirstAsync(x => x.Id == messageId, cancellationToken: cancellationToken);
 
             return new MessageDto
             {
-                Id = message.Id,
-                RoomId = message.RoomId,
-                Text = crypto.Decrypt(new EncryptedMessage(
-                    message.EncryptedText,
-                    message.PrivateKey,
-                    message.PublicKey)),
-                User = _mapper.Map<UserDto>(user),
+                Id = newMessage.Id,
+                RoomId = newMessage.RoomId,
+                Text = request.Text,
+                User = _mapper.Map<UserDto>(newMessage.User),
                 When = message.When,
             };
-        }
-
-        private async Task<User> GetUserFromCacheOrDatabase(Guid userId)
-        {
-            var cacheKey = $"User_{userId}";
-            if (_cache.TryGetValue(cacheKey, out User user))
-            {
-                return user;
-            }
-
-            user = await _db.Users.FirstOrDefaultAsync(x => x.Id == userId);
-
-            if (user != null)
-            {
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromMinutes(5));
-                _cache.Set(cacheKey, user, cacheEntryOptions);
-            }
-
-            return user;
-        }
-
-        private async Task<Room> GetRoomFromCacheOrDatabase(Guid roomId)
-        {
-            var cacheKey = $"Room_{roomId}";
-            if (_cache.TryGetValue(cacheKey, out Room room))
-            {
-                return room;
-            }
-
-            room = await _db.Rooms.FirstOrDefaultAsync(x => x.Id == roomId);
-            if (room != null)
-            {
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromMinutes(5));
-                _cache.Set(cacheKey, room, cacheEntryOptions);
-            }
-
-            return room;
         }
     }
 }
