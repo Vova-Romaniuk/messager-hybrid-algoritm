@@ -6,6 +6,9 @@ import { UserService } from '../../services/UserService';
 import { showApiEndpointErrorAlert, showSuccessAlert } from '../../services/alert';
 import { Token } from '../../services/domain/token';
 import { fetchUserChats } from '../chats/chats.api';
+import { reset as chatReset } from '../chats/chats.slice';
+import { reset as sidebarReset } from '../sidebar/sidebar.slice';
+import { reset as userReset } from './user.slice';
 
 export const googleAuthenticate = createAsyncThunk(
 	'user/googleAuthenticate',
@@ -92,9 +95,15 @@ export const fetchCurrentUser = createAsyncThunk(
 			try {
 				user = await UserService.get();
 			} catch (error) {
-				setTimeout(async () => {
-					user = await UserService.get();
-				}, 0);
+				try {
+					setTimeout(async () => {
+						user = await UserService.get();
+					}, 10);
+				} catch (error) {
+					setTimeout(async () => {
+						user = await UserService.get();
+					}, 100);
+				}
 			} finally {
 				dispatch(fetchUserChats());
 				return fulfillWithValue(user);
@@ -109,10 +118,18 @@ export const fetchCurrentUser = createAsyncThunk(
 
 export const logOut = createAsyncThunk(
 	'user/logout',
-	async (_, { fulfillWithValue, rejectWithValue }) => {
+	async (_, { fulfillWithValue, rejectWithValue, dispatch, getState }) => {
 		try {
+			const connection = getState().chats?.hub?.hubConnection;
+			const ids = getState().chats?.userChats?.map((x) => x.id);
+			console.log(ids);
+			connection?.invoke('LeaveFromUsersRooms', ids);
+
 			await AuthenticateService.logout();
 			Token.delete();
+			dispatch(userReset());
+			dispatch(chatReset());
+			dispatch(sidebarReset());
 
 			return fulfillWithValue();
 		} catch (error) {

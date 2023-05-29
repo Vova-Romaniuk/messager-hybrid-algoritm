@@ -1,11 +1,16 @@
 import axiosInstanse from './domain/config';
+import { Token } from './domain/token';
 
 const url = '/room';
 
 export const ChatService = {
 	getById: async (id) => {
 		try {
-			const { data } = await axiosInstanse.get(`${url}/${id}`);
+			const { data } = await axiosInstanse.get(`${url}/${id}`, {
+				headers: {
+					Authorization: `Bearer ${Token.get()}`,
+				},
+			});
 
 			return data;
 		} catch (error) {
@@ -14,7 +19,11 @@ export const ChatService = {
 	},
 	get: async () => {
 		try {
-			const { data } = await axiosInstanse.get(url);
+			const { data } = await axiosInstanse.get(url, {
+				headers: {
+					Authorization: `Bearer ${Token.get()}`,
+				},
+			});
 
 			return data;
 		} catch (error) {

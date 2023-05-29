@@ -1,37 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { PinnedService } from '../../services/PinnedService';
+import { initialChatState, initialState } from '../initialState';
 import { fetchUserChats, fetchChat, cleanChat, deleteChat } from './chats.api';
-
-const initialChatState = {
-	id: null,
-	icon: null,
-	lastMessage: null,
-	userName: null,
-	messages: [],
-	typeEncryption: null,
-};
 
 export const chatsSlice = createSlice({
 	name: 'chats',
-	initialState: {
-		activeUserChat: '',
-		userChats: null,
-		pinned: PinnedService.get() || [],
-		chat: initialChatState,
-		loading: false,
-		isAddUserPopup: false,
-		isSelectEncryption: false,
-		sidebarLoading: false,
-		isOpenChat: false,
-		hub: {
-			hubConnection: null,
-			connected: false,
-		},
-		showReadMessage: false,
-		notificationMessages: [],
-		userWhichCreateChat: {},
-	},
+	initialState: initialState.chat,
 	reducers: {
 		setConnection: (state, { payload }) => {
 			state.hub.hubConnection = payload.hubConnection;
@@ -41,7 +15,7 @@ export const chatsSlice = createSlice({
 			state.notificationMessages = [...state.notificationMessages, payload];
 		},
 		removeNotificationMessage: (state, { payload }) => {
-			state.notificationMessages = state.notificationMessages.filter(
+			state.notificationMessages = state.notificationMessages?.filter(
 				(message) => message.id !== payload
 			);
 		},
@@ -76,11 +50,11 @@ export const chatsSlice = createSlice({
 			state.chat.messages = [...state.chat.messages, action.payload];
 		},
 		changeLastMessage: (state, { payload }) => {
-			const index = state.userChats.findIndex((chat) => chat.id === payload.roomId);
+			const index = state.userChats?.findIndex((chat) => chat.id === payload.roomId);
 			state.userChats[index].message = payload;
 		},
 		deleteAllMessages: (state, action) => {
-			if (action.payload === state.chat.id) {
+			if (action.payload === state.chat?.id) {
 				return {
 					...state,
 					chat: {
@@ -95,15 +69,18 @@ export const chatsSlice = createSlice({
 			state.isOpenChat = !state.isOpenChat;
 		},
 		addUnReadMessageCount: (state, { payload }) => {
-			const index = state.userChats.findIndex((chat) => chat.id === payload);
+			const index = state.userChats?.findIndex((chat) => chat.id === payload);
 			state.userChats[index].notSeenCount++;
 		},
 		removeUnReadMessageCount: (state, { payload }) => {
-			const index = state.userChats.findIndex((chat) => chat.id === payload);
+			const index = state.userChats?.findIndex((chat) => chat.id === payload);
 			state.userChats[index].notSeenCount = 0;
 		},
 		changeShowReadMessage: (state) => {
 			state.showReadMessage = !state.showReadMessage;
+		},
+		reset: (state) => {
+			Object.assign(state, initialState.chat);
 		},
 	},
 	extraReducers: (builder) => {
@@ -160,6 +137,7 @@ export const {
 	addUserChats,
 	addUnReadMessageCount,
 	removeUnReadMessageCount,
+	reset,
 } = chatsSlice.actions;
 
 export const selectChatsUserState = (state) => state.chats.activeUserChat;

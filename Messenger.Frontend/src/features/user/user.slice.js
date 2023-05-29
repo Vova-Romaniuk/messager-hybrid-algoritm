@@ -1,19 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { initialState } from '../initialState';
 import { fetchCurrentUser, updateUserInfo, uploadUserImage, fetchUsers } from './user.api';
-
-const initialState = {
-	data: null,
-	loading: false,
-	errors: [],
-	users: null,
-	usersLoading: false,
-};
 
 const userSlice = createSlice({
 	name: 'user',
-	initialState: initialState,
-	reducers: {},
+	initialState: initialState.user,
+	reducers: {
+		reset: (state) => {
+			Object.assign(state, initialState.user);
+		},
+	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchCurrentUser.pending, (state) => {
 			state.loading = true;
@@ -67,5 +64,7 @@ export const selectUserId = (state) => state.user?.data?.id;
 export const selectUsers = (state) => state.user.users;
 
 export const selectUsersLoading = (state) => state.user.usersLoading;
+
+export const { reset } = userSlice.actions;
 
 export default userSlice.reducer;

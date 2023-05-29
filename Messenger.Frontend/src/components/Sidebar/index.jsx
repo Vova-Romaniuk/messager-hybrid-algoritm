@@ -31,6 +31,7 @@ export default function Sidebar() {
 	const handleLogout = () => {
 		dispatch(logOut()).then(() => {
 			navigate('/authenticate');
+			window.location.reload();
 		});
 		PinnedService.delete();
 	};

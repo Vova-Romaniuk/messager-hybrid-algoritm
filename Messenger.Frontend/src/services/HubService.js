@@ -33,10 +33,11 @@ const socketMethods = (connection) => {
 	});
 
 	connection.on('ReceiveMessage', (message) => {
+		const newMessage = { ...message, user: store.getState().user.data };
 		if (window.location.href.includes(message.roomId)) {
-			store.dispatch(changeChatMessages(message));
+			store.dispatch(changeChatMessages(newMessage));
 		} else {
-			store.dispatch(addNotificationMessage(message));
+			store.dispatch(addNotificationMessage(newMessage));
 			setTimeout(() => {
 				store.dispatch(removeNotificationMessage(message.id));
 			}, 5000);
@@ -44,22 +45,8 @@ const socketMethods = (connection) => {
 			store.dispatch(addUnReadMessageCount(message.roomId));
 		}
 
-		store.dispatch(changeLastMessage(message));
+		store.dispatch(changeLastMessage(newMessage));
 	});
-
-	// connection.onreconnected(() => {
-	// 	console.log('Reconnecting...');
-	// 	const chats = store.getState().chats.userChats;
-	// 	if (!chats || chats.length === 0) {
-	// 		return;
-	// 	}
-	// 	console.log(chats);
-	// 	connection?.invoke(
-	// 		'JoinToUsersRooms',
-	// 		chats.map((chat) => chat.id)
-	// 	);
-	// 	console.log('Reconnected!');
-	// });
 };
 
 export const connectGatekeeper = (connection) => {

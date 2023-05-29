@@ -24,7 +24,7 @@ export default function Registration() {
 
 	const handleSubmit = ({ email, password, userName }) => {
 		dispatch(registration({ email, password, userName })).then(() => {
-			navigate('/registration');
+			navigate('/profile');
 		});
 	};
 

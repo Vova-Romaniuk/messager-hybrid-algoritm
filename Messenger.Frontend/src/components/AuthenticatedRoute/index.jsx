@@ -24,8 +24,10 @@ const AuthenticatedRoute = ({ element }) => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(fetchCurrentUser());
-	}, []);
+		if (Token.get()) {
+			dispatch(fetchCurrentUser());
+		}
+	}, [Token.get()]);
 
 	return !media ? (
 		<div className='w-full h-full flex relative'>

@@ -1,20 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { SIDEBAR_ICONS } from '../../utils/constants';
+import { initialState } from '../initialState';
 
 export const sidebarSlice = createSlice({
 	name: 'sidebar',
-	initialState: {
-		activeName: SIDEBAR_ICONS[0].name,
-	},
+	initialState: initialState.sidebar,
 	reducers: {
 		changeMenuState: (state, action) => {
 			state.activeName = action.payload;
 		},
+		reset: (state) => {
+			Object.assign(state, initialState.sidebar);
+		},
 	},
 });
 
-export const { changeMenuState } = sidebarSlice.actions;
+export const { changeMenuState, reset } = sidebarSlice.actions;
 
 export const selectSidebarState = (state) => state.sidebar.activeName;
 
