@@ -33,6 +33,7 @@ const Main = () => {
 			dispatch(fetchChat(id)).then(() => {
 				dispatch(removeUnReadMessageCount(id));
 			});
+			setOpen(false);
 		}
 	}, [id]);
 

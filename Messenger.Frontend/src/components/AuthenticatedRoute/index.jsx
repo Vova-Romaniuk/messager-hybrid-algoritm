@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
-import { selectIsOpenChat } from '../../features/chats/chats.slice';
+import { changeIsOpenChat, openChats, selectIsOpenChat } from '../../features/chats/chats.slice';
 import { selectSidebarState } from '../../features/sidebar/sidebar.slice';
 import { fetchCurrentUser } from '../../features/user/user.api';
 import { Token } from '../../services/domain/token';
@@ -20,7 +21,9 @@ const AuthenticatedRoute = ({ element }) => {
 	}
 	const activeIcon = useSelector(selectSidebarState);
 	const isChatOpen = useSelector(selectIsOpenChat);
+	const [currentId, setCurrentId] = React.useState(null);
 	const media = useMediaQuery({ maxWidth: ' 450px' });
+	const { id } = useParams();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -28,6 +31,18 @@ const AuthenticatedRoute = ({ element }) => {
 			dispatch(fetchCurrentUser());
 		}
 	}, [Token.get()]);
+
+	useEffect(() => {
+		if (id) {
+			if (id === currentId) {
+				dispatch(openChats(false));
+			} else {
+				dispatch(openChats(true));
+			}
+
+			setCurrentId(id);
+		}
+	}, [id]);
 
 	return !media ? (
 		<div className='w-full h-full flex relative'>

@@ -29,7 +29,7 @@ export default function TypeEncryptions() {
 
 	const handleStartMessaging = async () => {
 		const chatId = await ChatService.create(id, typeEncryption);
-
+		console.log(chatId);
 		if (!chats.map((x) => x.id).includes(chatId)) {
 			connection?.invoke('JoinToUsersRooms', [chatId]);
 		}

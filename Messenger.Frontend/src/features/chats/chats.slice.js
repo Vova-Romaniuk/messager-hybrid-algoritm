@@ -68,6 +68,9 @@ export const chatsSlice = createSlice({
 		changeIsOpenChat: (state) => {
 			state.isOpenChat = !state.isOpenChat;
 		},
+		openChats: (state, { payload }) => {
+			state.isOpenChat = payload;
+		},
 		addUnReadMessageCount: (state, { payload }) => {
 			const index = state.userChats?.findIndex((chat) => chat.id === payload);
 			state.userChats[index].notSeenCount++;
@@ -138,6 +141,7 @@ export const {
 	addUnReadMessageCount,
 	removeUnReadMessageCount,
 	reset,
+	openChats,
 } = chatsSlice.actions;
 
 export const selectChatsUserState = (state) => state.chats.activeUserChat;

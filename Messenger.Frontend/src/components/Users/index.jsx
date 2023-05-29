@@ -11,14 +11,14 @@ const Users = () => {
 	const dispatch = useDispatch();
 	const users = useSelector(selectUsers);
 	const loading = useSelector(selectUsersLoading);
-	const [usersState, setUsersState] = useState(users);
+	const [usersState, setUsersState] = useState(null);
 
 	useEffect(() => {
 		dispatch(fetchUsers());
 	}, []);
 
 	useEffect(() => {
-		setUsersState(users);
+		if (users) setUsersState(users);
 	}, [users]);
 
 	const handleChange = (value) => {
@@ -36,8 +36,8 @@ const Users = () => {
 				placeholder='Пошук користувачів...'
 				onChange={handleChange}
 			/>
-			<div className='h-[400px] max-sm:h-[400px] overflow-y-auto px-5'>
-				<Loader isLoading={loading} className=''>
+			<div className='h-[400px] overflow-y-auto px-5'>
+				<Loader isLoading={loading && usersState} className=''>
 					{usersState && usersState?.length > 0 ? (
 						usersState.map((user) => <UserPreview key={user.id} user={user} />)
 					) : (

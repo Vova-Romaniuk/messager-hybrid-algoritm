@@ -46,11 +46,11 @@ export default function UserChat({ room }) {
 
 	return (
 		<NavLink
-			to={`/${room?.id}`}
+			to={`/${room.id}`}
 			className={({ isActive }) => {
 				return isActive
 					? `${styleUserChat} bg-primary/30 rounded-xl flex`
-					: `${styleUserChat} hover:bg-primary/30 hover:rounded-xl flex`;
+					: `${styleUserChat} hover:bg-primary/30 min-sm:hover:rounded-xl flex`;
 			}}
 			onMouseOver={handleMouseOver}
 			onMouseOut={handleMouseOut}

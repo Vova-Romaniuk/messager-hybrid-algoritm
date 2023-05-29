@@ -64,10 +64,6 @@ export default function ChatsMedia() {
 		dispatch(changeIsAddUserPopup());
 	};
 
-	// useEffect(() => {
-	// 	setChatsState(userChats);
-	// }, [userChats]);
-
 	return (
 		<div className='w-full h-[calc(100%-4rem)] flex flex-col border-gray'>
 			<div className={`${container} h-fit`}>
@@ -84,7 +80,7 @@ export default function ChatsMedia() {
 					Почати листування
 				</Button>
 			</div>
-			<div className='w-full h-5/6 pb-3'>
+			<div className='w-full h-[calc(85%-4rem)] pb-3'>
 				<Scroller>
 					<Loader isLoading={loading}>
 						<div
@@ -131,7 +127,7 @@ export default function ChatsMedia() {
 			{isAddUserPopup && (
 				<Modal
 					handleClose={() => dispatch(changeIsAddUserPopup())}
-					className='max-sm:w-11/12 max-sm:min-h-3/6 max-h-fit'
+					className='w-11/12 h-fit'
 				>
 					<Users />
 				</Modal>
