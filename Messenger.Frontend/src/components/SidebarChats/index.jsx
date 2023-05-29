@@ -126,10 +126,7 @@ export default function SidebarChats() {
 				</Scroller>
 			</div>
 			{isAddUserPopup && (
-				<Modal
-					handleClose={() => dispatch(changeIsAddUserPopup())}
-					className='min-w-[600px] max-w-[800px] h-fit'
-				>
+				<Modal handleClose={() => dispatch(changeIsAddUserPopup())} className='w-fit h-fit'>
 					<Users />
 				</Modal>
 			)}
