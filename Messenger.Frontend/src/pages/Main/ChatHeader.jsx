@@ -37,23 +37,21 @@ const ChatHeader = ({ infoOpen }) => {
 						<i className='fa-solid fa-angle-left mr-1 font-bold text-2xl'></i>
 					</Button>
 				)}
-				<div className='flex max-sm:w-7/12'>
-					<div className='mr-5'>
-						<Avatar className='h-16 w-16' src={chat?.image} />
+				<div className='flex max-sm:w-8/12'>
+					<div className='mr-4'>
+						<Avatar className='h-16 w-16 max-sm:h-14 max-sm:w-14' src={chat?.image} />
 					</div>
-					<div className='flex flex-col justify-between max-sm:w-6/12'>
-						<h2 className='text-2xl font-bold max-sm:text-xl max-sm:truncate '>
+					<div className='flex flex-col justify-between max-sm:w-8/12'>
+						<h2 className='text-2xl font-bold max-sm:text-lg max-sm:truncate '>
 							{chat?.recipient?.fullName || chat?.recipient?.userName}
 						</h2>
-						<p className='font-light text-lg max-sm:truncate'>
+						<p className='font-light text-lg max-sm:text-base max-sm:truncate'>
 							{chat?.recipient?.email}
 						</p>
 					</div>
 				</div>
-				<div className='w-fit h-fit relative'>
+				<div className='w-fit h-fit flex relative'>
 					<IconButton icon='fa-regular fa-ellipsis' onClick={handleClick} />
-
-					{isOpen && <PopupChatAction chatData={chat} onClick={handleClick} />}
 
 					{isOpen && <PopupChatAction chatData={chat} onClick={handleClick} />}
 

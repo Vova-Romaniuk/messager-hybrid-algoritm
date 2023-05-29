@@ -39,8 +39,10 @@ export default function TypeEncryptions() {
 
 	return (
 		<div className='w-full h-full flex flex-col p-10'>
-			<h3 className='text-center text-3xl max-sm:mb-2'>Виберіть тип шифрування</h3>
-			<div className='max-sm:h-[70%] max-sm:w-full'>
+			<h3 className='text-center text-3xl max-sm:text-xl first-letter: max-sm:mb-4'>
+				Виберіть тип шифрування
+			</h3>
+			<div className='max-sm:h-[60%] max-sm:w-full'>
 				<Scroller>
 					<div className='w-full h-5/6 grid grid-cols-3 max-sm:flex max-sm:flex-col max-sm:grid-cols-none gap-7 my-4 p-4'>
 						{HYBRID_ENCRYPTION_ALGORITHMS.map((item) => (
@@ -48,12 +50,14 @@ export default function TypeEncryptions() {
 								className={
 									typeEncryption === item.id
 										? 'max-sm:h-fit p-4 w-full rounded-2xl border bg-primary text-white grid cursor-pointer place-items-center'
-										: 'max-sm:h-fit p-4 w-full rounded-2xl border hover:bg-primary hover:text-white grid cursor-pointer place-items-center'
+										: 'max-sm:h-fit  p-4 w-full rounded-2xl border hover:bg-primary hover:text-white grid cursor-pointer place-items-center'
 								}
 								onClick={() => setTypeEncryption(item.id)}
 								key={item.id}
 							>
-								<span className='text-center text-2xl w-full'>{item.name}</span>
+								<span className='text-center text-2xl w-full max-sm:text-lg'>
+									{item.name}
+								</span>
 							</div>
 						))}
 					</div>
@@ -61,7 +65,7 @@ export default function TypeEncryptions() {
 			</div>
 			<Button
 				disabled={typeEncryption === ''}
-				className='w-7/12 mx-auto disabled:cursor-not-allowed border-2 border-[#989191] enabled:hover:bg-primary text-black max-sm:mt-3'
+				className='w-7/12 mx-auto disabled:cursor-not-allowed border-2 border-[#989191] enabled:hover:bg-primary text-black max-sm:mt-6'
 				onClick={() => handleClick()}
 			>
 				Створити листування

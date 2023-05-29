@@ -129,7 +129,7 @@ export default function ChatsMedia() {
 			{isAddUserPopup && (
 				<Modal
 					handleClose={() => dispatch(changeIsAddUserPopup())}
-					className='max-sm:w-11/12 h-fit'
+					className='max-sm:w-11/12 max-sm:min-h-3/6 max-h-fit'
 				>
 					<Users />
 				</Modal>
@@ -137,7 +137,7 @@ export default function ChatsMedia() {
 			{isSelectEncryption && (
 				<Modal
 					handleClose={() => dispatch(changeIsSelectEncryption())}
-					className='max-sm:w-11/12 max-sm:h-4/6'
+					className='max-sm:w-11/12 max-sm:h-3/6'
 				>
 					<TypeEncryptions />
 				</Modal>
