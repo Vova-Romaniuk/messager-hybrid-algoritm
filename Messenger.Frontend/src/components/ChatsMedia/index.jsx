@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
 
 import Button from '../../UI/Button';
 import Modal from '../../UI/Modal';
@@ -35,7 +34,6 @@ export default function ChatsMedia() {
 	const isAddUserPopup = useSelector(selectIsAddUserPopup);
 	const isSelectEncryption = useSelector(selectIsSelectEncryption);
 	const [chatsState, setChatsState] = useState(userChats);
-	const { id } = useParams();
 
 	useEffect(() => {
 		dispatch(fetchUserChats());
@@ -53,7 +51,7 @@ export default function ChatsMedia() {
 				}
 			}
 		})();
-	}, [userChats, id]);
+	}, [userChats]);
 
 	const handleChange = (value) => {
 		if (value.trim() === '') {
