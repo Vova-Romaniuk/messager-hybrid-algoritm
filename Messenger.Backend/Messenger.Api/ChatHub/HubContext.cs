@@ -52,7 +52,7 @@ namespace Messenger.Backend.ChatHub
                     RoomId = chatId,
                     Text = message,
                     User = await _mediator.Send(new GetCurrentUserCommand()),
-                    When = new DateTimeOffset(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Europe/Kiev").GetUtcOffset(DateTime.Now)),
+                    When = DateTime.Now,
                 };
 
                 await Clients.Group(chatId.ToString()).SendAsync("ReceiveMessage", messageDto);

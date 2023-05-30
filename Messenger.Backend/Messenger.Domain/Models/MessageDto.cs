@@ -8,7 +8,7 @@ public class MessageDto
 
     public string Text { get; set; }
 
-    public DateTimeOffset When { get; set; }
+    public DateTime When { get; set; }
 
     public UserDto User { get; set; }
 

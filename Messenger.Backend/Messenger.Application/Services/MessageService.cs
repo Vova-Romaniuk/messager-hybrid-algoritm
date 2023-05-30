@@ -49,15 +49,13 @@ public class MessageService : IMessageService
             await _db.Messages.AddAsync(message);
             await _db.SaveChangesAsync();
         });
-        TimeZoneInfo ukraineTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Kiev");
 
-        DateTimeOffset ukraineNow = DateTimeOffset.Now.ToOffset(ukraineTimeZone.GetUtcOffset(DateTimeOffset.Now));
-        return new MessageDto
+       return new MessageDto
         {
             Id = Guid.NewGuid(),
             RoomId = roomId,
             Text = text,
-            When = ukraineNow.DateTime,
+            When = DateTime.Now,
         };
     }
 

@@ -66,7 +66,7 @@ public class GetRoomPreviewByIdCommandHandler : IRequestHandler<GetRoomPreviewBy
                 Text = crypto.Decrypt(new EncryptedMessage(roomLastMessage.EncryptedText,
                     roomLastMessage.PrivateKey, roomLastMessage.PublicKey)),
                 User = _mapper.Map<UserDto>(roomLastMessage.User),
-                When = new DateTimeOffset(roomLastMessage.When, TimeZoneInfo.FindSystemTimeZoneById("Europe/Kiev").GetUtcOffset(roomLastMessage.When)),
+                When = roomLastMessage.When,
             });
         }
 
