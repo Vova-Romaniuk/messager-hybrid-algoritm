@@ -19,6 +19,9 @@ module.exports = {
 				form: '0 3px 10px rgb(0 0 0 / 0.4);',
 				user: '0px -25px 20px -20px rgba(0,0,0,0.45),0px 25px 20px -20px rgba(0,0,0,0.45)',
 			},
+			height: {
+				screen: 'var(--webkit-fill-available)',
+			},
 		},
 	},
 	plugins: [],

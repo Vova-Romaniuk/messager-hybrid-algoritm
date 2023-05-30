@@ -66,7 +66,7 @@ export default function TypeEncryptions() {
 			</div>
 			<Button
 				disabled={typeEncryption === ''}
-				className='w-7/12 mx-auto disabled:cursor-not-allowed border-2 border-[#989191] enabled:hover:bg-primary text-black max-sm:mt-6'
+				className='w-7/12 mx-auto disabled:cursor-not-allowed border-2 border-[#989191] enabled:hover:bg-primary text-black max-sm:mt-10'
 				onClick={() => handleClick()}
 			>
 				Створити листування
