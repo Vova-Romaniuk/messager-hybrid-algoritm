@@ -37,6 +37,21 @@ public class RoomController : ControllerBase
         }
     }
 
+    [HttpGet("{id}/preview")]
+    public async Task<IActionResult> GetPreviewAsync(Guid id)
+    {
+        try
+        {
+            var room = await _mediator.Send(new GetRoomPreviewByIdCommand(id));
+
+            return Ok(MapChatPreview(room));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new ErrorResponseModel(e.Message));
+        }
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetChatByIdAsync(Guid id)
     {

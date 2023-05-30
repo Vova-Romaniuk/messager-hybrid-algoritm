@@ -51,6 +51,7 @@ namespace Messenger.Backend.ChatHub
                     Id = Guid.NewGuid(),
                     RoomId = chatId,
                     Text = message,
+                    User = await _mediator.Send(new GetCurrentUserCommand()),
                     When = DateTime.Now,
                 };
 

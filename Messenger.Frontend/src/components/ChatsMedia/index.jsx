@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import Button from '../../UI/Button';
 import Modal from '../../UI/Modal';
 import SearchField from '../../UI/fields/SearchField';
+import { fetchUserChats } from '../../features/chats/chats.api';
 import {
 	selectUserChats,
 	changeIsAddUserPopup,
@@ -33,9 +35,15 @@ export default function ChatsMedia() {
 	const isAddUserPopup = useSelector(selectIsAddUserPopup);
 	const isSelectEncryption = useSelector(selectIsSelectEncryption);
 	const [chatsState, setChatsState] = useState(userChats);
+	const { id } = useParams();
+
+	useEffect(() => {
+		dispatch(fetchUserChats());
+	}, []);
 
 	useEffect(() => {
 		setChatsState(userChats);
+
 		(async () => {
 			if (userChats && userChats.length > 0) {
 				if (hub === null) {
@@ -45,7 +53,7 @@ export default function ChatsMedia() {
 				}
 			}
 		})();
-	}, [userChats]);
+	}, [userChats, id]);
 
 	const handleChange = (value) => {
 		if (value.trim() === '') {

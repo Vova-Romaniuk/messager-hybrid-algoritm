@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { initialChatState, initialState } from '../initialState';
-import { fetchUserChats, fetchChat, cleanChat, deleteChat } from './chats.api';
+import { fetchUserChats, fetchChat, cleanChat, deleteChat, fetchChatPreview } from './chats.api';
 
 export const chatsSlice = createSlice({
 	name: 'chats',
@@ -77,7 +77,9 @@ export const chatsSlice = createSlice({
 		},
 		removeUnReadMessageCount: (state, { payload }) => {
 			const index = state.userChats?.findIndex((chat) => chat.id === payload);
-			state.userChats[index].notSeenCount = 0;
+			if (state.userChats?.map(({ id }) => id).includes(payload)) {
+				state.userChats[index].notSeenCount = 0;
+			}
 		},
 		changeShowReadMessage: (state) => {
 			state.showReadMessage = !state.showReadMessage;
@@ -111,13 +113,28 @@ export const chatsSlice = createSlice({
 			state.chat.messages = [];
 
 			const index = state.userChats?.findIndex((x) => x.id === payload);
-			if (index !== null) {
+			if (index !== null && state.userChats) {
 				state.userChats[index].message = null;
 			}
 		});
 		builder.addCase(deleteChat.fulfilled, (state, { payload }) => {
 			state.chat = initialChatState;
 			state.userChats = state.userChats.filter((x) => x.id !== payload);
+		});
+		builder.addCase(fetchChatPreview.fulfilled, (state, { payload }) => {
+			if (
+				state.userChats.length > 0 &&
+				!state.userChats.map((x) => x.id).includes(payload.id)
+			) {
+				state.userChats = [...state.userChats, payload];
+				state.sidebarLoading = false;
+			}
+		});
+		builder.addCase(fetchChatPreview.rejected, (state) => {
+			state.sidebarLoading = false;
+		});
+		builder.addCase(fetchChatPreview.pending, (state) => {
+			state.sidebarLoading = true;
 		});
 	},
 });

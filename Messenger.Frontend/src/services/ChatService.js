@@ -58,4 +58,18 @@ export const ChatService = {
 			throw error;
 		}
 	},
+
+	getPreview: async (id) => {
+		try {
+			const { data } = await axiosInstanse.get(`${url}/${id}/preview`, {
+				headers: {
+					Authorization: `Bearer ${Token.get()}`,
+				},
+			});
+
+			return data;
+		} catch (error) {
+			throw error;
+		}
+	},
 };

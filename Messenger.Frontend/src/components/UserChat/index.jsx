@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom';
 
 import Avatar from '../../UI/Avatar';
 import {
-	changeChat,
-	changeIsOpenChat,
+	// changeChat,
+	// changeIsOpenChat,
 	addPinned,
 	removePinned,
 	selectPinned,
@@ -29,10 +29,10 @@ export default function UserChat({ room }) {
 	const handleMouseOut = () => {
 		setIsHovering(false);
 	};
-	const clickContainer = () => {
-		dispatch(changeChat(room));
-		dispatch(changeIsOpenChat());
-	};
+	// const clickContainer = () => {
+	// 	dispatch(changeChat(room));
+	// 	dispatch(changeIsOpenChat());
+	// };
 	const handleAdd = (event) => {
 		event.preventDefault();
 		PinnedService.add(room.id);
@@ -50,11 +50,11 @@ export default function UserChat({ room }) {
 			className={({ isActive }) => {
 				return isActive
 					? `${styleUserChat} bg-primary/30 rounded-xl flex`
-					: `${styleUserChat} hover:bg-primary/30 min-sm:hover:rounded-xl flex`;
+					: `${styleUserChat} hover:bg-primary/30 hover:rounded-xl flex`;
 			}}
 			onMouseOver={handleMouseOver}
 			onMouseOut={handleMouseOut}
-			onClick={clickContainer}
+			//onClick={clickContainer}
 		>
 			<div className='w-full h-full p-2 relative flex'>
 				<div className='w-12 mr-1 h-fit my-auto'>
@@ -71,12 +71,18 @@ export default function UserChat({ room }) {
 					</div>
 					<div className='mt-2 flex justify-between'>
 						<span className='text-black/80 text-ellipsis overflow-hidden text-sm'>
-							{userId === room?.message?.user?.id
-								? 'Ви'
-								: room?.message?.user?.userName}
-							: {room?.message?.text}
+							{room?.message ? (
+								<>
+									{userId === room.message.user.id
+										? 'Ви: '
+										: `${room.message.user.userName}: `}
+									{room.message.text}
+								</>
+							) : (
+								'У вас ще немає повідомлень'
+							)}
 						</span>
-						{room.notSeenCount !== 0 && (
+						{room?.notSeenCount !== 0 && (
 							<div className='ml-5 w-5 h-5 bg-[#ED4A4D] flex text-white rounded-full'>
 								<span className='m-auto text-sm'>{room.notSeenCount}</span>
 							</div>

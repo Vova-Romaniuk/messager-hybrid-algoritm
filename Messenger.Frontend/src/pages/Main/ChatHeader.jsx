@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
+import { useNavigate } from 'react-router-dom';
 
 import Avatar from '../../UI/Avatar';
 import Button from '../../UI/Button';
@@ -11,6 +12,7 @@ import { changeIsOpenChat, selectChat } from '../../features/chats/chats.slice';
 const ChatHeader = ({ infoOpen }) => {
 	const chat = useSelector(selectChat);
 	const [isOpen, setIsOpen] = useState(false);
+	const navigate = useNavigate();
 	const media = useMediaQuery({ maxWidth: ' 450px' });
 	const dispatch = useDispatch();
 
@@ -24,6 +26,7 @@ const ChatHeader = ({ infoOpen }) => {
 
 	const handleCloseChat = () => {
 		dispatch(changeIsOpenChat());
+		navigate('/');
 	};
 
 	return (

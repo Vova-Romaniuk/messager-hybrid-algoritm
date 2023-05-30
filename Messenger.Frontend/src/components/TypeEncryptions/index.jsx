@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../../UI/Button';
+import { fetchChatPreview } from '../../features/chats/chats.api';
 import {
 	selectUserWhichCreateChat,
 	changeIsSelectEncryption,
@@ -29,10 +30,10 @@ export default function TypeEncryptions() {
 
 	const handleStartMessaging = async () => {
 		const chatId = await ChatService.create(id, typeEncryption);
-		console.log(chatId);
 		if (!chats.map((x) => x.id).includes(chatId)) {
 			connection?.invoke('JoinToUsersRooms', [chatId]);
 		}
+		dispatch(fetchChatPreview(chatId));
 
 		navigate(`/${chatId}`);
 	};

@@ -7,38 +7,53 @@ using Messenger.Database.Context;
 using Messenger.Domain.Entities;
 using Messenger.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
-namespace Messenger.Application.CommandHandlers.Users;
-
-public class GetCurrentUserCommandHandler : IRequestHandler<GetCurrentUserCommand, UserDto>
+namespace Messenger.Application.CommandHandlers.Users
 {
-    private readonly ISecurityContext _securityContext;
-    private readonly MessengerContext _db;
-    private readonly IMapper _mapper;
-
-    public GetCurrentUserCommandHandler(
-        ISecurityContext securityContext,
-        MessengerContext db,
-        IMapper mapper)
+    public class GetCurrentUserCommandHandler : IRequestHandler<GetCurrentUserCommand, UserDto>
     {
-        _securityContext = securityContext;
-        _db = db;
-        _mapper = mapper;
-    }
+        private readonly ISecurityContext _securityContext;
+        private readonly MessengerContext _db;
+        private readonly IMapper _mapper;
+        private readonly IMemoryCache _cache;
 
-    public async Task<UserDto> Handle(GetCurrentUserCommand request, CancellationToken cancellationToken)
-    {
-        var userId = _securityContext.GetCurrentUserId();
-        var user = await _db.Users
-            .Include(x => x.Image)
-            .SingleOrDefaultAsync(
-            x => x.Id == userId, cancellationToken);
-
-        if (user is null)
+        public GetCurrentUserCommandHandler(
+            ISecurityContext securityContext,
+            MessengerContext db,
+            IMapper mapper,
+            IMemoryCache cache)
         {
-            throw new NotFoundException(nameof(User), userId);
+            _securityContext = securityContext;
+            _db = db;
+            _mapper = mapper;
+            _cache = cache;
         }
 
-        return _mapper.Map<UserDto>(user);
+        public async Task<UserDto> Handle(GetCurrentUserCommand request, CancellationToken cancellationToken)
+        {
+            var userId = _securityContext.GetCurrentUserId();
+
+            var cacheKey = $"User_{userId}";
+            if (_cache.TryGetValue(cacheKey, out UserDto userDto))
+            {
+                return userDto;
+            }
+
+            var user = await _db.Users
+                .Include(x => x.Image)
+                .SingleOrDefaultAsync(x => x.Id == userId, cancellationToken);
+
+            if (user is null)
+            {
+                throw new NotFoundException(nameof(User), userId);
+            }
+
+            userDto = _mapper.Map<UserDto>(user);
+
+            _cache.Set(cacheKey, userDto, TimeSpan.FromMinutes(10));
+
+            return userDto;
+        }
     }
 }

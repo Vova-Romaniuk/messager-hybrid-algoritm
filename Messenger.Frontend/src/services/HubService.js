@@ -33,11 +33,11 @@ const socketMethods = (connection) => {
 	});
 
 	connection.on('ReceiveMessage', (message) => {
-		const newMessage = { ...message, user: store.getState().user.data };
+		// const newMessage = { ...message, user: store.getState().user.data };
 		if (window.location.href.includes(message.roomId)) {
-			store.dispatch(changeChatMessages(newMessage));
+			store.dispatch(changeChatMessages(message));
 		} else {
-			store.dispatch(addNotificationMessage(newMessage));
+			store.dispatch(addNotificationMessage(message));
 			setTimeout(() => {
 				store.dispatch(removeNotificationMessage(message.id));
 			}, 5000);
@@ -45,7 +45,7 @@ const socketMethods = (connection) => {
 			store.dispatch(addUnReadMessageCount(message.roomId));
 		}
 
-		store.dispatch(changeLastMessage(newMessage));
+		store.dispatch(changeLastMessage(message));
 	});
 };
 

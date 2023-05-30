@@ -86,3 +86,17 @@ export const deleteChat = createAsyncThunk(
 		}
 	}
 );
+
+export const fetchChatPreview = createAsyncThunk(
+	'chats/fetchChatPreview',
+	async (id, { fulfillWithValue, rejectWithValue }) => {
+		try {
+			const data = await ChatService.getPreview(id);
+
+			return fulfillWithValue(data);
+		} catch (error) {
+			showApiEndpointErrorAlert(error);
+			return rejectWithValue(null);
+		}
+	}
+);

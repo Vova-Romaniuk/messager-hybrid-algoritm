@@ -122,7 +122,6 @@ export const logOut = createAsyncThunk(
 		try {
 			const connection = getState().chats?.hub?.hubConnection;
 			const ids = getState().chats?.userChats?.map((x) => x.id);
-			console.log(ids);
 			connection?.invoke('LeaveFromUsersRooms', ids);
 
 			await AuthenticateService.logout();
