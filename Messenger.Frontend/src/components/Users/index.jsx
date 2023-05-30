@@ -30,7 +30,7 @@ const Users = () => {
 	};
 
 	return (
-		<div className='w-full h-full max-sm:h-fit p-4 max-sm:p-0 relative flex flex-col border'>
+		<div className='w-full h-full max-sm:h-fit p-4 max-sm:p-0 relative flex flex-col'>
 			<SearchField
 				className='max-sm:w-10/12 mx-auto mt-5'
 				placeholder='Пошук користувачів...'
